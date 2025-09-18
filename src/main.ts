@@ -11,7 +11,7 @@ async function bootstrap() {
     .setTitle( 'Luvr - Gestão Inteligente' )
     .setDescription( 'Escola de T.I - software de gestão de motel.')
     .setVersion('1.0')
-    .addTag('api')
+    .addTag('api backend')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
