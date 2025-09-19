@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'
-//import { ProdutoModule } from './produto/produto.module';
-//import { UsersModule } from './users/users.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 
 @Module({
@@ -18,9 +16,9 @@ import { PessoaModule } from './pessoa/pessoa.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [  ],//adicionar manualmente as entities
+      entities: [  ],
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
-      synchronize: true,//desabilita quando for para produção
+      synchronize: true,
       logging: ['query', 'error', 'schema'], 
       autoLoadEntities: true,
   }),
@@ -30,4 +28,4 @@ import { PessoaModule } from './pessoa/pessoa.module';
   providers: [],
 })
 export class AppModule {}
-
+ 

@@ -1,10 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn /*, ManyToOne, OneToMany, JoinColumn*/ } from 'typeorm';
-//import { Loja } from '../../loja/loja.entity';
-//import { PessoaTipo } from '../../pessoatipo/pessoatipo.entity';
-//import { Usuario } from '../../usuario/usuario.entity';
-//import { RegistroPonto } from '../../registro-ponto/registro-ponto.entity';
-//import { MovimentacaoQuarto } from '../../movimentacao-quarto/movimentacao-quarto.entity';
-//import { NotaFiscal } from '../../nota-fiscal/nota-fiscal.entity'; 
+import {
+  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn,
+  // ManyToOne, OneToMany, JoinColumn
+  // ManyToOne, OneToMany, JoinColumn,
+} from 'typeorm';
+
+// imports de relacionamentos
+// import { Loja } from '../../loja/loja.entity';
+// import { PessoaTipo } from '../../pessoatipo/pessoatipo.entity';
+// import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity({ name: 'pessoa' })
 export class Pessoa {
@@ -17,6 +20,12 @@ export class Pessoa {
   @Column('integer', { name: 'pessoatipo_id', nullable: true })
   pessoatipoId: number | null;
 
+  @Column('varchar', { name: 'pessoa_cpf', length: 11, nullable: true, unique: true })
+  pessoaCpf: string | null;
+
+  @Column('varchar', { name: 'pessoa_telefone', length: 20, nullable: true })
+  pessoaTelefone: string | null;
+
   @Column('integer', { name: 'loja_id', nullable: true })
   lojaId: number | null;
 
@@ -26,25 +35,15 @@ export class Pessoa {
   @DeleteDateColumn({ type: 'timestamp', name: 'pessoa_exclusao', nullable: true })
   pessoaExclusao: Date | null;
 
-  // ja deixei feito vai corinthians
-  //@ManyToOne(() => Loja, (loja) => loja.pessoas, { nullable: true })
-  //@JoinColumn({ name: 'loja_id' })
-  //loja?: Loja | null;
+  // - ja deixei feito -
+  // @ManyToOne(() => Loja, (loja) => loja.pessoas, { nullable: true })
+  // @JoinColumn({ name: 'loja_id' })
+  // loja?: Loja | null;
 
-  //@ManyToOne(() => PessoaTipo, (pessoaTipo) => pessoaTipo.pessoas, { nullable: true })
-  //@JoinColumn({ name: 'pessoatipo_id' })
-  //pessoaTipo?: PessoaTipo | null;
+  // @ManyToOne(() => PessoaTipo, (pessoaTipo) => pessoaTipo.pessoas, { nullable: true })
+  // @JoinColumn({ name: 'pessoatipo_id' })
+  // pessoaTipo?: PessoaTipo | null;
 
-  //@OneToMany(() => Usuario, (usuario) => usuario.pessoa)
-  //usuarios?: Usuario[];
-
-  //@OneToMany(() => RegistroPonto, (registro) => registro.pessoa)
-  //registrosPonto?: RegistroPonto[];
-
-  //@OneToMany(() => MovimentacaoQuarto, (mov) => mov.pessoa)
-  //movimentacoesQuarto?: MovimentacaoQuarto[];
-
-  //@OneToMany(() => NotaFiscal, (nf) => nf.pessoa)
-  //notasFiscais?: NotaFiscal[];
-  //*/
+  // @OneToMany(() => Usuario, (usuario) => usuario.pessoa)
+  // usuarios?: Usuario[];
 }

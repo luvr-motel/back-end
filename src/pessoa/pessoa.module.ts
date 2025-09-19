@@ -1,21 +1,33 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-//import { PassportModule } from '@nestjs/passport';
-//import { JwtModule } from '@nestjs/jwt';
-//import { APP_GUARD } from '@nestjs/core';
-//import { Pessoa } from './pessoa.entity';
+import { Pessoa } from './entities/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { PessoaController } from './pessoa.controller';
-import { Pessoa } from './entities/pessoa.entity';
-//import { JwtStrategy } from './auth/jwt.strategy';
-//import { JwtAuthGuard } from './auth/jwt-auth.guard';
-//import { RolesGuard } from './auth/roles.guard';
-//import { DevAuthController } from './auth/dev-auth.controller';
+
+// imports do auth user
+// import { PassportModule } from '@nestjs/passport';
+// import { JwtModule } from '@nestjs/jwt';
+// import { APP_GUARD } from '@nestjs/core';
+// import { JwtStrategy } from '../auth/jwt.strategy';
+// import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+// import { RolesGuard } from '../auth/roles.guard';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pessoa])], // <-- registra o repo
+  imports: [
+    TypeOrmModule.forFeature([Pessoa]),
+    // PassportModule.register({ defaultStrategy: 'jwt' }),
+    // JwtModule.register({
+    //   secret: process.env.JWT_SECRET,
+    //   signOptions: { expiresIn: process.env.JWT_EXPIRES || '1d' },
+    // }),
+  ],
   controllers: [PessoaController],
-  providers: [PessoaService],
-  exports: [PessoaService, TypeOrmModule], // <-- exporte se outro módulo precisar
+  providers: [
+    PessoaService,
+    // JwtStrategy,
+    // { provide: APP_GUARD, useClass: JwtAuthGuard },
+    // { provide: APP_GUARD, useClass: RolesGuard },
+  ],
+  exports: [PessoaService, TypeOrmModule],
 })
 export class PessoaModule {}
