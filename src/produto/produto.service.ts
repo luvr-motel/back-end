@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,8 +24,14 @@ export class ProdutoService {
     return this.produtoRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} produto`;
+  async findIdProduto(id: number): Promise< Produto >{
+    const produtoData = await this.produtoRepository.findOneBy({ produto_id });
+
+    if ( !produtoData ){
+      throw new HttpException( 'Produto não encontrado', 404 )
+    }
+
+    return produtoData;
   }
 
   update(id: number, updateProdutoDto: UpdateProdutoDto) {
