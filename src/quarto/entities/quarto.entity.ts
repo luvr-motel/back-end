@@ -5,26 +5,15 @@ export class Quarto {
     @PrimaryGeneratedColumn()
     quarto_id: number;
 
-    @Column()
+    @Column({ length: 256 })
     quarto_descricao: string;
 
-    @Column()
+    @Column({ type: 'varchar', nullable: true })
     quarto_atributos:string;
 
-    @Column()
+    @Column({ type: 'boolean', default: false })
     quarto_ativo: boolean;
 
     @Column()
-    quartotipo_id: string;
-
-    
-
+    quartotipo_id: number;
 }
-// table quarto {
-//   quarto_id        integer [primary key]
-//   quarto_descricao varchar [not null]
-//   quarto_atributos varchar [not null] // array
-//   quarto_ativo     status
-//   quartotipo_id    integer
-//   quarto_inclusao  timestamp // default_timestamp
-//   quarto_exclusao  timestampa

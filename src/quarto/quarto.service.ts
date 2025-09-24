@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateQuartoDto } from './dto/create-quarto.dto';
 import { UpdateQuartoDto } from './dto/update-quarto.dto';
+import { Quarto } from './entities/quarto.entity';
 
 @Injectable()
 export class QuartoService {
+  constructor(
+    @InjectRepository(Quarto)
+    private quartoRepository: Repository<Quarto>,
+  ) {}
+
   create(createQuartoDto: CreateQuartoDto) {
-    return 'This action adds a new quarto';
+    const quarto = this.quartoRepository.create(createQuartoDto);
+    return this.quartoRepository.save(quarto);
   }
 
   findAll() {
-    return `This action returns all quarto`;
+    return this.quartoRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} quarto`;
+    return this.quartoRepository.findOne({ where: { quarto_id: id } });
   }
 
   update(id: number, updateQuartoDto: UpdateQuartoDto) {
-    return `This action updates a #${id} quarto`;
+    return this.quartoRepository.update(id, updateQuartoDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} quarto`;
+    return this.quartoRepository.delete(id);
   }
 }

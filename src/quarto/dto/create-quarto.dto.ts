@@ -1,26 +1,21 @@
+import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsInt, IsNotEmpty, IsString, MaxLength } from "class-validator";
 
 export class CreateQuartoDto {
     @IsString()
     @IsNotEmpty()
     @MaxLength(256)
+    @ApiPropertyOptional({ example: 'Suíte 101', maxLength: 256 })
     quarto_descricao : string;
 
     @IsString()
-    quarto_atributos;
+    @ApiPropertyOptional({ example: '', maxLength: 256 })
+    quarto_atributos: string;
 
     @IsBoolean()
-    quarto_ativo
+    @ApiPropertyOptional({ type: Boolean, example: true })
+    quarto_ativo: boolean;
 
     @IsInt()
-    quartotipo_id
-
+    quartotipo_id: number;  
 }
-// table quarto {
-//   quarto_id        integer [primary key]
-//   quarto_descricao varchar [not null]
-//   quarto_atributos varchar [not null] // array
-//   quarto_ativo     status
-//   quartotipo_id    integer
-//   quarto_inclusao  timestamp // default_timestamp
-//   quarto_exclusao  timestamp
