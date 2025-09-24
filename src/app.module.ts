@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 // import { ProdutoModule } from './produto/produto.module';
 // import { UsersModule } from './users/users.module';
 import { QuartoModule } from './quarto/quarto.module';
+import { QuartoTipoModule } from './quarto_tipo/quarto_tipo.module';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -23,7 +24,8 @@ import { QuartoModule } from './quarto/quarto.module';
       logging: ['query', 'error', 'schema'], 
       autoLoadEntities: true,
   }),
-  QuartoModule],
+  QuartoModule,
+  QuartoTipoModule],
   controllers: [],
   providers: [],
 })
