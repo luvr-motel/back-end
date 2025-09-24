@@ -1,13 +1,10 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+// src/pessoa/pessoa.service.ts
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Not } from 'typeorm';
+import { Repository, DeepPartial } from 'typeorm'; // <-- DeepPartial
 import { Pessoa } from './entities/pessoa.entity';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-
-function onlyDigits(v?: string | null) {
-  return typeof v === 'string' ? v.replace(/\D/g, '') : v ?? null;
-}
 
 @Injectable()
 export class PessoaService {
@@ -16,34 +13,18 @@ export class PessoaService {
     private readonly repo: Repository<Pessoa>,
   ) {}
 
-  private async ensureCpfAvailable(cpf?: string | null, ignoreId?: number) {
-    const clean = onlyDigits(cpf);
-    if (!clean) return; 
-    if (clean.length !== 11) {
-      throw new BadRequestException('CPF deve ter 11 dígitos.');
-    }
-    const where = ignoreId
-      ? { pessoaCpf: clean, pessoaId: Not(ignoreId) as any }
-      : { pessoaCpf: clean };
-    const exists = await this.repo.findOne({ where: where as any });
-    if (exists) {
-      throw new BadRequestException('CPF já cadastrado para outra pessoa.');
-    }
-  }
-
   async create(dto: CreatePessoaDto): Promise<Pessoa> {
-    const cpf = onlyDigits(dto.pessoaCpf);
-    await this.ensureCpfAvailable(cpf);
+    const cpf = dto.pessoaCpf ? dto.pessoaCpf.replace(/\D/g, '') : undefined;
 
     const entity = this.repo.create({
       pessoaNome: dto.pessoaNome,
-      pessoaCpf: cpf ?? null,
-      pessoaTelefone: dto.pessoaTelefone ?? null,
-      pessoatipoId: dto.pessoatipoId ?? null,
-      lojaId: dto.lojaId ?? null,
-    });
+      pessoatipoId: dto.pessoatipoId ?? undefined,
+      lojaId: dto.lojaId ?? undefined,
+      pessoaCpf: cpf,
+      pessoaTelefone: dto.pessoaTelefone ?? undefined,
+    } as DeepPartial<Pessoa>); // <-- garante overload de objeto
 
-    const saved = await this.repo.save(entity);
+    const saved = await this.repo.save(entity); // saved: Pessoa
     return this.findOne(saved.pessoaId);
   }
 
@@ -57,7 +38,7 @@ export class PessoaService {
 
   async findOne(id: number): Promise<Pessoa> {
     const found = await this.repo.findOne({ where: { pessoaId: id } });
-    if (!found) throw new NotFoundException('pessoa não encontrada');
+    if (!found) throw new NotFoundException('Pessoa não encontrada');
     return found;
   }
 
@@ -68,22 +49,21 @@ export class PessoaService {
       pessoa.pessoaNome = dto.pessoaNome;
     }
 
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoaCpf')) {
-      const cpf = onlyDigits(dto.pessoaCpf ?? null);
-      await this.ensureCpfAvailable(cpf, id);
-      pessoa.pessoaCpf = cpf ?? null;
-    }
-
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoaTelefone')) {
-      pessoa.pessoaTelefone = dto.pessoaTelefone ?? null;
-    }
-
     if (Object.prototype.hasOwnProperty.call(dto, 'pessoatipoId')) {
-      pessoa.pessoatipoId = dto.pessoatipoId ?? null;
+      pessoa.pessoatipoId = dto.pessoatipoId ?? undefined; // <-- sem null
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'lojaId')) {
-      pessoa.lojaId = dto.lojaId ?? null;
+      pessoa.lojaId = dto.lojaId ?? undefined; // <-- sem null
+    }
+
+    if (Object.prototype.hasOwnProperty.call(dto, 'pessoaCpf')) {
+      const cpf = dto.pessoaCpf ? dto.pessoaCpf.replace(/\D/g, '') : undefined;
+      pessoa.pessoaCpf = cpf; // <-- sem null
+    }
+
+    if (Object.prototype.hasOwnProperty.call(dto, 'pessoaTelefone')) {
+      pessoa.pessoaTelefone = dto.pessoaTelefone ?? undefined; // <-- sem null
     }
 
     await this.repo.save(pessoa);
