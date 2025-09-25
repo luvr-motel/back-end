@@ -38,11 +38,11 @@ export class ProdutoService {
     // return produtoData;
   }
 
-  updateProduto(id: number, updateProdutoDto: UpdateProdutoDto) {
-    return `This action updates a #${id} produto`;
+  async updateProduto(id: number, updateProdutoDto: UpdateProdutoDto): Promise< {mensagem:string; produto: Produto} > {
+    // const produtoAtualizado = await.produtoRepository.findOne({ where:{ produto_id:id }})
   }
 
-  removeProduto(id: number) {
-    return `This action removes a #${id} produto`;
+  async removeProduto(id: number): Promise<void> {
+    await this.produtoRepository.delete(id);
   }
 }

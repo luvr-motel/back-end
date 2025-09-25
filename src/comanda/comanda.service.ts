@@ -12,9 +12,12 @@ export class ComandaService {
     @InjectRepository( Comanda ) private readonly comandaRepository: Repository<Comanda>
   ){}
 
-
-  createComanda(createComandaDto: CreateComandaDto) {
-    return 'This action adds a new comanda';
+  async createComanda( comandaDto : CreateComandaDto) {
+    const comanda = this.comandaRepository.create({
+      comanda_observacao: comandaDto.comanda_observacao,
+      comanda_qtde: comandaDto.comanda_qtde
+    });
+    return this.comandaRepository.save( comanda )
   }
 
   findAllComandas() {
@@ -34,16 +37,24 @@ export class ComandaService {
     }
   }
 
-  updateComanda(id: number, updateComandaDto: UpdateComandaDto) {
-    return `This action updates a #${id} comanda`;
+  async updateComanda( id: number, updateComandaDto: UpdateComandaDto ): Promise< { mensagem: string;  comanda: Comanda }>   {
+    // const comandaAtualizada = await this.comandaRepository.findOne({where: {comanda_id: id}});
+    
+    // if ( !comandaAtualizada ) {
+    //   throw new HttpException( 'Erro ao atualizar comanda', 404 )
+    // } else {
+    //   return { 
+    //   mensagem: `Comanda #${id} atualizada com sucesso`, 
+    //   }
+    // };
   }
 
   removeComanda(id: number) {
     return `This action removes a #${id} comanda`;
   }
 
-  removeItemComanda(id: number) {
-    return `This action removes a #${id} comanda`;
+  async removeItemComanda(id: number): Promise<void> {
+     await this.comandaRepository.delete(id);
   }
 
 }

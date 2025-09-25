@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'
 import { ProdutoModule } from './produto/produto.module';
 import { ComandaModule } from './comanda/comanda.module';
+import { Produto } from './produto/entities/produto.entity';
+import { Comanda } from './comanda/entities/comanda.entity';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -16,7 +18,7 @@ import { ComandaModule } from './comanda/comanda.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [  ],//adicionar manualmente as entities
+      entities: [ Produto, Comanda ],//adicionar manualmente as entities
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
       synchronize: true,//desabilita quando for para produção
       logging: ['query', 'error', 'schema'], 

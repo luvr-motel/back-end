@@ -1,12 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsNotEmpty, IsOptional, IsString, maxLength } from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateComandaDto {
 
    @ApiProperty({ example: 'Murilo' })
    @IsString()
    @IsNotEmpty()
-   usuario_codigo: String;
+   usuario_codigo: string;
 
    @ApiProperty({ example: 1 })
    @IsInt()
@@ -28,6 +28,6 @@ export class CreateComandaDto {
 
    @ApiProperty({ example: 'Murilo' })
    @IsString()
-   @IsOptional()s
+   @IsOptional()
    comanda_observacao: string;
 }

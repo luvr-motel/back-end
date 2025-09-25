@@ -6,7 +6,7 @@ export class Comanda {
    comanda_id: number;
 
    @Column({type: 'varchar', name: 'usuario_codigo', nullable: true})
-   usuario_codigo: String;
+   usuario_codigo: string;
    
    @Column({ type: 'integer', name: 'quarto_id'})
    quarto_id: number;
@@ -21,7 +21,7 @@ export class Comanda {
    comanda_qtde: number;
 
    @Column({type: 'varchar', name: 'comanda_observacao'})
-   comanda_observacao: string;   
+   comanda_observacao?: string;   
 
    @CreateDateColumn({type:'timestamp', name: 'comanda_inclusao' })
    comandaO_inclusao: Date;
