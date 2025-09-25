@@ -1,34 +1,53 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PessoatipoService } from './pessoatipo.service';
-import { CreatePessoatipoDto } from './dto/create-pessoatipo.dto';
-import { UpdatePessoatipoDto } from './dto/update-pessoatipo.dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { PessoaTipoService } from './pessoatipo.service';
+import { CreatePessoaTipoDto } from './dto/create-pessoatipo.dto';
+import { UpdatePessoaTipoDto } from './dto/update-pessoatipo.dto';
 
+// pra autenticação
+// import { UseGuards } from '@nestjs/common';
+// import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+// import { RolesGuard } from '../auth/roles.guard';
+// import { Roles } from '../auth/roles.decorator';
+
+@ApiTags('PessoaTipo')
 @Controller('pessoatipo')
-export class PessoatipoController {
-  constructor(private readonly pessoatipoService: PessoatipoService) {}
+// @UseGuards(JwtAuthGuard, RolesGuard)
+export class PessoaTipoController {
+  constructor(private readonly service: PessoaTipoService) {}
 
+  // @Roles('admin','gerente')
   @Post()
-  create(@Body() createPessoatipoDto: CreatePessoatipoDto) {
-    return this.pessoatipoService.create(createPessoatipoDto);
+  async create(@Body() dto: CreatePessoaTipoDto) {
+    const data = await this.service.create(dto);
+    return { message: 'tipo criado com sucesso.', data };
   }
 
+  // @Roles('admin','gerente','recepcionista')
   @Get()
-  findAll() {
-    return this.pessoatipoService.findAll();
+  async list() {
+    const data = await this.service.findAll();
+    return { message: 'lista de tipos retornada com sucesso.', data };
   }
 
+  // @Roles('admin','gerente','recepcionista')
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pessoatipoService.findOne(+id);
+  async get(@Param('id') id: string) {
+    const data = await this.service.findOne(+id);
+    return { message: 'tipo encontrado com sucesso.', data };
   }
 
+  // @Roles('admin','gerente')
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePessoatipoDto: UpdatePessoatipoDto) {
-    return this.pessoatipoService.update(+id, updatePessoatipoDto);
+  async update(@Param('id') id: string, @Body() dto: UpdatePessoaTipoDto) {
+    const data = await this.service.update(+id, dto);
+    return { message: 'tipo atualizado com sucesso.', data };
   }
 
+  // @Roles('admin')
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pessoatipoService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.service.remove(+id);
+    return { message: 'tipo deletado com sucesso.' };
   }
 }

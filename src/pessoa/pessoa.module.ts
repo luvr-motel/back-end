@@ -12,9 +12,12 @@ import { PessoaController } from './pessoa.controller';
 // import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 // import { RolesGuard } from '../auth/roles.guard';
 
+import { PessoaTipoModule } from '../pessoatipo/pessoatipo.module';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([Pessoa]),
+    PessoaTipoModule, 
     // PassportModule.register({ defaultStrategy: 'jwt' }),
     // JwtModule.register({
     //   secret: process.env.JWT_SECRET,

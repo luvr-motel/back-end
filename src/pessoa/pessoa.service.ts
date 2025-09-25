@@ -1,30 +1,33 @@
-// src/pessoa/pessoa.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeepPartial } from 'typeorm'; // <-- DeepPartial
+import { Repository, DeepPartial } from 'typeorm';
 import { Pessoa } from './entities/pessoa.entity';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
+import { PessoaTipoService } from '../pessoatipo/pessoatipo.service';
 
 @Injectable()
 export class PessoaService {
   constructor(
     @InjectRepository(Pessoa)
     private readonly repo: Repository<Pessoa>,
+    private readonly pessoaTipoService: PessoaTipoService, 
   ) {}
 
   async create(dto: CreatePessoaDto): Promise<Pessoa> {
+    await this.pessoaTipoService.ensureExists(dto.pessoatipoId);
+
     const cpf = dto.pessoaCpf ? dto.pessoaCpf.replace(/\D/g, '') : undefined;
 
     const entity = this.repo.create({
-      pessoaNome: dto.pessoaNome,
-      pessoatipoId: dto.pessoatipoId ?? undefined,
-      lojaId: dto.lojaId ?? undefined,
+      pessoaNome: dto.pessoaNome?.trim(),
       pessoaCpf: cpf,
       pessoaTelefone: dto.pessoaTelefone ?? undefined,
-    } as DeepPartial<Pessoa>); // <-- garante overload de objeto
+      lojaId: dto.lojaId ?? undefined,
+      pessoaTipo: dto.pessoatipoId ? ({ id: dto.pessoatipoId } as any) : undefined,
+    } as DeepPartial<Pessoa>);
 
-    const saved = await this.repo.save(entity); // saved: Pessoa
+    const saved = await this.repo.save(entity);
     return this.findOne(saved.pessoaId);
   }
 
@@ -37,7 +40,9 @@ export class PessoaService {
   }
 
   async findOne(id: number): Promise<Pessoa> {
-    const found = await this.repo.findOne({ where: { pessoaId: id } });
+    const found = await this.repo.findOne({
+      where: { pessoaId: id },
+    });
     if (!found) throw new NotFoundException('Pessoa não encontrada');
     return found;
   }
@@ -46,24 +51,25 @@ export class PessoaService {
     const pessoa = await this.findOne(id);
 
     if (dto.pessoaNome !== undefined) {
-      pessoa.pessoaNome = dto.pessoaNome;
+      pessoa.pessoaNome = dto.pessoaNome.trim();
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'pessoatipoId')) {
-      pessoa.pessoatipoId = dto.pessoatipoId ?? undefined; // <-- sem null
+      await this.pessoaTipoService.ensureExists(dto.pessoatipoId ?? undefined);
+      pessoa.pessoaTipo = dto.pessoatipoId ? ({ id: dto.pessoatipoId } as any) : undefined;
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'lojaId')) {
-      pessoa.lojaId = dto.lojaId ?? undefined; // <-- sem null
+      pessoa.lojaId = dto.lojaId ?? undefined;
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'pessoaCpf')) {
       const cpf = dto.pessoaCpf ? dto.pessoaCpf.replace(/\D/g, '') : undefined;
-      pessoa.pessoaCpf = cpf; // <-- sem null
+      pessoa.pessoaCpf = cpf;
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'pessoaTelefone')) {
-      pessoa.pessoaTelefone = dto.pessoaTelefone ?? undefined; // <-- sem null
+      pessoa.pessoaTelefone = dto.pessoaTelefone ?? undefined;
     }
 
     await this.repo.save(pessoa);

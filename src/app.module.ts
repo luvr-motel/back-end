@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'
 import { PessoaModule } from './pessoa/pessoa.module';
-import { PessoatipoModule } from './pessoatipo/pessoatipo.module';
+import { PessoaTipoModule } from './pessoatipo/pessoatipo.module';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [ 
@@ -24,7 +25,8 @@ import { PessoatipoModule } from './pessoatipo/pessoatipo.module';
       autoLoadEntities: true,
   }),
   PessoaModule,
-  PessoatipoModule,
+  PessoaTipoModule,
+  UsuarioModule,
   ],
   controllers: [],
   providers: [],

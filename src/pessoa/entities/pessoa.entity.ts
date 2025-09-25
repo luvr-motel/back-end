@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId,
+// OneToMany
+} from 'typeorm';
+import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
 // import { Loja } from '../../loja/loja.entity';
-// import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
 // import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity({ name: 'pessoa' })
@@ -11,11 +13,15 @@ export class Pessoa {
   @Column({ name: 'pessoa_nome', length: 255, nullable: false })
   pessoaNome: string;
 
-  @Column({ name: 'pessoatipo_id', nullable: true })
-  pessoatipoId?: number; 
+  @ManyToOne(() => PessoaTipo, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'pessoatipo_id' })
+  pessoaTipo?: PessoaTipo;
+
+  @RelationId((p: Pessoa) => p.pessoaTipo)
+  pessoatipoId?: number;
 
   @Column({ name: 'pessoa_cpf', length: 11, nullable: true, unique: true })
-  pessoaCpf?: string;   
+  pessoaCpf?: string;
 
   @Column({ name: 'pessoa_telefone', length: 20, nullable: true })
   pessoaTelefone?: string;
@@ -29,31 +35,14 @@ export class Pessoa {
   @DeleteDateColumn({ name: 'pessoa_exclusao', nullable: true })
   pessoaExclusao?: Date;
 
-  // - ja deixei pronto -
+  // - ja ta pronto -
   // @ManyToOne(() => Loja, (loja) => loja.pessoas, { nullable: true })
   // @JoinColumn({ name: 'loja_id' })
   // loja?: Loja | null;
-
-  // @ManyToOne(() => PessoaTipo, (pessoaTipo) => pessoaTipo.pessoas, { nullable: true })
-  // @JoinColumn({ name: 'pessoatipo_id' })
-  // pessoaTipo?: PessoaTipo | null;
 
   // @OneToMany(() => Usuario, (usuario) => usuario.pessoa)
   // usuarios?: Usuario[];
 }
-
-
-  // - ja deixei pronto -
-  // @ManyToOne(() => Loja, (loja) => loja.pessoas, { nullable: true })
-  // @JoinColumn({ name: 'loja_id' })
-  // loja?: Loja | null;
-
-  // @ManyToOne(() => PessoaTipo, (pessoaTipo) => pessoaTipo.pessoas, { nullable: true })
-  // @JoinColumn({ name: 'pessoatipo_id' })
-  // pessoaTipo?: PessoaTipo | null;
-
-  // @OneToMany(() => Usuario, (usuario) => usuario.pessoa)
-  // usuarios?: Usuario[];
 
 
 // table pessoa {

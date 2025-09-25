@@ -20,7 +20,7 @@ export class PessoaController {
   @Post()
   async create(@Body() dto: CreatePessoaDto) {
     const data = await this.pessoaService.create(dto);
-    return { message: 'pessoa criada com sucesso.', data };
+    return { message: 'Pessoa criada com sucesso.', data };
   }
 
   // @Roles('admin','gerente','recepcionista')
@@ -29,27 +29,27 @@ export class PessoaController {
   @Get()
   async findAll(@Query('page') page?: number, @Query('limit') limit?: number) {
     const data = await this.pessoaService.findAll(Number(page) || 1, Number(limit) || 20);
-    return { message: 'lista de pessoas retornada com sucesso.', data };
+    return { message: 'Lista de pessoas retornada com sucesso.', data };
   }
 
   // @Roles('admin','gerente','recepcionista')
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const data = await this.pessoaService.findOne(+id);
-    return { message: 'pessoa encontrada com sucesso.', data };
+    return { message: 'Pessoa encontrada com sucesso.', data };
   }
 
   // @Roles('admin','gerente')
   @Patch(':id')
   async update(@Param('id') id: string, @Body() dto: UpdatePessoaDto) {
     const data = await this.pessoaService.update(+id, dto);
-    return { message: 'pessoa atualizada com sucesso.', data };
+    return { message: 'Pessoa atualizada com sucesso.', data };
   }
 
   // @Roles('admin')
   @Delete(':id')
   async remove(@Param('id') id: string) {
     await this.pessoaService.remove(+id);
-    return { message: 'pessoa deletada com sucesso.' };
+    return { message: 'Pessoa deletada com sucesso.' };
   }
 }
