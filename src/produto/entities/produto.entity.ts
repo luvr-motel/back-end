@@ -3,21 +3,22 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeor
 @Entity()
 export class Produto {
     
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ type: 'integer', name: 'produto_id' })
     produto_id: number;
 
-    @Column({ type: "varchar"})
+    @Column({ type: "varchar", name: 'produto_decricao', nullable: true, length:200 })
     produto_descricao: string;
 
-    @Column({ type: "float" })
+    @Column({ type: "float", name: 'produto_custo' })
     produto_custo: number;
 
-    @Column({ type: "float" })
-    produto_venda: number
+    @Column({ type: "float", name: 'produto_venda' })
+    produto_venda: number;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamp', name: 'produto_inclusao' })
     produto_inclusao: Date;
 
-    // @CreateDateColumn()
-    // produto_exclusa: Date;
+    //produto_exclusao
+    //produto_markup
+    //produto_pontaEstoque
 }

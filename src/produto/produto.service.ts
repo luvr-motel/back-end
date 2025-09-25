@@ -25,7 +25,7 @@ export class ProdutoService {
   }
 
   async findIdProduto(id: number): Promise< Produto >{
-    const produtoData = await this.produtoRepository.findOneBy({ produto_id });
+    const produtoData = await this.produtoRepository.findOne({ where: { produto_id: id }});
 
     if ( !produtoData ){
       throw new HttpException( 'Produto não encontrado', 404 )
