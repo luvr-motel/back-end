@@ -24,21 +24,25 @@ export class ProdutoService {
     return this.produtoRepository.find()
   }
 
-  async findIdProduto(id: number): Promise< Produto >{
+  async findProdutoId(id: number): Promise< {produto: Produto; mensagem: string} >{
     const produtoData = await this.produtoRepository.findOne({ where: { produto_id: id }});
 
     if ( !produtoData ){
       throw new HttpException( 'Produto não encontrado', 404 )
+    } else { 
+      return {
+        mensagem: `Produto #${id}`,
+        produto: produtoData
+      }
     }
-
-    return produtoData;
+    // return produtoData;
   }
 
-  update(id: number, updateProdutoDto: UpdateProdutoDto) {
+  updateProduto(id: number, updateProdutoDto: UpdateProdutoDto) {
     return `This action updates a #${id} produto`;
   }
 
-  remove(id: number) {
+  removeProduto(id: number) {
     return `This action removes a #${id} produto`;
   }
 }
