@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'
-import { ProdutoModule } from './produto/produto.module';
-import { UsersModule } from './users/users.module';
+import { DespesageralModule } from './despesageral/despesageral.module';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -22,7 +21,7 @@ import { UsersModule } from './users/users.module';
       logging: ['query', 'error', 'schema'], 
       autoLoadEntities: true,
   }),
-  ProdutoModule, UsersModule],
+  DespesageralModule],
   controllers: [],
   providers: [],
 })
