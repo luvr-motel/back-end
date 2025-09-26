@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsInt, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsInt, IsNotEmpty, IsPositive, IsString, MaxLength } from "class-validator";
 
 export class CreateQuartoDto {
     @IsString()
@@ -17,5 +17,7 @@ export class CreateQuartoDto {
     quarto_ativo: boolean;
 
     @IsInt()
+    @IsPositive()
+    @IsNotEmpty()
     quartotipo_id: number;  
 }

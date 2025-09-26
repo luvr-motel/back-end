@@ -1,19 +1,24 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
+import { QuartoTipo } from "../../quarto_tipo/entities/quarto_tipo.entity";
 
 @Entity('quarto')
 export class Quarto {
     @PrimaryGeneratedColumn()
     quarto_id: number;
 
-    @Column({ length: 256 })
+    @Column({ length: 256, default: '' })
     quarto_descricao: string;
 
     @Column({ type: 'varchar', nullable: true })
-    quarto_atributos:string;
+    quarto_atributos: string;
 
     @Column({ type: 'boolean', default: false })
     quarto_ativo: boolean;
 
-    @Column()
+    @ManyToOne(() => QuartoTipo, { eager: true, nullable: false, onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'quartotipo_id' })
+    quartotipo: QuartoTipo;
+
+    @RelationId((quarto: Quarto) => quarto.quartotipo)
     quartotipo_id: number;
 }
