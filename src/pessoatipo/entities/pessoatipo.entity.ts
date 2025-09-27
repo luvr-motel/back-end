@@ -18,3 +18,11 @@ export class PessoaTipo {
   @OneToMany(() => Pessoa, (p) => p.pessoaTipo)
   pessoas?: Pessoa[];
 }
+
+// table pessoatipo{//validar enum
+//   pessoatipo_id        integer [primary key]
+//   pessoatipo_descricao varchar [not null]
+//   pessoatipo_inclusao  timestamp
+//   pessoatipo_exclusao  timestamp
+// }
+// ref: pessoa.pessoatipo_id > pessoatipo.pessoatipo_id

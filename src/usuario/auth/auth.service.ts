@@ -10,19 +10,16 @@ export class AuthService {
     private readonly jwt: JwtService,
   ) {}
 
-  /** Valida as credenciais e retorna o usuário (sem senha) */
   async validate(usuarioCodigo: string, senha: string) {
     const user = await this.usuarios.findByCodigoWithSenha(usuarioCodigo);
     const ok = await argon2.verify(user.usuarioSenha, senha);
     if (!ok || !user.usuarioAtivo) {
       throw new UnauthorizedException('Credenciais inválidas ou usuário inativo');
     }
-    // remove a senha antes de devolver
     const { usuarioSenha, ...safe } = user as any;
     return safe;
   }
 
-  /** Faz login e devolve JWT + dados básicos do usuário */
   async login(usuarioCodigo: string, senha: string) {
     const u = await this.validate(usuarioCodigo, senha);
 

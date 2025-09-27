@@ -1,8 +1,4 @@
-import {
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './public.decorator';
@@ -22,7 +18,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  // Mostra motivo claro do 401 (header ausente, expirado, etc.)
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
       const reason = (info && (info.message ?? String(info))) || 'sem usuário';
