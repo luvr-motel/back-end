@@ -41,7 +41,6 @@ export class PessoaTipoService {
     await this.repo.softRemove(found);
   }
 
-  // p validar em pessoa 
   async ensureExists(id?: number) {
     if (id == null) return;
     const ok = await this.repo.exist({ where: { id } });
