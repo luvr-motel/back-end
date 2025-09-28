@@ -1,4 +1,3 @@
-// src/usuario/auth/auth.controller.ts
 import { Body, Controller, Post } from '@nestjs/common';
 import { Public } from './public.decorator';
 import { LoginDto } from './dto/login.dto';

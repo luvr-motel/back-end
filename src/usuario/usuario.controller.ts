@@ -12,7 +12,7 @@ import { Public } from 'src/usuario/auth/public.decorator';
 export class UsuarioController {
   constructor(private readonly service: UsuarioService) {}
 
-  //@Roles('admin')
+  //@Roles('admin') - quando for lançar, ativar isso e tirar o public decorator e td de public -
   @Public()
   @Post()
   async create(@Body() dto: CreateUsuarioDto) {

@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Pessoa } from '../../pessoa/entities/pessoa.entity';
 import { UsuarioRole } from './usuario-role.enum';
+import { Caixa } from 'src/caixa/entities/caixa.entity';
 
 @Entity({ name: 'usuario' })
 export class Usuario {
@@ -31,4 +32,21 @@ export class Usuario {
 
   @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamptz', nullable: true })
   usuarioExclusao?: Date | null;
+
+  // - caixa pro futuro -
+  @OneToMany(() => Caixa, (caixa) => caixa.usuario)
+  caixas: Caixa[];  
 }
+
+// table usuario {
+//   usuario_id       integer [primary key]
+//   usuario_codigo   varchar [not null]
+//   usuario_senha    varchar [not null] // hash
+//   pessoa_id        integer
+//   usuario_ativo    status
+//   loja_id          integer
+//   usuario_inclusao timestamp
+//   usuario_exclusao timestamp
+// }
+// ref: usuario.pessoa_id > pessoa.pessoa_id
+// ref: loja.loja_id > usuario.loja_id

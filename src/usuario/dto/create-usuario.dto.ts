@@ -1,7 +1,4 @@
-import {
-  IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber,
-  IsEnum, IsArray, ArrayNotEmpty, ArrayUnique
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsEnum, IsArray, ArrayNotEmpty, ArrayUnique } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { UsuarioRole } from '../entities/usuario-role.enum';
 
