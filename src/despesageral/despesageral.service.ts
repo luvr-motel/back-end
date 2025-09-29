@@ -34,7 +34,6 @@ export class DespesageralService {
       id,
       ...rest,
       despesatipoId,};
-      
     const entity = await this.despesageralRepository.preload(preloadData);
     if (!entity) throw new NotFoundException();
     return this.despesageralRepository.save(entity);

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'
 import { DespesageralModule } from './despesageral/despesageral.module';
+import { DespesatipoModule } from './despesatipo/despesatipo.module';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -21,7 +22,8 @@ import { DespesageralModule } from './despesageral/despesageral.module';
       logging: ['query', 'error', 'schema'], 
       autoLoadEntities: true,
   }),
-  DespesageralModule],
+  DespesageralModule,
+  DespesatipoModule],
   controllers: [],
   providers: [],
 })
