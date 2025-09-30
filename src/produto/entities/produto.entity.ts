@@ -15,6 +15,12 @@ export class Produto {
     @Column({ type: "float", name: 'produto_venda' })
     produto_venda: number;
 
+    @Column({ type: 'float', name: 'produto_marckup'})
+    produto_marckup: number;
+
+    @Column({ type: 'boolean', name: 'produto_pontaEstoque', default: false })
+    produto_pontaEstoque: boolean
+
     @CreateDateColumn({ type: 'timestamp', name: 'produto_inclusao' })
     produto_inclusao: Date;
 

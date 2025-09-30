@@ -38,19 +38,23 @@ export class ComandaService {
   }
 
   async updateComanda( id: number, updateComandaDto: UpdateComandaDto ): Promise< { mensagem: string;  comanda: Comanda }>   {
-    // const comandaAtualizada = await this.comandaRepository.findOne({where: {comanda_id: id}});
+    const comandaAtualizada = await this.comandaRepository.findOne({where: {comanda_id: id}});
     
-    // if ( !comandaAtualizada ) {
-    //   throw new HttpException( 'Erro ao atualizar comanda', 404 )
-    // } else {
-    //   return { 
-    //   mensagem: `Comanda #${id} atualizada com sucesso`, 
-    //   }
-    // };
+    if ( !comandaAtualizada ) {
+      throw new HttpException( 'Erro ao atualizar comanda', 404 )
+    } else {
+      const comanda = this.comandaRepository.merge( comandaAtualizada, updateComandaDto );
+      const comandaSave = await this.comandaRepository.save( comanda );
+
+      return { 
+      mensagem: `Comanda #${id} atualizada com sucesso`, 
+      comanda: comandaSave
+      }
+    };
   }
 
-  removeComanda(id: number) {
-    return `This action removes a #${id} comanda`;
+  async removeComanda(id: number): Promise<void> {
+    await this.comandaRepository.delete(id);
   }
 
   async removeItemComanda(id: number): Promise<void> {

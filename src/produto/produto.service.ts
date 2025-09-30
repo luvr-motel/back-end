@@ -20,13 +20,12 @@ export class ProdutoService {
     return this.produtoRepository.save( produto )
   }
 
-  findAllProdutos() {
+  findAllProdutos(): {
     return this.produtoRepository.find()
   }
 
   async findProdutoId(id: number): Promise< {produto: Produto; mensagem: string} >{
     const produtoData = await this.produtoRepository.findOne({ where: { produto_id: id }});
-
     if ( !produtoData ){
       throw new HttpException( 'Produto não encontrado', 404 )
     } else { 
@@ -38,8 +37,21 @@ export class ProdutoService {
     // return produtoData;
   }
 
-  async updateProduto(id: number, updateProdutoDto: UpdateProdutoDto): Promise< {mensagem:string; produto: Produto} > {
-    // const produtoAtualizado = await.produtoRepository.findOne({ where:{ produto_id:id }})
+  async updateProduto(id: number, updateProdutoDto: UpdateProdutoDto): Promise< { mensagem:string; produto: Produto} > {
+    const produtoAtualizado = await this.produtoRepository.findOne({ where:{ produto_id:id }});
+
+    if ( !produtoAtualizado ) {
+      throw new HttpException( 'Erro ao atualizar produto', 404 )
+    } else {
+      const produto = this.produtoRepository.merge( produtoAtualizado, updateProdutoDto );
+      const produtoSave = await this.produtoRepository.save( produto );
+
+      return {
+        mensagem: `Produto #${id} Atualizado com sucesso`,
+        produto: produtoSave
+      }
+
+    }
   }
 
   async removeProduto(id: number): Promise<void> {
