@@ -6,7 +6,7 @@ export class Produto {
     @PrimaryGeneratedColumn({ type: 'integer', name: 'produto_id' })
     produto_id: number;
 
-    @Column({ type: "varchar", name: 'produto_decricao', nullable: true, length:200 })
+    @Column({ type: "varchar", name: 'produto_descricao', nullable: true })
     produto_descricao: string;
 
     @Column({ type: "float", name: 'produto_custo' })
@@ -18,13 +18,10 @@ export class Produto {
     @Column({ type: 'float', name: 'produto_marckup'})
     produto_marckup: number;
 
-    @Column({ type: 'boolean', name: 'produto_pontaEstoque', default: false })
-    produto_pontaEstoque: boolean
-
     @CreateDateColumn({ type: 'timestamp', name: 'produto_inclusao' })
     produto_inclusao: Date;
 
-    //produto_exclusao
-    //produto_markup
-    //produto_pontaEstoque
+    @Column({ type:'timestamp', name:'produto_exclusao' })
+    produto_exclusao: Date;
+
 }

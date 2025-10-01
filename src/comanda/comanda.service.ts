@@ -20,12 +20,12 @@ export class ComandaService {
     return this.comandaRepository.save( comanda )
   }
 
-  findAllComandas() {
+  findAllComandas(): Promise<Comanda[]> {
     return this.comandaRepository.find();
   }
 
   async findComandaId(id: number): Promise<{ mensagem: string; comanda: Comanda }> {
-    const comandaData = await this.comandaRepository.findOne({where: {quarto_id: id}});
+    const comandaData = await this.comandaRepository.findOne({where: {comanda_id: id}});
     
     if ( !comandaData ){
       throw new HttpException( 'Comanda não encontrada', 404 )
@@ -57,8 +57,8 @@ export class ComandaService {
     await this.comandaRepository.delete(id);
   }
 
-  async removeItemComanda(id: number): Promise<void> {
-     await this.comandaRepository.delete(id);
-  }
+  // async removeItemComanda(id: number): Promise<void> {
+  //    await this.comandaRepository.delete(id);
+  // }//verificar relacionamento
 
 }

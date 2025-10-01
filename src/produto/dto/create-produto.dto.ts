@@ -1,7 +1,5 @@
-import { IsArray, IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, MaxLength  } from 'class-validator';
+import {    IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, MaxLength  } from 'class-validator';
 import { ApiProperty } from "@nestjs/swagger";
-import { execArgv } from 'process';
-import { exhaustMap } from 'rxjs';
 
 export class CreateProdutoDto {
     
@@ -25,9 +23,5 @@ export class CreateProdutoDto {
     @IsNotEmpty()
     @ApiProperty({ example: 1 })
     produto_marckup: number
-
-    @IsBoolean()
-    @IsOptional()
-    produto_pontaEstoque: boolean;
 }
 

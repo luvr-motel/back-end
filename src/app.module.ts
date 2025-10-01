@@ -5,6 +5,7 @@ import { ProdutoModule } from './produto/produto.module';
 import { ComandaModule } from './comanda/comanda.module';
 import { Produto } from './produto/entities/produto.entity';
 import { Comanda } from './comanda/entities/comanda.entity';
+import { LocacaoModule } from './locacao/locacao.module';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -25,7 +26,8 @@ import { Comanda } from './comanda/entities/comanda.entity';
       autoLoadEntities: true,
   }),
   ProdutoModule,
-  ComandaModule
+  ComandaModule,
+  LocacaoModule
   ],
   controllers: [],
   providers: [],

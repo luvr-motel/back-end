@@ -5,24 +5,28 @@ export class Comanda {
    @PrimaryGeneratedColumn({ type: 'integer', name: 'comanda_id' })
    comanda_id: number;
 
-   @Column({type: 'varchar', name: 'usuario_codigo', nullable: true})
-   usuario_codigo: string;
+   // @Column({type: 'varchar', name: 'usuario_codigo', nullable: true})
+   // usuario_codigo: string;
    
-   @Column({ type: 'integer', name: 'quarto_id'})
-   quarto_id: number;
+   // @Column({ type: 'integer', name: 'quarto_id' })
+   // quarto_id: number;
 
-   @Column({type:'integer', name: 'movimentacao_id'})
-   movimentacao_id: number;
+   // @Column({type:'integer', name: 'movimentacao_id'})
+   // movimentacao_id: number;
 
-   @Column({type:'integer', name: 'produto_id'})
-   produto_id: number;
+   // @Column({type:'integer', name: 'produto_id'})
+   // produto_id: number;
 
-   @Column({type:'integer', name: 'comanda_qtde'})
+   @Column({ type:'integer', name: 'comanda_qtde' })
    comanda_qtde: number;
 
-   @Column({type: 'varchar', name: 'comanda_observacao'})
-   comanda_observacao?: string;   
+   @Column({ type: 'varchar', name: 'comanda_observacao' })
+   comanda_observacao: string;   
 
-   @CreateDateColumn({type:'timestamp', name: 'comanda_inclusao' })
-   comandaO_inclusao: Date;
+   @CreateDateColumn({ type:'timestamp', name: 'comanda_inclusao' })
+   comanda_inclusao: Date;
+
+   @Column({ type:'timestamp', name:'comanda_exclusao' })
+   comanda_exclusao: Date;
+
 }

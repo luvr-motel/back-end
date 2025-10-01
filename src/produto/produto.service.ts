@@ -14,18 +14,18 @@ export class ProdutoService {
   async createProduto ( produtoDto: CreateProdutoDto ) {
     const produto = this.produtoRepository.create({
       produto_descricao: produtoDto.produto_descricao,
-      produto_custo: produtoDto.produto_custo,
-      produto_venda: produtoDto.produto_venda 
+      produto_custo    : produtoDto.produto_custo,
+      produto_venda    : produtoDto.produto_venda 
     });
     return this.produtoRepository.save( produto )
   }
 
-  findAllProdutos(): {
+  findAllProdutos(): Promise<Produto[]> {
     return this.produtoRepository.find()
   }
 
   async findProdutoId(id: number): Promise< {produto: Produto; mensagem: string} >{
-    const produtoData = await this.produtoRepository.findOne({ where: { produto_id: id }});
+    const produtoData = await this.produtoRepository.findOne({ where: { produto_id: id }});//verificar sobre uitlizar findOneBy
     if ( !produtoData ){
       throw new HttpException( 'Produto não encontrado', 404 )
     } else { 
