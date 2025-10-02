@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeepPartial } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { Pessoa } from './entities/pessoa.entity';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
@@ -11,20 +11,27 @@ export class PessoaService {
   constructor(
     @InjectRepository(Pessoa)
     private readonly repo: Repository<Pessoa>,
-    private readonly pessoaTipoService: PessoaTipoService, 
+    private readonly pessoaTipoService: PessoaTipoService,
   ) {}
 
-  async create(dto: CreatePessoaDto): Promise<Pessoa> {
-    await this.pessoaTipoService.ensureExists(dto.pessoatipoId);
+  private onlyDigits(v: unknown): string | undefined {
+    if (v === null || v === undefined) return undefined;
+    const s = String(v).replace(/\D/g, '');
+    return s.length ? s : undefined;
+  }
 
-    const cpf = dto.pessoaCpf ? dto.pessoaCpf.replace(/\D/g, '') : undefined;
+  async create(dto: CreatePessoaDto): Promise<Pessoa> {
+    if (dto.pessoatipoId != null) {
+      await this.pessoaTipoService.ensureExists(dto.pessoatipoId);
+    }
 
     const entity = this.repo.create({
       pessoaNome: dto.pessoaNome?.trim(),
-      pessoaCpf: cpf,
-      pessoaTelefone: dto.pessoaTelefone ?? undefined,
-      lojaId: dto.lojaId ?? undefined,
-      pessoaTipo: dto.pessoatipoId ? ({ id: dto.pessoatipoId } as any) : undefined,
+      pessoaCpf: this.onlyDigits(dto.pessoaCpf),
+      pessoaTelefone: this.onlyDigits(dto.pessoaTelefone),
+      pessoaTipo: dto.pessoatipoId != null
+        ? ({ pessoatipoId: dto.pessoatipoId } as any)
+        : undefined,
     } as DeepPartial<Pessoa>);
 
     const saved = await this.repo.save(entity);
@@ -32,16 +39,21 @@ export class PessoaService {
   }
 
   async findAll(page = 1, limit = 20): Promise<Pessoa[]> {
+    const p = Math.max(1, Number(page) || 1);
+    const l = Math.min(Math.max(1, Number(limit) || 20), 100);
+
     return this.repo.find({
+      relations: { pessoaTipo: true },
       order: { pessoaId: 'ASC' },
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: (p - 1) * l,
+      take: l,
     });
   }
 
   async findOne(id: number): Promise<Pessoa> {
     const found = await this.repo.findOne({
       where: { pessoaId: id },
+      relations: { pessoaTipo: true },
     });
     if (!found) throw new NotFoundException('Pessoa não encontrada');
     return found;
@@ -51,25 +63,30 @@ export class PessoaService {
     const pessoa = await this.findOne(id);
 
     if (dto.pessoaNome !== undefined) {
-      pessoa.pessoaNome = dto.pessoaNome.trim();
+      pessoa.pessoaNome = dto.pessoaNome?.trim() ?? pessoa.pessoaNome;
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'pessoatipoId')) {
-      await this.pessoaTipoService.ensureExists(dto.pessoatipoId ?? undefined);
-      pessoa.pessoaTipo = dto.pessoatipoId ? ({ id: dto.pessoatipoId } as any) : undefined;
-    }
-
-    if (Object.prototype.hasOwnProperty.call(dto, 'lojaId')) {
-      pessoa.lojaId = dto.lojaId ?? undefined;
+      if (dto.pessoatipoId != null) {
+        await this.pessoaTipoService.ensureExists(dto.pessoatipoId);
+        pessoa.pessoaTipo = { pessoatipoId: dto.pessoatipoId } as any;
+      } else {
+        pessoa.pessoaTipo = null as any;
+      }
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'pessoaCpf')) {
-      const cpf = dto.pessoaCpf ? dto.pessoaCpf.replace(/\D/g, '') : undefined;
-      pessoa.pessoaCpf = cpf;
+      pessoa.pessoaCpf =
+        dto.pessoaCpf === null
+          ? null
+          : this.onlyDigits(dto.pessoaCpf) ?? null;
     }
 
     if (Object.prototype.hasOwnProperty.call(dto, 'pessoaTelefone')) {
-      pessoa.pessoaTelefone = dto.pessoaTelefone ?? undefined;
+      pessoa.pessoaTelefone =
+        (dto as any).pessoaTelefone === null
+          ? null
+          : this.onlyDigits((dto as any).pessoaTelefone) ?? null;
     }
 
     await this.repo.save(pessoa);

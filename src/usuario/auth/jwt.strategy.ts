@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 export type JwtPayload = {
   sub: number;
   codigo: string;
-  lojaId?: number | null;
+  motelId?: number | null;
   roles?: string[];
 };
 
@@ -25,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return {
       usuarioId: payload.sub,
       usuarioCodigo: payload.codigo,
-      lojaId: payload.lojaId ?? null,
+      motelId: payload.motelId ?? null,
       roles: payload.roles ?? [],
     };
   }

@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -12,46 +12,60 @@ import { Public } from 'src/usuario/auth/public.decorator';
 export class UsuarioController {
   constructor(private readonly service: UsuarioService) {}
 
-  //@Roles('admin') - quando for lançar, ativar isso e tirar o public decorator e td de public -
   @Public()
   @Post()
+  @ApiOperation({ summary: 'Criar usuário' })
   async create(@Body() dto: CreateUsuarioDto) {
     const data = await this.service.create(dto);
-    return { message: 'usuário criado com sucesso.', data };
+    return { message: 'Usuário criado com sucesso.', data };
   }
 
   @Roles('admin', 'gerente', 'recepcionista')
-  @ApiQuery({ name: 'page', required: false, type: Number })
-  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @Get('me/profile')
+  @ApiOperation({ summary: 'Perfil do usuário autenticado' })
+  async getMyProfile(@Req() req: any) {
+    const userId =
+      req.user?.id ??
+      req.user?.usuarioId ??
+      req.user?.sub; 
+    const data = await this.service.findOne(Number(userId));
+    return { message: 'Perfil retornado com sucesso.', data };
+  }
+
+  @Roles('admin', 'gerente', 'recepcionista')
   @Get()
-  async findAll(@Query('page') page?: number, @Query('limit') limit?: number) {
-    const data = await this.service.findAll(Number(page) || 1, Number(limit) || 20);
-    return { message: 'lista de usuários retornada com sucesso.', data };
+  @ApiOperation({ summary: 'Listar usuários com página' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+  ) {
+    const safeLimit = Math.min(Math.max(1, limit), 100);
+    const data = await this.service.findAll(page, safeLimit);
+    return { message: 'Lista de usuários retornada com sucesso.', data };
   }
 
   @Roles('admin', 'gerente', 'recepcionista')
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const data = await this.service.findOne(+id);
-    return { message: 'usuário encontrado com sucesso.', data };
+  @ApiOperation({ summary: 'Buscar usuário por ID' })
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.service.findOne(id);
+    return { message: 'Usuário encontrado com sucesso.', data };
   }
 
   @Roles('admin')
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() dto: UpdateUsuarioDto) {
-    const data = await this.service.update(+id, dto);
-    return { message: 'usuário atualizado com sucesso.', data };
+  @ApiOperation({ summary: 'Atualizar usuário por ID' })
+  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateUsuarioDto) {
+    const data = await this.service.update(id, dto);
+    return { message: 'Usuário atualizado com sucesso.', data };
   }
 
   @Roles('admin')
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.service.remove(+id);
-  }
-
-  @Get('me/profile')
-  async getMyProfile(@Req() req: any) {
-    const data = await this.service.findOne(req.user?.id ?? req.user?.usuarioId);
-    return { message: 'perfil retornado com sucesso.', data };
+  @ApiOperation({ summary: 'Excluir usuário por ID' })
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.service.remove(id);
   }
 }

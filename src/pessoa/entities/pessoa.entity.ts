@@ -1,57 +1,55 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId,
-// OneToMany
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
-// import { Loja } from '../../loja/loja.entity';
-// import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity({ name: 'pessoa' })
 export class Pessoa {
   @PrimaryGeneratedColumn({ name: 'pessoa_id' })
   pessoaId: number;
 
-  @Column({ name: 'pessoa_nome', length: 255, nullable: false })
+  @Column({ name: 'pessoa_nome', length: 255 })
   pessoaNome: string;
 
-  @ManyToOne(() => PessoaTipo, { nullable: true, onDelete: 'SET NULL' })
+  @Column({ name: 'pessoa_cpf', type: 'varchar', length: 11, nullable: true })
+  pessoaCpf?: string | null;
+
+  @Column({ name: 'pessoa_telefone', type: 'varchar', length: 20, nullable: true })
+  pessoaTelefone?: string | null;
+
+  @Column({ name: 'pessoa_ativo', default: true })
+  pessoaAtivo: boolean;
+
+  @ManyToOne(() => PessoaTipo, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'pessoatipo_id' })
-  pessoaTipo?: PessoaTipo;
+  pessoaTipo?: PessoaTipo | null;
 
   @RelationId((p: Pessoa) => p.pessoaTipo)
-  pessoatipoId?: number;
-
-  @Column({ name: 'pessoa_cpf', length: 11, nullable: true, unique: true })
-  pessoaCpf?: string;
-
-  @Column({ name: 'pessoa_telefone', length: 20, nullable: true })
-  pessoaTelefone?: string;
-
-  @Column({ name: 'loja_id', nullable: true })
-  lojaId?: number;
+  pessoatipoId?: number | null;
 
   @CreateDateColumn({ name: 'pessoa_inclusao' })
   pessoaInclusao: Date;
 
   @DeleteDateColumn({ name: 'pessoa_exclusao', nullable: true })
-  pessoaExclusao?: Date;
+  pessoaExclusao?: Date | null;
 
-  // - ja ta pronto -
-  // @ManyToOne(() => Loja, (loja) => loja.pessoas, { nullable: true })
-  // @JoinColumn({ name: 'loja_id' })
-  // loja?: Loja | null;
-
-  // @OneToMany(() => Usuario, (usuario) => usuario.pessoa)
-  // usuarios?: Usuario[];
+  @BeforeInsert()
+  @BeforeUpdate()
+  normalize() {
+    if (this.pessoaCpf) this.pessoaCpf = this.pessoaCpf.replace(/\D/g, '').trim();
+    if (this.pessoaNome) this.pessoaNome = this.pessoaNome.trim();
+  }
 }
 
 
+
+//Tabela responsavel por receber as informações das pessoas cadastradas
 // table pessoa {
 //   pessoa_id       integer [primary key]
-//   pessoa_nome     varchar [not null]
-//   pessoatipo_id   integer  
+//   pessoa_nome     varchar [not null] 
 //   pessoa_cpf      varchar 
 //   pessoa_telefone integer
-//   loja_id         integer // atrelar pessoa aquele motel
+//   pessoa_ativo    boolean
+//   pessoatipo_id   integer 
 //   pessoa_inclusao timestamp
 //   pessoa_exclusao timestamp
 // }
+// ref: pessoa.pessoatipo_id > pessoatipo.pessoatipo_id

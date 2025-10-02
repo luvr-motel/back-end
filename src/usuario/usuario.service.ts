@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as argon2 from 'argon2';
-import { Usuario } from './entities/usuario.entity';
+import { Usuario, UsuarioStatus } from './entities/usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { UsuarioRole } from './entities/usuario-role.enum';
@@ -21,46 +21,58 @@ export class UsuarioService {
     return rest as SafeUsuario;
   }
 
-  async create(dto: CreateUsuarioDto) {
+  async create(dto: CreateUsuarioDto): Promise<SafeUsuario> {
+    // código único
     const exists = await this.repo.findOne({ where: { usuarioCodigo: dto.usuarioCodigo } });
     if (exists) throw new ConflictException('Código de usuário já existe');
 
+    const hashed = await argon2.hash(dto.usuarioSenha);
+
     const roles =
-      dto.roles?.length ? dto.roles :
-      dto.usuarioRole ? [dto.usuarioRole] :
-      [UsuarioRole.RECEPCIONISTA];
+      (dto as any).roles?.length ? (dto as any).roles as UsuarioRole[] :
+      (dto as any).usuarioRole ? [ (dto as any).usuarioRole as UsuarioRole ] :
+      undefined; 
 
     const entity = this.repo.create({
       usuarioCodigo: dto.usuarioCodigo,
-      usuarioSenha: await argon2.hash(dto.senha),
-      usuarioAtivo: dto?.usuarioAtivo ?? true,       
+      usuarioSenha: hashed,
+      usuarioAtivo: dto.usuarioAtivo ?? UsuarioStatus.ATIVO,
       roles,
-      pessoa: dto?.pessoaId ? ({ pessoaId: dto.pessoaId } as any) : null,
-      lojaId: dto?.lojaId ?? null,
+      pessoa: dto.pessoaId ? ({ pessoaId: dto.pessoaId } as any) : null,
+      // TODO(motel): reativar quando o módulo/tabela estiverem prontos
+      // motel: dto.motelId ? ({ motelId: dto.motelId } as any) : null,
     });
 
     const saved = await this.repo.save(entity);
     return this.toSafe(saved);
   }
 
-  async findAll(page = 1, limit = 20) {
+  async findAll(page = 1, limit = 20): Promise<SafeUsuario[]> {
+    const p = Math.max(1, Number(page) || 1);
+    const l = Math.min(Math.max(1, Number(limit) || 20), 100);
+
     const data = await this.repo.find({
       order: { usuarioId: 'ASC' },
-      skip: (page - 1) * limit,
-      take: limit,
-      relations: ['pessoa'],
+      skip: (p - 1) * l,
+      take: l,
+      relations: ['pessoa'], // , 'motel'  // TODO(motel)
     });
+
     return data.map((u) => this.toSafe(u));
   }
 
-  async findOne(id: number) {
-    const found = await this.repo.findOne({ where: { usuarioId: id }, relations: ['pessoa'] });
+  async findOne(id: number): Promise<SafeUsuario> {
+    const found = await this.repo.findOne({
+      where: { usuarioId: id },
+      relations: ['pessoa'], // , 'motel'  // TODO(motel)
+    });
     if (!found) throw new NotFoundException('Usuário não encontrado');
     return this.toSafe(found);
   }
 
-  async findByCodigoWithSenha(usuarioCodigo: string) {
-    const qb = this.repo.createQueryBuilder('u')
+  async findByCodigoWithSenha(usuarioCodigo: string): Promise<Usuario> {
+    const qb = this.repo
+      .createQueryBuilder('u')
       .addSelect('u.usuarioSenha')
       .where('u.usuarioCodigo = :usuarioCodigo', { usuarioCodigo });
 
@@ -69,27 +81,37 @@ export class UsuarioService {
     return user;
   }
 
-  async update(id: number, dto: UpdateUsuarioDto) {
+  async update(id: number, dto: UpdateUsuarioDto): Promise<SafeUsuario> {
     const user = await this.repo.findOne({ where: { usuarioId: id } });
     if (!user) throw new NotFoundException('Usuário não encontrado');
 
-    if (dto.senha) {
-      (user as any).usuarioSenha = await argon2.hash(dto.senha);
+    if (dto.usuarioCodigo && dto.usuarioCodigo !== user.usuarioCodigo) {
+      const dupe = await this.repo.findOne({ where: { usuarioCodigo: dto.usuarioCodigo } });
+      if (dupe) throw new ConflictException('Código de usuário já existe');
+      user.usuarioCodigo = dto.usuarioCodigo;
     }
-    if (dto.roles?.length) {
-      user.roles = dto.roles;
-    } else if (dto.usuarioRole) {
-      user.roles = [dto.usuarioRole];
+
+    if (dto.usuarioSenha) {
+      (user as any).usuarioSenha = await argon2.hash(dto.usuarioSenha);
     }
-    if (typeof dto.usuarioAtivo === 'boolean') {      
-      user.usuarioAtivo = dto.usuarioAtivo;
+
+    if (dto.usuarioAtivo !== undefined) {
+      user.usuarioAtivo = dto.usuarioAtivo as UsuarioStatus;
     }
+
+    if ((dto as any).roles?.length) {
+      user.roles = (dto as any).roles as UsuarioRole[];
+    } else if ((dto as any).usuarioRole) {
+      user.roles = [ (dto as any).usuarioRole as UsuarioRole ];
+    }
+
     if (dto.pessoaId !== undefined) {
       (user as any).pessoa = dto.pessoaId ? ({ pessoaId: dto.pessoaId } as any) : null;
     }
-    if (dto.lojaId !== undefined) {
-      user.lojaId = dto.lojaId;
-    }
+    // TODO(motel)
+    // if (dto.motelId !== undefined) {
+    //   (user as any).motel = dto.motelId ? ({ motelId: dto.motelId } as any) : null;
+    // }
 
     const saved = await this.repo.save(user);
     return this.toSafe(saved);

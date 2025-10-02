@@ -6,7 +6,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { PessoaTipoModule } from './pessoatipo/pessoatipo.module';
 import { UsuarioModule } from './usuario/usuario.module';
-import { CaixaModule } from './caixa/caixa.module';
 
 import { AuthModule } from './usuario/auth/auth.module';
 import { JwtAuthGuard } from './usuario/auth/jwt-auth.guard';
@@ -36,7 +35,6 @@ import { RolesGuard } from './usuario/auth/roles.guard';
     PessoaTipoModule,
     UsuarioModule,
     AuthModule,
-    CaixaModule,
   ],
   
   providers: [

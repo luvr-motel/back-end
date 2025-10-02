@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { UsuarioService } from '../usuario.service';
+import { UsuarioRole } from '../../usuario/entities/usuario-role.enum';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
       throw new UnauthorizedException('Credenciais inválidas ou usuário inativo');
     }
     const { usuarioSenha, ...safe } = user as any;
-    return safe;
+    return safe; 
   }
 
   async login(usuarioCodigo: string, senha: string) {
@@ -26,8 +27,10 @@ export class AuthService {
     const payload = {
       sub: u.usuarioId,
       codigo: u.usuarioCodigo,
-      lojaId: u.lojaId ?? null,
-      roles: u.roles ?? [],
+      lojaId: (u as any).lojaId ?? null,
+      roles: (u as any).roles && Array.isArray((u as any).roles) && (u as any).roles.length
+        ? (u as any).roles
+        : [UsuarioRole.ADMIN],
     };
 
     const access_token = await this.jwt.signAsync(payload);

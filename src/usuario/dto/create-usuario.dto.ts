@@ -1,52 +1,51 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsEnum, IsArray, ArrayNotEmpty, ArrayUnique } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength, IsInt, IsPositive, IsEnum, IsArray, ArrayNotEmpty, ArrayUnique } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
+import { UsuarioStatus } from '../entities/usuario.entity'; 
 import { UsuarioRole } from '../entities/usuario-role.enum';
 
-function normalizeRoles(value: unknown): string[] | undefined {
-  if (value === undefined || value === null) return undefined;
-  if (Array.isArray(value)) return value;
-  if (typeof value === 'string') {
-    const v = value.trim();
-    if (!v) return undefined;
-    return v.includes(',')
-      ? v.split(',').map(s => s.trim()).filter(Boolean)
-      : [v];
-  }
-  return [String(value)];
+function normalizeRoles(v:any){
+  if (v == null) return undefined;
+  if (Array.isArray(v)) return v;
+  const s = String(v).trim();
+  return s ? s.split(',').map(x=>x.trim()).filter(Boolean) : undefined;
 }
 
 export class CreateUsuarioDto {
   @IsString()
   @IsNotEmpty()
+  @MaxLength(255)
   usuarioCodigo: string;
 
   @IsString()
   @IsNotEmpty()
-  senha: string;
+  @MaxLength(255)
+  usuarioSenha: string;
 
   @IsOptional()
-  @IsBoolean()
-  usuarioAtivo?: boolean;
+  @IsEnum(UsuarioStatus)
+  usuarioAtivo?: UsuarioStatus;
 
   @IsOptional()
-  @IsEnum(UsuarioRole)
-  usuarioRole?: UsuarioRole;
+  @Type(() => Number)
+  @IsInt()
+  @IsPositive()
+  pessoaId?: number; 
 
   @IsOptional()
-  @IsArray()
-  @ArrayNotEmpty()
+  @Type(() => Number)
+  @IsInt()
+  @IsPositive()
+  motelId?: number; 
+
+  @IsOptional()
+  @IsArray() 
+  @ArrayNotEmpty() 
   @ArrayUnique()
   @IsEnum(UsuarioRole, { each: true })
   @Transform(({ value }) => normalizeRoles(value))
-  roles?: UsuarioRole[];
+  roles?: UsuarioRole[];           
 
   @IsOptional()
-  @Type(() => Number)
-  @IsNumber()
-  lojaId?: number;
-
-  @IsOptional()
-  @Type(() => Number)
-  @IsNumber()
-  pessoaId?: number;
+  @IsEnum(UsuarioRole)
+  usuarioRole?: UsuarioRole;       
 }
