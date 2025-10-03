@@ -7,6 +7,8 @@ import { Produto } from './produto/entities/produto.entity';
 import { Comanda } from './comanda/entities/comanda.entity';
 import { LocacaoModule } from './locacao/locacao.module';
 import { Locacao } from './locacao/entities/locacao.entity';
+import { LocacaoTipoModule } from './locacao-tipo/locacao-tipo.module';
+import { LocacaoPosicaoModule } from './locacao-posicao/locacao-posicao.module';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -28,7 +30,9 @@ import { Locacao } from './locacao/entities/locacao.entity';
   }),
   ProdutoModule,
   ComandaModule,
-  LocacaoModule
+  LocacaoModule,
+  LocacaoTipoModule,
+  LocacaoPosicaoModule
   ],
   controllers: [],
   providers: [],
