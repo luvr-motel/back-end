@@ -1,21 +1,21 @@
-import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToOne,PrimaryGeneratedColumn,} from 'typeorm';
+import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToOne,OneToMany,PrimaryGeneratedColumn,} from 'typeorm';
 import { Despesatipo } from '../../despesatipo/entities/despesatipo.entity';
 
-@Entity({ name: 'despesageral' })
-export class Despesageral {
-  @PrimaryGeneratedColumn({ name: 'despesageral_id' })
+@Entity({ name: 'despesa' })
+export class Despesa {
+  @PrimaryGeneratedColumn({ name: 'despesa_id' })
   id: number;
 
-  @Column({ name: 'despesageral_descricao', type: 'varchar', default: '' })
+  @Column({ name: 'despesa_descricao', type: 'varchar', default: '' })
   descricao: string;
 
-  @Column({ name: 'despesageral_parcela', type: 'int', nullable: true })
+  @Column({ name: 'despesa_parcela', type: 'int', nullable: true })
   parcela?: number | null;
 
-  @Column({ name: 'despesageral_prestador', type: 'varchar', nullable: true })
+  @Column({ name: 'despesa_prestador', type: 'varchar', nullable: true })
   prestador?: string | null;
 
-  @Column({ name: 'despesageral_itens', type: 'varchar', default: '' })
+  @Column({ name: 'despesa_itens', type: 'varchar', default: '' })
   itens: string;
 
   @Column({ name: 'despesatipo_id', type: 'int', nullable: true })
@@ -28,15 +28,19 @@ export class Despesageral {
   @JoinColumn({ name: 'despesatipo_id' })
   despesatipo?: Despesatipo | null;
 
+  // @OneToMany(()=> Motel, (motel)=> motel.despesa){
+  // 
+  // })
+
   @CreateDateColumn({
-    name: 'despesageral_inclusao',
+    name: 'despesa_inclusao',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   inclusao: Date;
 
   @DeleteDateColumn({
-    name: 'despesageral_exclusao',
+    name: 'despesa_exclusao',
     type: 'timestamp',
     nullable: true,
   })

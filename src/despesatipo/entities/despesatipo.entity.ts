@@ -1,12 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Despesageral } from '../../despesageral/entities/despesageral.entity';
+import {Column,CreateDateColumn,DeleteDateColumn,Entity,OneToMany,PrimaryGeneratedColumn,} from 'typeorm';
+import { Despesa } from '../../despesageral/entities/despesa.entity';
 
 @Entity({ name: 'despesatipo' })
 export class Despesatipo {
@@ -33,6 +26,6 @@ export class Despesatipo {
   })
   exclusao?: Date | null;
 
-  @OneToMany(() => Despesageral, (despesa) => despesa.despesatipo)
-  despesas?: Despesageral[];
+  @OneToMany(() => Despesa, (despesa) => despesa.despesatipo)
+  despesas?: Despesa[];
 }

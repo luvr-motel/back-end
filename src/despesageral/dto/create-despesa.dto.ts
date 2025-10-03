@@ -1,6 +1,6 @@
 import { IsInt, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class CreateDespesageralDto {
+export class CreateDespesaDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
