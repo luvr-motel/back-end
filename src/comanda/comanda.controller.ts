@@ -28,7 +28,7 @@ export class ComandaController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async removeComanda(@Param('id') id: string) {
     return this.comandaService.removeComanda(+id);
   }
 }

@@ -9,26 +9,26 @@ export class ProdutoController {
 
   @Post()
   create(@Body() createProdutoDto: CreateProdutoDto) {
-    return this.produtoService.createProduto(createProdutoDto);
+     return this.produtoService.createProduto(createProdutoDto);
   }
 
   @Get()
   findAll() {
-    return this.produtoService.findAllProdutos();
+     return this.produtoService.findAllProdutos();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.produtoService.findProdutoId(+id);
+     return this.produtoService.findProdutoId(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtoService.updateProduto(+id, updateProdutoDto);
+     return this.produtoService.updateProduto(+id, updateProdutoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.produtoService.removeProduto(+id);
+  async removeProduto(@Param('id') id: string) {
+     return this.produtoService.removeProduto(+id);
   }
 }

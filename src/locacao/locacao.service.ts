@@ -53,24 +53,15 @@ export class LocacaoService {
     }
   }
 
-  async deleteLocacaoById(id: number, updateLocacaoDto: UpdateLocacaoDto): Promise<{ mensagem: string; locacao: Locacao }> {
+  async deleteLocacaoById( id: number ): Promise<{ mensagem: string }> {
     const locacao = await this.locacaoRepository.findOne({ where: { locacao_id: id }});
 
     if (!locacao) {
-      throw new HttpException( 'Erro ao atualizar locação', 404 )
+      throw new HttpException( 'Erro ao excluir locação', 404 )
     } else {
-      locacao.locacao_exclusao = new Date();
-      const locacaoSave = await this.locacaoRepository.save( locacao );
-
-      return {
-        mensagem: `Locação #${id} Excluido com sucesso`,
-        locacao: locacaoSave
-      }
+      await this.locacaoRepository.softDelete(id);
+      return { mensagem: `Locação ${id} Excluido com sucesso` }
     }
 
   }
-
-  // async deleteLocacaoById(id: number): Promise<{ mensagem: string; locacao: Locacao }>{
-  //   return `This action removes a #${id} locacao`;
-  // }
 }

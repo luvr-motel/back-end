@@ -7,25 +7,27 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProdutoService {
-  constructor(
-    @InjectRepository( Produto ) private readonly produtoRepository: Repository<Produto>
+
+  constructor( 
+    @InjectRepository( Produto ) private readonly produtoRepository: Repository<Produto> 
   ){}
 
   async createProduto ( produtoDto: CreateProdutoDto ) {
     const produto = this.produtoRepository.create({
       produto_descricao: produtoDto.produto_descricao,
       produto_custo    : produtoDto.produto_custo,
-      produto_venda    : produtoDto.produto_venda 
+      produto_venda    : produtoDto.produto_venda,
+      produto_marckup  : produtoDto.produto_marckup
     });
     return this.produtoRepository.save( produto )
   }
 
-  findAllProdutos(): Promise<Produto[]> {
+  async findAllProdutos(): Promise<Produto[]> {
     return this.produtoRepository.find()
   }
 
   async findProdutoId(id: number): Promise< {produto: Produto; mensagem: string} >{
-    const produtoData = await this.produtoRepository.findOne({ where: { produto_id: id }});//verificar sobre uitlizar findOneBy
+    const produtoData = await this.produtoRepository.findOne({ where: { produto_id: id }});
     if ( !produtoData ){
       throw new HttpException( 'Produto não encontrado', 404 )
     } else { 
@@ -34,7 +36,6 @@ export class ProdutoService {
         produto: produtoData
       }
     }
-    // return produtoData;
   }
 
   async updateProduto(id: number, updateProdutoDto: UpdateProdutoDto): Promise< { mensagem:string; produto: Produto} > {
@@ -50,11 +51,17 @@ export class ProdutoService {
         mensagem: `Produto #${id} Atualizado com sucesso`,
         produto: produtoSave
       }
-
     }
   }
 
-  async removeProduto(id: number): Promise<void> {
-    await this.produtoRepository.delete(id);
+  async removeProduto(id: number): Promise<{ mensagem: string }> {
+    const produto = await this.produtoRepository.findOne({ where: { produto_id: id }});
+
+    if ( !produto ) {
+      throw new HttpException(' Erro ao excluir produto', 404)
+    } else {
+      await this.produtoRepository.softDelete(id);
+      return { mensagem: `Produto ${id} excluido com sucesso`}
+    }
   }
 }

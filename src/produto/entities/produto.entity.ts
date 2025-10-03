@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn } from "typeorm"
 
 @Entity()
 export class Produto {
@@ -6,22 +6,22 @@ export class Produto {
     @PrimaryGeneratedColumn({ type: 'integer', name: 'produto_id' })
     produto_id: number;
 
-    @Column({ type: "varchar", name: 'produto_descricao', nullable: true })
+    @Column({ type: "varchar", name: 'produto_descricao', nullable: false })
     produto_descricao: string;
 
-    @Column({ type: "float", name: 'produto_custo' })
+    @Column({ type: "numeric", precision: 10, scale: 2 , name: 'produto_custo', nullable: false })
     produto_custo: number;
 
-    @Column({ type: "float", name: 'produto_venda' })
+    @Column({ type: "numeric", precision: 10, scale: 2 , name: 'produto_venda', nullable: true })
     produto_venda: number;
 
-    @Column({ type: 'float', name: 'produto_marckup'})
+    @Column({ type: 'numeric', precision: 10, scale: 2 , name: 'produto_marckup', nullable: true })
     produto_marckup: number;
 
     @CreateDateColumn({ type: 'timestamp', name: 'produto_inclusao' })
     produto_inclusao: Date;
 
-    @Column({ type:'timestamp', name:'produto_exclusao' })
+    @DeleteDateColumn({ type:'timestamp', name:'produto_exclusao', nullable: true })
     produto_exclusao: Date;
 
 }

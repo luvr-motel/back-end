@@ -53,8 +53,15 @@ export class ComandaService {
     };
   }
 
-  async removeComanda(id: number): Promise<void> {
-    await this.comandaRepository.delete(id);
+  async removeComanda(id: number): Promise<{ mensagem: string }> {
+    const comanda = await this.comandaRepository.findOne({ where: { comanda_id: id }});
+
+    if (!comanda) {
+      throw new HttpException( 'Erro ao excluir locação', 404 )
+    } else {
+      await this.comandaRepository.softDelete(id);
+      return { mensagem: `Locação ${id} Excluido com sucesso` }
+    }
   }
 
   // async removeItemComanda(id: number): Promise<void> {

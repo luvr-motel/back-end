@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Comanda {
@@ -11,22 +11,22 @@ export class Comanda {
    // @Column({ type: 'integer', name: 'quarto_id' })
    // quarto_id: number;
 
-   // @Column({type:'integer', name: 'movimentacao_id'})
-   // movimentacao_id: number;
+   // @Column({type:'integer', name: 'locacao_id '})
+   // locacao_id: number;
 
    // @Column({type:'integer', name: 'produto_id'})
    // produto_id: number;
 
-   @Column({ type:'integer', name: 'comanda_qtde' })
+   @Column({ type:'numeric', precision: 10, scale: 2 , name: 'comanda_qtde', nullable: false })
    comanda_qtde: number;
 
-   @Column({ type: 'varchar', name: 'comanda_observacao' })
+   @Column({ type: 'varchar', name: 'comanda_observacao', nullable: true })
    comanda_observacao: string;   
 
    @CreateDateColumn({ type:'timestamp', name: 'comanda_inclusao' })
    comanda_inclusao: Date;
 
-   @Column({ type:'timestamp', name:'comanda_exclusao' })
+   @DeleteDateColumn({ type:'timestamp', name:'comanda_exclusao', nullable: true })
    comanda_exclusao: Date;
 
 }

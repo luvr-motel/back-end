@@ -6,6 +6,7 @@ import { ComandaModule } from './comanda/comanda.module';
 import { Produto } from './produto/entities/produto.entity';
 import { Comanda } from './comanda/entities/comanda.entity';
 import { LocacaoModule } from './locacao/locacao.module';
+import { Locacao } from './locacao/entities/locacao.entity';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -19,7 +20,7 @@ import { LocacaoModule } from './locacao/locacao.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [ Produto, Comanda ],//adicionar manualmente as entities
+      entities: [ Produto, Comanda, Locacao ],//adicionar manualmente as entities
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
       synchronize: true,//desabilita quando for para produção
       logging: ['query', 'error', 'schema'], 

@@ -1,4 +1,4 @@
-import {    IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, MaxLength  } from 'class-validator';
+import {    IsBoolean, IsCurrency, IsDate, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength  } from 'class-validator';
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateProdutoDto {
@@ -9,19 +9,20 @@ export class CreateProdutoDto {
     @MaxLength( 255 )
     produto_descricao: string;
 
-    @IsInt()
+    @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
     @IsNotEmpty()
-    @ApiProperty({ example: 1 })
+    @ApiProperty({ example: 1.10 })
     produto_custo: number;
 
-    @IsInt()
-    @IsNotEmpty()
-    @ApiProperty({ example: 3 })
+    @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
+    @ApiProperty({ example: 3.50 })
+    @IsOptional()
     produto_venda: number
 
-    @IsInt()
-    @IsNotEmpty()
+    @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
     @ApiProperty({ example: 1 })
+    @IsOptional()
     produto_marckup: number
 }
+
 
