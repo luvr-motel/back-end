@@ -24,3 +24,9 @@ git fetch
 git checkout -b `<branch>` origin/`<branch>`
 
 git checkout -b feature_produto origin/feature_produto
+
+- /comanda
+- /estoqueProduto
+- /locacao
+- /locacaoPosicao
+- /produto

@@ -16,11 +16,11 @@ export class CreateComandaDto {
    // // @OneToMany()
    // quarto_id: number;
 
-   @ApiProperty({ example: 23 })
-   @IsInt()
-   @IsNotEmpty()
-   // @OneToMany()
-   movimentacao_id: number;
+   // @ApiProperty({ example: 23 })
+   // @IsInt()
+   // @IsNotEmpty()
+   // // @OneToMany()
+   // locacao_id: number;
 
    // @ApiProperty({ example: 58801 })
    // @IsInt()

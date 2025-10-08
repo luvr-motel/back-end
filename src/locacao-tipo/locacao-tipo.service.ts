@@ -1,19 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLocacaoTipoDto } from './dto/create-locacao-tipo.dto';
 import { UpdateLocacaoTipoDto } from './dto/update-locacao-tipo.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { LocacaoTipo } from './entities/locacao-tipo.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class LocacaoTipoService {
-  create(createLocacaoTipoDto: CreateLocacaoTipoDto) {
-    return 'This action adds a new locacaoTipo';
+
+  constructor( @InjectRepository( LocacaoTipo) private readonly locacaoTipoRepositoy: Repository<LocacaoTipo> ){}
+
+  async createLocacaoTipo( locacaoTipoDto: CreateLocacaoTipoDto) {
+    const tipo = this.locacaoTipoRepositoy.create({
+      locacaoTipo_descricao: locacaoTipoDto.locacaoTipo_descricao
+    });
+      return this.locacaoTipoRepositoy.save( tipo )
   }
 
-  findAll() {
-    return `This action returns all locacaoTipo`;
+  async findAllLocacaoTipo(): Promise<LocacaoTipo[]>{
+    return this.locacaoTipoRepositoy.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} locacaoTipo`;
+  async findLocacaoTipoId(id: number): Promise<{ mensagem: string; tipo: LocacaoTipo}> {
+    const tipoData = await this.locacaoTipoRepositoy.findOne({ where:{ locacaoTipo_id: id }});
+
+    if ( !tipoData ){
+    
+    } else {
+      return { 
+        mensagem:  `Categoria de locação: #${id} atualizada com sucesso`, 
+        tipo: tipoData }}
   }
 
   update(id: number, updateLocacaoTipoDto: UpdateLocacaoTipoDto) {

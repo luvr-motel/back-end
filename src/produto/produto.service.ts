@@ -12,7 +12,7 @@ export class ProdutoService {
     @InjectRepository( Produto ) private readonly produtoRepository: Repository<Produto> 
   ){}
 
-  async createProduto ( produtoDto: CreateProdutoDto ) {
+  async createProduto ( produtoDto: CreateProdutoDto ) {//adicionar mensafgem de bem sucedido
     const produto = this.produtoRepository.create({
       produto_descricao: produtoDto.produto_descricao,
       produto_custo    : produtoDto.produto_custo,
