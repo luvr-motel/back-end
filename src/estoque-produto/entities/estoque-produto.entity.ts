@@ -8,7 +8,7 @@ export class EstoqueProduto {
     @Column({type: 'integer', name:'estoqueProduto_fisico', nullable: false })
     estoqueProduto_fisico: number
 
-    @Column({type: 'boolean', name:'estoqueProduto_ativo', nullable: false })
+    @Column({type: 'boolean', name:'estoqueProduto_ativo', nullable: false, default: true })
     estoqueProduto_ativo: boolean
 
     // produto_id

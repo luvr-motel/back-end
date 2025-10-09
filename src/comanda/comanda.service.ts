@@ -64,8 +64,4 @@ export class ComandaService {
     }
   }
 
-  // async removeItemComanda(id: number): Promise<void> {
-  //    await this.comandaRepository.delete(id);
-  // }//verificar relacionamento
-
 }

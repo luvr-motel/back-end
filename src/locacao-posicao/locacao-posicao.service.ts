@@ -1,19 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Locacao } from './../locacao/entities/locacao.entity';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateLocacaoPosicaoDto } from './dto/create-locacao-posicao.dto';
 import { UpdateLocacaoPosicaoDto } from './dto/update-locacao-posicao.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { LocacaoPosicao } from './entities/locacao-posicao.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class LocacaoPosicaoService {
-  create(createLocacaoPosicaoDto: CreateLocacaoPosicaoDto) {
-    return 'This action adds a new locacaoPosicao';
+
+  constructor ( @InjectRepository( LocacaoPosicao ) private readonly posicaoRepository: Repository<LocacaoPosicao> ){}
+
+  async createLocacaoPosicao( locacaoPosicaoDto: CreateLocacaoPosicaoDto ): Promise<{mensagem: string; posicao: LocacaoPosicao }> {
+    const posicao = this.posicaoRepository.create({
+      locacaoPosicao_descricao : locacaoPosicaoDto.locacaoPosicao_descricao
+    });
+    if (!posicao){
+      throw new HttpException( 'Erro ao criar posicao', 404);
+    } else {
+      return {
+        mensagem: 'Posição criada com sucesso!',
+        posicao: posicao
+      }
+    }
   }
 
-  findAll() {
-    return `This action returns all locacaoPosicao`;
+  async findAllLocacaoPosicao(): Promise<LocacaoPosicao[]> {
+    return this.posicaoRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} locacaoPosicao`;
+  async findLocacaoPosicaoById(id: number): Promise<{ mensagem: string; posicao: LocacaoPosicao }> {
+    const posicaoData = await this.posicaoRepository.findOne({ where: { locacaoPosicao_id: id }});
+    
+    if (!posicaoData){
+      throw new HttpException( 'Posição de locação não encontrada', 404 )
+    } else {
+      return {
+        mensagem: `Posição de locação #${id}`,
+        posicao: posicaoData
+      }
+    }
   }
 
   update(id: number, updateLocacaoPosicaoDto: UpdateLocacaoPosicaoDto) {
