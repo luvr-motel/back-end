@@ -16,9 +16,8 @@ export class DespesaService {
     const despesa = this.despesaRepository.create({
       despesa_descricao: createDespesaDto.despesa_descricao,
       despesa_parcela: createDespesaDto.despesa_parcela ?? null,
-      despesa_itens: createDespesaDto.despesa_itens,
-      despesa_aberto: true,
-      despesatipoId: createDespesaDto.despesatipoId ?? null,
+      despesa_aberto: createDespesaDto.despesa_aberto,
+      despesa_valortotal: createDespesaDto.despesa_valortotal,
     });
 
     return this.despesaRepository.save(despesa);
@@ -72,6 +71,6 @@ export class DespesaService {
     }
 
     await this.despesaRepository.softDelete(despesa_id);
-    return { mensagem: `Despesa ${despesa_id} excluída com sucesso` };
+    return { mensagem: `Despesa #${despesa_id} excluída com sucesso` };
   }
 }

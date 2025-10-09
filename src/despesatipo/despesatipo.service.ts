@@ -32,11 +32,11 @@ export class DespesatipoService {
     const tipo = await this.despesatipoRepository.findOne({ where: { despesatipo_id } });
 
     if (!tipo) {
-      throw new HttpException('Tipo de despesa não encontrado', 404);
+      throw new HttpException('despesatipo não encontrado', 404);
     }
 
     return {
-      mensagem: `Tipo de despesa #${despesatipo_id}`,
+      mensagem: `despesatipo encontrado com o id: #${despesatipo_id}`,
       despesatipo: tipo,
     };
   }
@@ -50,7 +50,7 @@ export class DespesatipoService {
     });
 
     if (!tipoExistente) {
-      throw new HttpException('Erro ao atualizar tipo de despesa', 404);
+      throw new HttpException('Erro ao atualizar despesatipo', 404);
     }
 
     const tipoAtualizado = this.despesatipoRepository.merge(

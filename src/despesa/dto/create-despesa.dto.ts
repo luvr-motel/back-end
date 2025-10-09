@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import {IsBoolean,IsInt,IsNotEmpty,IsNumber,IsOptional,IsString,MaxLength,} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateDespesaDto {
   @ApiProperty( {example:'vitor gotoototot'})
@@ -10,19 +11,13 @@ export class CreateDespesaDto {
 
   @IsOptional()
   @IsInt()
-  despesa_parcela?: number;
+  despesa_parcela?: number | null;
 
+  @ApiProperty( {example:'true'})
+  @IsBoolean()
+  despesa_aberto: boolean;
 
-  @IsOptional()
-  @IsString()
-  @MaxLength(255)
-  despesa_prestador?: string;
-
-  @IsString()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @IsNotEmpty()
-  despesa_itens: string;
-
-  @IsOptional()
-  @IsInt()
-  despesatipoId?: number;
+  despesa_valortotal: number;
 }

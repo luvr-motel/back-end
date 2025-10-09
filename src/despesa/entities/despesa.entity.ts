@@ -12,19 +12,17 @@ export class Despesa {
   @Column({ name: 'despesa_parcela', type: 'int', nullable: true })
   despesa_parcela: number | null;
 
-  // @Column({ name: 'despesa_prestador', type: 'varchar', nullable: true })
-  // prestador: string | null;
+  @Column({name: 'despesa_valortotal',type: 'decimal',precision: 10,scale: 2,default: 0,})
+  despesa_valortotal: number;
 
-// relacionamento com pessoa_id
-
-  @Column({ name: 'despesa_itens', type: 'varchar', default: '' })
-  despesa_itens: string;
+  // relacionamento com pessoa_id
+  // @ManyToOne(()=> Pessoa, (pessoa)=> pessoa.despesas)
 
   @Column({ name: 'despesa_aberto', type: 'boolean', default: true,nullable: false })
   despesa_aberto: boolean;
 
-  @Column({ name: 'despesatipo_id', type: 'int', nullable: true })
-  despesatipoId?: number | null;
+  // @Column({ name: 'despesatipo_id', type: 'int', nullable: true })
+  // despesatipoId?: number | null;
 
   @ManyToOne(() => Despesatipo, (tipo) => tipo.despesas, {
     nullable: true,
@@ -32,12 +30,9 @@ export class Despesa {
   })
   @JoinColumn({ name: 'despesatipo_id' })
   despesatipo?: Despesatipo | null;
-
   
-
-  // @OneToMany(()=> Motel, (motel)=> motel.despesa){
-  // 
-  // })
+  // @ManyToOne(() => usuario => usuario.despesas)
+  // @OneToMany(()=> Motel, (motel)=> motel.despesa))
 
   @CreateDateColumn({type: 'timestamp', name: 'despesa_inclusao' })
   despesa_inclusao: Date;
