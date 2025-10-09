@@ -38,7 +38,7 @@ export class ProdutoService {
     }
   }
 
-  async updateProduto(id: number, updateProdutoDto: UpdateProdutoDto): Promise< { mensagem:string; produto: Produto} > {
+  async updateProdutoById(id: number, updateProdutoDto: UpdateProdutoDto): Promise< { mensagem:string; produto: Produto} > {
     const produtoAtualizado = await this.produtoRepository.findOne({ where:{ produto_id:id }});
 
     if ( !produtoAtualizado ) {

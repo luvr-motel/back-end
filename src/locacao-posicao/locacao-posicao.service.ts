@@ -42,11 +42,34 @@ export class LocacaoPosicaoService {
     }
   }
 
-  update(id: number, updateLocacaoPosicaoDto: UpdateLocacaoPosicaoDto) {
-    return `This action updates a #${id} locacaoPosicao`;
+  async updateLocacaoPosicaoById(id: number, updateLocacaoPosicaoDto: UpdateLocacaoPosicaoDto): Promise<{ mensagem: string; posicao: LocacaoPosicao }> {
+    const posicaoAtualiza = await this.posicaoRepository.findOne({ where: { locacaoPosicao_id: id }});
+
+    if ( !posicaoAtualiza ){
+       throw new HttpException( 'Posição de locação não encontrado', 404 )
+    } else {
+      const posicao = this.posicaoRepository.merge( posicaoAtualiza, updateLocacaoPosicaoDto );
+      const posicaoSave = await this.posicaoRepository.save( posicao )
+
+      return {
+        mensagem: 'Posição de locação atualizada com sucesso',
+        posicao: posicaoSave
+      }
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} locacaoPosicao`;
+  async deleteLocacaoPosicaoById(id: number): Promise<{ mensagem: string; posicao: LocacaoPosicao}> {
+    const posicao = await this.posicaoRepository.findOne({ where: { locacaoPosicao_id: id }})
+
+    if ( !posicao ) {
+       throw new HttpException( 'Erro ao excluir posição de locação', 404 )
+    } else {
+      await this.posicaoRepository.softDelete( id );
+      return {
+        mensagem: 'Posição de locação excluida com sucesso',
+        posicao: posicao
+      }
+    }
+  
   }
 }

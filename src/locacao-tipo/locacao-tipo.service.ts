@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateLocacaoTipoDto } from './dto/create-locacao-tipo.dto';
 import { UpdateLocacaoTipoDto } from './dto/update-locacao-tipo.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LocacaoTipo } from './entities/locacao-tipo.entity';
 import { Repository } from 'typeorm';
+import { promises } from 'dns';
 
 @Injectable()
 export class LocacaoTipoService {
@@ -25,18 +26,37 @@ export class LocacaoTipoService {
     const tipoData = await this.locacaoTipoRepositoy.findOne({ where:{ locacaoTipo_id: id }});
 
     if ( !tipoData ){
-    
+      throw new HttpException( 'Categoria não encontrada', 404 )
     } else {
       return { 
         mensagem:  `Categoria de locação: #${id} atualizada com sucesso`, 
         tipo: tipoData }}
   }
 
-  update(id: number, updateLocacaoTipoDto: UpdateLocacaoTipoDto) {
-    return `This action updates a #${id} locacaoTipo`;
+  async updateLocacaoTipById (id: number, updateLocacaoTipoDto: UpdateLocacaoTipoDto): Promise<{ mensagem: string; tipo: LocacaoTipo }> {
+    const tipoData = await this.locacaoTipoRepositoy.findOne({ where: { locacaoTipo_id: id }});
+    if (!tipoData){
+       throw new HttpException( 'Erro ao atualizar categoria de locação', 404 )
+    } else {
+      const tipo = this.locacaoTipoRepositoy.merge( tipoData, updateLocacaoTipoDto );
+      const tipoSave = await this.locacaoTipoRepositoy.save( tipo );
+
+      return{
+        mensagem: 'Categoria de locação atualizada com sucesso!',
+        tipo: tipoSave
+      }
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} locacaoTipo`;
+  async deleteLocacaoTipo(id: number): Promise<{ mensagem: string; tipo: LocacaoTipo}> {
+    const tipoDelete = await this.locacaoTipoRepositoy.findOne({ where: {locacaoTipo_id: id}});
+    if (!tipoDelete){
+       throw new HttpException( 'Erro ao excluir categoria de locação', 404 )
+    } else {
+      return {
+        mensagem: 'Categoria de locação excluida com sucesso!',
+        tipo: tipoDelete
+      }
+    }
   }
 }
