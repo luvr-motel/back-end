@@ -1,54 +1,48 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId } from 'typeorm';
-import { Pessoa } from '../../pessoa/entities/pessoa.entity';
-// temporario
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, Index, Unique } from 'typeorm'; 
+import { Pessoa } from '../../pessoa/entities/pessoa.entity'; 
 import { UsuarioRole } from './usuario-role.enum';
-//import { Motel } from '../../motel/entities/motel.entity';
+// import { Motel } from '../../motel/entities/motel.entity';
 
 export enum UsuarioStatus { ATIVO = 'ativo', INATIVO = 'inativo' }
 
 @Entity({ name: 'usuario' })
+@Unique('uq_usuario_codigo', ['usuario_codigo'])
 export class Usuario {
-  @PrimaryGeneratedColumn({ name: 'usuario_id' })
-  usuarioId: number;
+  @PrimaryGeneratedColumn({ name: 'usuario_id', type: 'integer' })
+  usuario_id: number;
 
   @Column({ name: 'usuario_codigo', type: 'varchar', length: 255, nullable: false })
-  usuarioCodigo: string;
+  usuario_codigo: string;
 
   @Column({ name: 'usuario_senha', type: 'varchar', length: 255, nullable: false })
-  usuarioSenha: string;
+  usuario_senha: string;
 
   @Column({ name: 'usuario_ativo', type: 'enum', enum: UsuarioStatus, default: UsuarioStatus.ATIVO })
-  usuarioAtivo: UsuarioStatus;
+  usuario_ativo: UsuarioStatus;
 
   @ManyToOne(() => Pessoa, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
-  @JoinColumn({ name: 'pessoa_id' })
+  @JoinColumn({ name: 'pessoa_id', referencedColumnName: 'pessoa_id' })
   pessoa?: Pessoa | null;
 
   @RelationId((u: Usuario) => u.pessoa)
-  pessoaId?: number | null;
+  pessoa_id: number | null;
 
-  //temporario ate achar outro jeito
-  @Column({
-  name: 'roles',
-  type: 'enum',
-  enum: UsuarioRole,
-  array: true,
-  default: [UsuarioRole.RECEPCIONISTA],
-})
-roles: UsuarioRole[];
-
+  // relacao do motel
   // @ManyToOne(() => Motel, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
-  // @JoinColumn({ name: 'motel_id' })
+  // @JoinColumn({ name: 'motel_id', referencedColumnName: 'motel_id' })
   // motel?: Motel | null;
 
   // @RelationId((u: Usuario) => u.motel)
-  // motelId?: number | null;
+  // motel_id?: number | null;
 
-  @CreateDateColumn({ name: 'usuario_inclusao', type: 'timestamp with time zone' })
-  usuarioInclusao: Date;
+  @Column({ name: 'roles', type: 'enum', enum: UsuarioRole, array: true, default: [UsuarioRole.RECEPCIONISTA] })
+  roles: UsuarioRole[];
 
-  @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamp with time zone', nullable: true })
-  usuarioExclusao?: Date | null;
+  @CreateDateColumn({ name: 'usuario_inclusao', type: 'timestamptz', default: () => 'NOW()' })
+  usuario_inclusao: Date;
+
+  @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamptz', nullable: true })
+  usuario_exclusao: Date | null;
 }
 
 // Usuario do sistema de fato, os funcionarios 

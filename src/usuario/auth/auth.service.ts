@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { UsuarioService } from '../usuario.service';
 import { UsuarioRole } from '../../usuario/entities/usuario-role.enum';
+import { UsuarioStatus } from '../../usuario/entities/usuario.entity';
 
 @Injectable()
 export class AuthService {
@@ -13,24 +14,29 @@ export class AuthService {
 
   async validate(usuarioCodigo: string, senha: string) {
     const user = await this.usuarios.findByCodigoWithSenha(usuarioCodigo);
-    const ok = await argon2.verify(user.usuarioSenha, senha);
-    if (!ok || !user.usuarioAtivo) {
+
+    const ok = await argon2.verify((user as any).usuario_senha, senha);
+
+    const ativo = (user as any).usuario_ativo === UsuarioStatus.ATIVO;
+
+    if (!ok || !ativo) {
       throw new UnauthorizedException('Credenciais inválidas ou usuário inativo');
     }
-    const { usuarioSenha, ...safe } = user as any;
-    return safe; 
+
+    const { usuario_senha, ...safe } = user as any;
+    return safe;
   }
 
   async login(usuarioCodigo: string, senha: string) {
     const u = await this.validate(usuarioCodigo, senha);
 
     const payload = {
-      sub: u.usuarioId,
-      codigo: u.usuarioCodigo,
-      lojaId: (u as any).lojaId ?? null,
-      roles: (u as any).roles && Array.isArray((u as any).roles) && (u as any).roles.length
-        ? (u as any).roles
-        : [UsuarioRole.ADMIN],
+      sub: (u as any).usuario_id,
+      codigo: (u as any).usuario_codigo,
+      roles:
+        Array.isArray((u as any).roles) && (u as any).roles.length
+          ? (u as any).roles
+          : [UsuarioRole.RECEPCIONISTA], 
     };
 
     const access_token = await this.jwt.signAsync(payload);

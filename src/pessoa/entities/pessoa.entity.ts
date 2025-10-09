@@ -1,55 +1,36 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId } from 'typeorm';
 import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
 
 @Entity({ name: 'pessoa' })
 export class Pessoa {
-  @PrimaryGeneratedColumn({ name: 'pessoa_id' })
-  pessoaId: number;
+  @PrimaryGeneratedColumn({ name: 'pessoa_id', type: 'integer' })
+  pessoa_id: number;
 
-  @Column({ name: 'pessoa_nome', length: 255 })
-  pessoaNome: string;
+  @Column({ name: 'pessoa_nome', type: 'varchar', length: 255 })
+  pessoa_nome: string;
 
   @Column({ name: 'pessoa_cpf', type: 'varchar', length: 11, nullable: true })
-  pessoaCpf?: string | null;
+  pessoa_cpf?: string | null;
 
   @Column({ name: 'pessoa_telefone', type: 'varchar', length: 20, nullable: true })
-  pessoaTelefone?: string | null;
+  pessoa_telefone?: string | null;
 
-  @Column({ name: 'pessoa_ativo', default: true })
-  pessoaAtivo: boolean;
+  @Column({ name: 'pessoa_ativo', type: 'boolean', default: true })
+  pessoa_ativo: boolean;
 
   @ManyToOne(() => PessoaTipo, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
-  @JoinColumn({ name: 'pessoatipo_id' })
-  pessoaTipo?: PessoaTipo | null;
+  @JoinColumn({ name: 'pessoatipo_id', referencedColumnName: 'pessoatipo_id' })
+  pessoatipo?: PessoaTipo | null;
 
-  @RelationId((p: Pessoa) => p.pessoaTipo)
-  pessoatipoId?: number | null;
+  @RelationId((p: Pessoa) => p.pessoatipo)
+  pessoatipo_id: number | null;
 
-  @CreateDateColumn({ name: 'pessoa_inclusao' })
-  pessoaInclusao: Date;
+  @CreateDateColumn({ name: 'pessoa_inclusao', type: 'timestamptz', default: () => 'NOW()' })
+  pessoa_inclusao: Date;
 
-  @DeleteDateColumn({ name: 'pessoa_exclusao', nullable: true })
-  pessoaExclusao?: Date | null;
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  normalize() {
-    if (this.pessoaCpf) this.pessoaCpf = this.pessoaCpf.replace(/\D/g, '').trim();
-    if (this.pessoaNome) this.pessoaNome = this.pessoaNome.trim();
-  }
+  @DeleteDateColumn({ name: 'pessoa_exclusao', type: 'timestamptz', nullable: true })
+  pessoa_exclusao: Date | null;
 }
 
 
-
-//Tabela responsavel por receber as informações das pessoas cadastradas
-// table pessoa {
-//   pessoa_id       integer [primary key]
-//   pessoa_nome     varchar [not null] 
-//   pessoa_cpf      varchar 
-//   pessoa_telefone integer
-//   pessoa_ativo    boolean
-//   pessoatipo_id   integer 
-//   pessoa_inclusao timestamp
-//   pessoa_exclusao timestamp
-// }
-// ref: pessoa.pessoatipo_id > pessoatipo.pessoatipo_id
+//NAO EXCLUIR PESSOATIPO QUANDO EXCLUIR A PESSOA

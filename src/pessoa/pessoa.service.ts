@@ -4,15 +4,10 @@ import { DeepPartial, Repository } from 'typeorm';
 import { Pessoa } from './entities/pessoa.entity';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { PessoaTipoService } from '../pessoatipo/pessoatipo.service';
 
 @Injectable()
 export class PessoaService {
-  constructor(
-    @InjectRepository(Pessoa)
-    private readonly repo: Repository<Pessoa>,
-    private readonly pessoaTipoService: PessoaTipoService,
-  ) {}
+  constructor(@InjectRepository(Pessoa) private readonly repo: Repository<Pessoa>) {}
 
   private onlyDigits(v: unknown): string | undefined {
     if (v === null || v === undefined) return undefined;
@@ -20,81 +15,66 @@ export class PessoaService {
     return s.length ? s : undefined;
   }
 
-  async create(dto: CreatePessoaDto): Promise<Pessoa> {
-    if (dto.pessoatipoId != null) {
-      await this.pessoaTipoService.ensureExists(dto.pessoatipoId);
-    }
-
+  async createPessoa(dto: CreatePessoaDto): Promise<Pessoa> {
     const entity = this.repo.create({
-      pessoaNome: dto.pessoaNome?.trim(),
-      pessoaCpf: this.onlyDigits(dto.pessoaCpf),
-      pessoaTelefone: this.onlyDigits(dto.pessoaTelefone),
-      pessoaTipo: dto.pessoatipoId != null
-        ? ({ pessoatipoId: dto.pessoatipoId } as any)
-        : undefined,
+      pessoa_nome: dto.pessoa_nome?.trim(),
+      pessoa_cpf: this.onlyDigits(dto.pessoa_cpf),
+      pessoa_telefone: this.onlyDigits(dto.pessoa_telefone),
+      ...(dto.pessoatipo_id != null ? { pessoatipo: { pessoatipo_id: dto.pessoatipo_id } as any } : {}),
     } as DeepPartial<Pessoa>);
 
-    const saved = await this.repo.save(entity);
-    return this.findOne(saved.pessoaId);
+    try {
+      const saved = await this.repo.save(entity);
+      return this.findOnePessoa(saved.pessoa_id);
+    } catch (e: any) {
+      if (e?.code === '23503') throw new NotFoundException('Tipo não encontrado.');
+      throw e;
+    }
   }
 
-  async findAll(page = 1, limit = 20): Promise<Pessoa[]> {
-    const p = Math.max(1, Number(page) || 1);
-    const l = Math.min(Math.max(1, Number(limit) || 20), 100);
-
-    return this.repo.find({
-      relations: { pessoaTipo: true },
-      order: { pessoaId: 'ASC' },
-      skip: (p - 1) * l,
-      take: l,
-    });
+  async findAllPessoas(): Promise<Pessoa[]> {
+    return this.repo.find({ relations: { pessoatipo: true }, order: { pessoa_id: 'ASC' } });
   }
 
-  async findOne(id: number): Promise<Pessoa> {
-    const found = await this.repo.findOne({
-      where: { pessoaId: id },
-      relations: { pessoaTipo: true },
-    });
+  async findOnePessoa(id: number): Promise<Pessoa> {
+    const found = await this.repo.findOne({ where: { pessoa_id: id }, relations: { pessoatipo: true } });
     if (!found) throw new NotFoundException('Pessoa não encontrada');
     return found;
   }
 
-  async update(id: number, dto: UpdatePessoaDto): Promise<Pessoa> {
-    const pessoa = await this.findOne(id);
+  async updatePessoa(id: number, dto: UpdatePessoaDto): Promise<Pessoa> {
+    const pessoa = await this.findOnePessoa(id);
 
-    if (dto.pessoaNome !== undefined) {
-      pessoa.pessoaNome = dto.pessoaNome?.trim() ?? pessoa.pessoaNome;
+    if (dto.pessoa_nome !== undefined) {
+      pessoa.pessoa_nome = dto.pessoa_nome?.trim() ?? pessoa.pessoa_nome;
     }
 
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoatipoId')) {
-      if (dto.pessoatipoId != null) {
-        await this.pessoaTipoService.ensureExists(dto.pessoatipoId);
-        pessoa.pessoaTipo = { pessoatipoId: dto.pessoatipoId } as any;
-      } else {
-        pessoa.pessoaTipo = null as any;
-      }
+    if (Object.prototype.hasOwnProperty.call(dto, 'pessoatipo_id')) {
+      pessoa.pessoatipo = dto.pessoatipo_id != null ? ({ pessoatipo_id: dto.pessoatipo_id } as any) : (null as any);
     }
 
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoaCpf')) {
-      pessoa.pessoaCpf =
-        dto.pessoaCpf === null
-          ? null
-          : this.onlyDigits(dto.pessoaCpf) ?? null;
+    if (Object.prototype.hasOwnProperty.call(dto, 'pessoa_cpf')) {
+      pessoa.pessoa_cpf = dto.pessoa_cpf === null ? null : this.onlyDigits(dto.pessoa_cpf) ?? null;
     }
 
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoaTelefone')) {
-      pessoa.pessoaTelefone =
-        (dto as any).pessoaTelefone === null
-          ? null
-          : this.onlyDigits((dto as any).pessoaTelefone) ?? null;
+    if (Object.prototype.hasOwnProperty.call(dto, 'pessoa_telefone')) {
+      pessoa.pessoa_telefone =
+        (dto as any).pessoa_telefone === null ? null : this.onlyDigits((dto as any).pessoa_telefone) ?? null;
     }
 
-    await this.repo.save(pessoa);
-    return this.findOne(id);
+    try {
+      await this.repo.save(pessoa);
+      return this.findOnePessoa(id);
+    } catch (e: any) {
+      if (e?.code === '23503') throw new NotFoundException('Tipo não encontrado.');
+      throw e;
+    }
   }
 
-  async remove(id: number): Promise<void> {
-    const found = await this.findOne(id);
-    await this.repo.softRemove(found);
+  async removePessoa(id: number): Promise<{ mensagem: string }> {
+    const exists = await this.repo.findOne({ where: { pessoa_id: id } });
+    if (!exists) throw new NotFoundException('Erro ao excluir pessoa');
+    await this.repo.softDelete(id);
+    return { mensagem: `Pessoa ${id} excluída com sucesso` };
   }
 }

@@ -1,34 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BeforeInsert, BeforeUpdate, Index, Unique, OneToMany } from 'typeorm';
-// import { Pessoa } from '../../pessoa/entities/pessoa.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, Unique } from 'typeorm';
 
 @Entity({ name: 'pessoatipo' })
-@Unique('uq_pessoatipo_descricao', ['pessoatipoDescricao'])
+@Unique('uq_pessoatipo_descricao', ['pessoatipo_descricao'])
 export class PessoaTipo {
-  @PrimaryGeneratedColumn({ name: 'pessoatipo_id' })
-  pessoatipoId: number;
+  @PrimaryGeneratedColumn({ name: 'pessoatipo_id', type: 'integer' })
+  pessoatipo_id: number;
 
-  @Index('idx_pessoatipo_descricao')
   @Column({ name: 'pessoatipo_descricao', type: 'varchar', length: 255, nullable: false })
-  pessoatipoDescricao: string;
+  pessoatipo_descricao: string;
 
-  @CreateDateColumn({ name: 'pessoatipo_inclusao', type: 'timestamp with time zone' })
-  pessoatipoInclusao: Date;
+  @CreateDateColumn({ name: 'pessoatipo_inclusao', type: 'timestamptz', default: () => 'NOW()' })
+  pessoatipo_inclusao: Date;
 
-  @UpdateDateColumn({ name: 'pessoatipo_atualizacao', type: 'timestamp with time zone' })
-  pessoatipoAtualizacao: Date;
-
-  @DeleteDateColumn({ name: 'pessoatipo_exclusao', type: 'timestamp with time zone', nullable: true })
-  pessoatipoExclusao?: Date | null;
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  normalize() {
-    if (this.pessoatipoDescricao) this.pessoatipoDescricao = this.pessoatipoDescricao.trim();
-  }
-
-  // se quisermos
-  // @OneToMany(() => Pessoa, (p) => p.pessoaTipo)
-  // pessoas?: Pessoa[];
+  @DeleteDateColumn({ name: 'pessoatipo_exclusao', type: 'timestamptz', nullable: true })
+  pessoatipo_exclusao: Date | null;
 }
 
 

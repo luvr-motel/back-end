@@ -7,120 +7,111 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { UsuarioRole } from './entities/usuario-role.enum';
 
-type SafeUsuario = Omit<Usuario, 'usuarioSenha'> & { usuarioSenha?: never };
+type SafeUsuario = Omit<Usuario, 'usuario_senha'> & { usuario_senha?: never };
 
 @Injectable()
 export class UsuarioService {
-  constructor(
-    @InjectRepository(Usuario)
-    private readonly repo: Repository<Usuario>,
-  ) {}
+  constructor(@InjectRepository(Usuario) private readonly repo: Repository<Usuario>) {}
 
   private toSafe(u: Usuario): SafeUsuario {
-    const { usuarioSenha, ...rest } = u as any;
+    const { usuario_senha, ...rest } = u as any;
     return rest as SafeUsuario;
   }
 
   async create(dto: CreateUsuarioDto): Promise<SafeUsuario> {
-    // código único
-    const exists = await this.repo.findOne({ where: { usuarioCodigo: dto.usuarioCodigo } });
+    const exists = await this.repo.findOne({ where: { usuario_codigo: dto.usuarioCodigo } });
     if (exists) throw new ConflictException('Código de usuário já existe');
 
-    const hashed = await argon2.hash(dto.usuarioSenha);
-
-    const roles =
-      (dto as any).roles?.length ? (dto as any).roles as UsuarioRole[] :
-      (dto as any).usuarioRole ? [ (dto as any).usuarioRole as UsuarioRole ] :
-      undefined; 
-
     const entity = this.repo.create({
-      usuarioCodigo: dto.usuarioCodigo,
-      usuarioSenha: hashed,
-      usuarioAtivo: dto.usuarioAtivo ?? UsuarioStatus.ATIVO,
-      roles,
-      pessoa: dto.pessoaId ? ({ pessoaId: dto.pessoaId } as any) : null,
-      // TODO(motel): reativar quando o módulo/tabela estiverem prontos
-      // motel: dto.motelId ? ({ motelId: dto.motelId } as any) : null,
+      usuario_codigo: dto.usuarioCodigo.trim(),
+      usuario_senha: await argon2.hash(dto.usuarioSenha),
+
+      ...(dto.usuarioAtivo && { usuario_ativo: dto.usuarioAtivo as UsuarioStatus }),
+
+      ...(dto.roles?.length
+        ? { roles: dto.roles as UsuarioRole[] }
+        : dto.usuarioRole
+        ? { roles: [dto.usuarioRole as UsuarioRole] }
+        : {}),
+      ...(dto.pessoaId ? { pessoa: { pessoa_id: dto.pessoaId } as any } : {}),
     });
 
     const saved = await this.repo.save(entity);
     return this.toSafe(saved);
   }
 
-  async findAll(page = 1, limit = 20): Promise<SafeUsuario[]> {
-    const p = Math.max(1, Number(page) || 1);
-    const l = Math.min(Math.max(1, Number(limit) || 20), 100);
-
+  async findAll(): Promise<SafeUsuario[]> {
     const data = await this.repo.find({
-      order: { usuarioId: 'ASC' },
-      skip: (p - 1) * l,
-      take: l,
-      relations: ['pessoa'], // , 'motel'  // TODO(motel)
+      relations: { pessoa: true /*, motel: true */ },
+      order: { usuario_id: 'ASC' },
     });
-
-    return data.map((u) => this.toSafe(u));
+    return data.map(u => this.toSafe(u));
   }
 
   async findOne(id: number): Promise<SafeUsuario> {
     const found = await this.repo.findOne({
-      where: { usuarioId: id },
-      relations: ['pessoa'], // , 'motel'  // TODO(motel)
+      where: { usuario_id: id },
+      relations: { pessoa: true /*, motel: true */ },
     });
     if (!found) throw new NotFoundException('Usuário não encontrado');
     return this.toSafe(found);
   }
 
-  async findByCodigoWithSenha(usuarioCodigo: string): Promise<Usuario> {
-    const qb = this.repo
-      .createQueryBuilder('u')
-      .addSelect('u.usuarioSenha')
-      .where('u.usuarioCodigo = :usuarioCodigo', { usuarioCodigo });
+  async findByCodigoWithSenha(usuario_codigo: string): Promise<Usuario> {
+  const user = await this.repo
+    .createQueryBuilder('u')
+    .addSelect('u.usuario_senha')
+    .where('u.usuario_codigo = :usuario_codigo', { usuario_codigo })
+    .getOne();
 
-    const user = await qb.getOne();
-    if (!user) throw new NotFoundException('Usuário não encontrado');
-    return user;
-  }
+  if (!user) throw new NotFoundException('Usuário não encontrado');
+  return user;
+}
+
 
   async update(id: number, dto: UpdateUsuarioDto): Promise<SafeUsuario> {
-    const user = await this.repo.findOne({ where: { usuarioId: id } });
+    const user = await this.repo.findOne({ where: { usuario_id: id } });
     if (!user) throw new NotFoundException('Usuário não encontrado');
 
-    if (dto.usuarioCodigo && dto.usuarioCodigo !== user.usuarioCodigo) {
-      const dupe = await this.repo.findOne({ where: { usuarioCodigo: dto.usuarioCodigo } });
-      if (dupe) throw new ConflictException('Código de usuário já existe');
-      user.usuarioCodigo = dto.usuarioCodigo;
+    if (dto.usuarioCodigo !== undefined) {
+      const novo = dto.usuarioCodigo.trim();
+      if (novo !== user.usuario_codigo) {
+        const dupe = await this.repo.findOne({ where: { usuario_codigo: novo } });
+        if (dupe) throw new ConflictException('Código de usuário já existe');
+        user.usuario_codigo = novo;
+      }
     }
 
-    if (dto.usuarioSenha) {
-      (user as any).usuarioSenha = await argon2.hash(dto.usuarioSenha);
+    if (dto.usuarioSenha !== undefined) {
+      (user as any).usuario_senha = await argon2.hash(dto.usuarioSenha);
     }
 
     if (dto.usuarioAtivo !== undefined) {
-      user.usuarioAtivo = dto.usuarioAtivo as UsuarioStatus;
+      user.usuario_ativo = dto.usuarioAtivo as UsuarioStatus;
     }
 
-    if ((dto as any).roles?.length) {
-      user.roles = (dto as any).roles as UsuarioRole[];
-    } else if ((dto as any).usuarioRole) {
-      user.roles = [ (dto as any).usuarioRole as UsuarioRole ];
+    if (dto.roles?.length) {
+      user.roles = dto.roles as UsuarioRole[];
+    } else if (dto.usuarioRole) {
+      user.roles = [dto.usuarioRole as UsuarioRole];
     }
 
-    if (dto.pessoaId !== undefined) {
-      (user as any).pessoa = dto.pessoaId ? ({ pessoaId: dto.pessoaId } as any) : null;
+    if ('pessoaId' in dto) {
+      (user as any).pessoa = dto.pessoaId ? ({ pessoa_id: dto.pessoaId } as any) : null;
     }
-    // TODO(motel)
-    // if (dto.motelId !== undefined) {
-    //   (user as any).motel = dto.motelId ? ({ motelId: dto.motelId } as any) : null;
-    // }
 
-    const saved = await this.repo.save(user);
-    return this.toSafe(saved);
+    await this.repo.save(user);
+
+    const fresh = await this.repo.findOne({
+      where: { usuario_id: id },
+      relations: { pessoa: true /*, motel: true */ },
+    });
+    return this.toSafe(fresh!);
   }
 
-  async remove(id: number) {
-    const found = await this.repo.findOne({ where: { usuarioId: id } });
-    if (!found) throw new NotFoundException('Usuário não encontrado');
-    await this.repo.softDelete(id);
-    return { message: 'Usuário removido.' };
+  async remove(id: number): Promise<{ mensagem: string }> {
+    const res = await this.repo.softDelete(id);
+    if (!res.affected) throw new NotFoundException('Usuário não encontrado');
+    return { mensagem: `Usuário ${id} excluído com sucesso` };
   }
 }

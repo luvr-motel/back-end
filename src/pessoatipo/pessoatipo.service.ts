@@ -1,69 +1,42 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Raw } from 'typeorm';
-import { PessoaTipo } from './entities/pessoatipo.entity';
-import { CreatePessoaTipoDto } from './dto/create-pessoatipo.dto';
+import { Injectable, NotFoundException } from '@nestjs/common'; 
+import { InjectRepository } from '@nestjs/typeorm'; 
+import { Repository } from 'typeorm'; 
+import { PessoaTipo } from './entities/pessoatipo.entity'; 
+import { CreatePessoaTipoDto } from './dto/create-pessoatipo.dto'; 
 import { UpdatePessoaTipoDto } from './dto/update-pessoatipo.dto';
 
 @Injectable()
 export class PessoaTipoService {
-  constructor(
-    @InjectRepository(PessoaTipo)
-    private readonly repo: Repository<PessoaTipo>,
-  ) {}
+  constructor(@InjectRepository(PessoaTipo) private readonly repo: Repository<PessoaTipo>) {}
 
-  async create(dto: CreatePessoaTipoDto) {
-    const descricao = dto.pessoatipoDescricao.trim();
-
-    const exists = await this.repo.findOne({
-      where: {
-        pessoatipoDescricao: Raw(alias => `LOWER(${alias}) = LOWER(:d)`, { d: descricao }),
-      },
-    });
-    if (exists) throw new ConflictException('Descrição já cadastrada.');
-
-    const entity = this.repo.create({ pessoatipoDescricao: descricao });
+  async createPessoaTipo(dto: CreatePessoaTipoDto): Promise<PessoaTipo> {
+    const entity = this.repo.create({ pessoatipo_descricao: dto.pessoatipo_descricao?.trim() });
     return this.repo.save(entity);
   }
 
-  findAll() {
-    return this.repo.find({ order: { pessoatipoId: 'ASC' } });
+  async findAllPessoaTipos(): Promise<PessoaTipo[]> {
+    return this.repo.find({ order: { pessoatipo_id: 'ASC' } });
   }
 
-  async findOne(id: number) {
-    const found = await this.repo.findOne({ where: { pessoatipoId: id } });
+  async findOnePessoaTipo(id: number): Promise<PessoaTipo> {
+    const found = await this.repo.findOne({ where: { pessoatipo_id: id } });
     if (!found) throw new NotFoundException('Tipo não encontrado.');
     return found;
   }
 
-  async update(id: number, dto: UpdatePessoaTipoDto) {
-    const tipo = await this.findOne(id);
-
-    if (dto.pessoatipoDescricao !== undefined) {
-      const descricao = dto.pessoatipoDescricao.trim();
-
-      if (descricao.toLowerCase() !== (tipo.pessoatipoDescricao ?? '').toLowerCase()) {
-        const dupe = await this.repo.findOne({
-          where: {
-            pessoatipoDescricao: Raw(alias => `LOWER(${alias}) = LOWER(:d)`, { d: descricao }),
-          },
-        });
-        if (dupe) throw new ConflictException('Descrição já cadastrada.');
-      }
-      tipo.pessoatipoDescricao = descricao;
+  async updatePessoaTipo(id: number, dto: UpdatePessoaTipoDto): Promise<PessoaTipo> {
+    const tipo = await this.findOnePessoaTipo(id);
+    if (dto.pessoatipo_descricao !== undefined) {
+      tipo.pessoatipo_descricao = dto.pessoatipo_descricao?.trim() ?? tipo.pessoatipo_descricao;
     }
     await this.repo.save(tipo);
-    return this.findOne(id);
+    return this.findOnePessoaTipo(id);
   }
 
-  async remove(id: number) {
-    const found = await this.findOne(id);
-    await this.repo.softRemove(found);
-  }
-
-  async ensureExists(id?: number) {
-    if (id == null) return;
-    const ok = await this.repo.exist({ where: { pessoatipoId: id } });
-    if (!ok) throw new NotFoundException('pessoatipo_id inválido.');
+  async removePessoaTipo(id: number): Promise<{ mensagem: string }> {
+    const ok = await this.repo.findOne({ where: { pessoatipo_id: id } });
+    if (!ok) throw new NotFoundException('Tipo não encontrado.');
+    await this.repo.softDelete(id);
+    return { mensagem: `Tipo ${id} excluído com sucesso` };
   }
 }

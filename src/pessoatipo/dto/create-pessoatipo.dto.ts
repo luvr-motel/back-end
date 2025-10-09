@@ -1,10 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePessoaTipoDto {
-  @ApiProperty({ example: 'Fornecedor', maxLength: 255 })
+  @ApiProperty({
+    example: 'Funcionário',
+    maxLength: 255,
+    description: 'Descrição do tipo de pessoa.',
+  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  pessoatipoDescricao: string;
+  pessoatipo_descricao: string;
 }
