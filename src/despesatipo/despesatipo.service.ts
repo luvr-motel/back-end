@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateDespesatipoDto } from './dto/create-despesatipo.dto';
@@ -12,29 +12,68 @@ export class DespesatipoService {
     private readonly despesatipoRepository: Repository<Despesatipo>,
   ) {}
 
-  create(createDespesatipoDto: CreateDespesatipoDto) {
-    const despesatipo = this.despesatipoRepository.create(createDespesatipoDto);
+  async createDespesatipo(
+    createDespesatipoDto: CreateDespesatipoDto,
+  ): Promise<Despesatipo> {
+    const despesatipo = this.despesatipoRepository.create({
+      despesatipo_descricao: createDespesatipoDto.despesatipo_descricao,
+    });
+
     return this.despesatipoRepository.save(despesatipo);
   }
 
-  findAll() {
+  async findAllDespesatipo(): Promise<Despesatipo[]> {
     return this.despesatipoRepository.find();
   }
 
-  findOne(id: number) {
-    return this.despesatipoRepository.findOne({ where: { id } });
+  async findOneDespesatipo(
+    despesatipo_id: number,
+  ): Promise<{ despesatipo: Despesatipo; mensagem: string }> {
+    const tipo = await this.despesatipoRepository.findOne({ where: { despesatipo_id } });
+
+    if (!tipo) {
+      throw new HttpException('Tipo de despesa não encontrado', 404);
+    }
+
+    return {
+      mensagem: `Tipo de despesa #${despesatipo_id}`,
+      despesatipo: tipo,
+    };
   }
 
-  async update(id: number, updateDespesatipoDto: UpdateDespesatipoDto) {
-    const entity = await this.despesatipoRepository.preload({
-      id,
-      ...updateDespesatipoDto,});
-    if (!entity) throw new NotFoundException();
+  async updateDespesatipo(
+    despesatipo_id: number,
+    updateDespesatipoDto: UpdateDespesatipoDto,
+  ): Promise<{ mensagem: string; despesatipo: Despesatipo }> {
+    const tipoExistente = await this.despesatipoRepository.findOne({
+      where: { despesatipo_id },
+    });
 
-    return this.despesatipoRepository.save(entity);
+    if (!tipoExistente) {
+      throw new HttpException('Erro ao atualizar tipo de despesa', 404);
+    }
+
+    const tipoAtualizado = this.despesatipoRepository.merge(
+      tipoExistente,
+      updateDespesatipoDto,
+    );
+
+    const tipoSalvo = await this.despesatipoRepository.save(tipoAtualizado);
+
+    return {
+      mensagem: `Tipo de despesa #${despesatipo_id} atualizado com sucesso`,
+      despesatipo: tipoSalvo,
+    };
   }
 
-  remove(id: number) {
-    return this.despesatipoRepository.delete(id);
+  async removeDespesatipo(despesatipo_id: number): Promise<{ mensagem: string }> {
+    const tipo = await this.despesatipoRepository.findOne({ where: { despesatipo_id } });
+
+    if (!tipo) {
+      throw new HttpException('Erro ao excluir tipo de despesa', 404);
+    }
+
+    await this.despesatipoRepository.softDelete(despesatipo_id);
+    return { mensagem: `Tipo de despesa ${despesatipo_id} excluído com sucesso` };
   }
 }

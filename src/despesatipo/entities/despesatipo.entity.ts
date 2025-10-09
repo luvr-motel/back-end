@@ -1,30 +1,27 @@
 import {Column,CreateDateColumn,DeleteDateColumn,Entity,OneToMany,PrimaryGeneratedColumn,} from 'typeorm';
-import { Despesa } from '../../despesageral/entities/despesa.entity';
+import { Despesa } from '../../despesa/entities/despesa.entity';
 
-@Entity({ name: 'despesatipo' })
+@Entity()
 export class Despesatipo {
   @PrimaryGeneratedColumn({ name: 'despesatipo_id' })
-  id: number;
+  despesatipo_id: number;
 
   @Column({ name: 'despesatipo_descricao', type: 'varchar' })
-  descricao: string;
-
-  @Column({ name: 'despesatipo_ativo', type: 'boolean', default: true })
-  ativo: boolean;
+  despesatipo_descricao: string;
 
   @CreateDateColumn({
     name: 'despesatipo_inclusao',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  inclusao: Date;
+  despesatipo_inclusao: Date;
 
   @DeleteDateColumn({
     name: 'despesatipo_exclusao',
     type: 'timestamp',
     nullable: true,
   })
-  exclusao?: Date | null;
+  despesatipo_exclusao: Date;
 
   @OneToMany(() => Despesa, (despesa) => despesa.despesatipo)
   despesas?: Despesa[];

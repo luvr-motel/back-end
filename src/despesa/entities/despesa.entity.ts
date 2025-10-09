@@ -4,19 +4,24 @@ import { Despesatipo } from '../../despesatipo/entities/despesatipo.entity';
 @Entity({ name: 'despesa' })
 export class Despesa {
   @PrimaryGeneratedColumn({ name: 'despesa_id' })
-  id: number;
+  despesa_id: number;
 
-  @Column({ name: 'despesa_descricao', type: 'varchar', default: '' })
-  descricao: string;
+  @Column({ name: 'despesa_descricao', type: 'varchar'})
+  despesa_descricao: string;
 
   @Column({ name: 'despesa_parcela', type: 'int', nullable: true })
-  parcela?: number | null;
+  despesa_parcela: number | null;
 
-  @Column({ name: 'despesa_prestador', type: 'varchar', nullable: true })
-  prestador?: string | null;
+  // @Column({ name: 'despesa_prestador', type: 'varchar', nullable: true })
+  // prestador: string | null;
+
+// relacionamento com pessoa_id
 
   @Column({ name: 'despesa_itens', type: 'varchar', default: '' })
-  itens: string;
+  despesa_itens: string;
+
+  @Column({ name: 'despesa_aberto', type: 'boolean', default: true,nullable: false })
+  despesa_aberto: boolean;
 
   @Column({ name: 'despesatipo_id', type: 'int', nullable: true })
   despesatipoId?: number | null;
@@ -28,21 +33,15 @@ export class Despesa {
   @JoinColumn({ name: 'despesatipo_id' })
   despesatipo?: Despesatipo | null;
 
+  
+
   // @OneToMany(()=> Motel, (motel)=> motel.despesa){
   // 
   // })
 
-  @CreateDateColumn({
-    name: 'despesa_inclusao',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  inclusao: Date;
+  @CreateDateColumn({type: 'timestamp', name: 'despesa_inclusao' })
+  despesa_inclusao: Date;
 
-  @DeleteDateColumn({
-    name: 'despesa_exclusao',
-    type: 'timestamp',
-    nullable: true,
-  })
-  exclusao?: Date | null;
+  @DeleteDateColumn({ type: 'timestamp', name: 'despesa_exclusao', nullable: true})
+  despesa_exclusao: Date;
 }

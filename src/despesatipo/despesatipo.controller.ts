@@ -8,27 +8,27 @@ export class DespesatipoController {
   constructor(private readonly despesatipoService: DespesatipoService) {}
 
   @Post()
-  create(@Body() createDespesatipoDto: CreateDespesatipoDto) {
-    return this.despesatipoService.create(createDespesatipoDto);
+  createDespesatipo(@Body() createDespesatipoDto: CreateDespesatipoDto) {
+    return this.despesatipoService.createDespesatipo(createDespesatipoDto);
   }
 
   @Get()
-  findAll() {
-    return this.despesatipoService.findAll();
+  findAllDespesatipo() {
+    return this.despesatipoService.findAllDespesatipo();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.despesatipoService.findOne(+id);
+  @Get(':despesatipo_id')
+  findOneDespesatipo(@Param('despesatipo_id') despesatipo_id: string) {
+    return this.despesatipoService.findOneDespesatipo(+despesatipo_id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDespesatipoDto: UpdateDespesatipoDto) {
-    return this.despesatipoService.update(+id, updateDespesatipoDto);
+  @Patch(':despesatipo_id')
+  updateDespesatipo(@Param('despesatipo_id') despesatipo_id: string, @Body() updateDespesatipoDto: UpdateDespesatipoDto) {
+    return this.despesatipoService.updateDespesatipo(+despesatipo_id, updateDespesatipoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.despesatipoService.remove(+id);
+  @Delete(':despesatipo_id')
+  removeDespesatipo(@Param('despesatipo_id') despesatipo_id: string) {
+    return this.despesatipoService.removeDespesatipo(+despesatipo_id);
   }
 }

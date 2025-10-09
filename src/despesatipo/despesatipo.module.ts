@@ -8,5 +8,6 @@ import { Despesatipo } from './entities/despesatipo.entity';
   imports: [TypeOrmModule.forFeature([Despesatipo])],
   controllers: [DespesatipoController],
   providers: [DespesatipoService],
+  exports:[TypeOrmModule]
 })
 export class DespesatipoModule {}
