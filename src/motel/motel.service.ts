@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
 import { Motel } from './entities/motel.entity';
@@ -66,11 +66,17 @@ export class MotelService {
     return this.repo.save(entity);
   }
 
-  async deleteMotel(id: number): Promise<void> {
-    const entity = await this.repo.findOne({ where: { motelId: id, motelExclusao: IsNull() } });
-    if (!entity) throw new NotFoundException('Motel não encontrado');
-    entity.motelExclusao = new Date();
-    entity.motelAtivo = Status.INATIVO; 
-    await this.repo.save(entity);
+  async deleteMotel(id: number): Promise<{ mensagem: string }> {
+  const motel = await this.repo.findOne({ where: { motelId: id, motelExclusao: IsNull() } });
+
+  if (!motel) {
+    throw new HttpException('Erro ao excluir motel', 404);
+  }
+  
+  motel.motelExclusao = new Date();
+  motel.motelAtivo = Status.INATIVO;
+  await this.repo.save(motel);
+
+  return { mensagem: `Motel ${id} excluído com sucesso` };
   }
 }
