@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateDespesaDto } from './dto/create-despesa.dto';
 import { UpdateDespesaDto } from './dto/update-despesa.dto';
 import { Despesa } from './entities/despesa.entity';
+import { Despesatipo } from '../despesatipo/entities/despesatipo.entity';
 
 @Injectable()
 export class DespesaService {
@@ -18,17 +19,25 @@ export class DespesaService {
       despesa_parcela: createDespesaDto.despesa_parcela ?? null,
       despesa_aberto: createDespesaDto.despesa_aberto,
       despesa_valortotal: createDespesaDto.despesa_valortotal,
+      despesatipo: createDespesaDto.despesatipo_id
+        ? ({ despesatipo_id: createDespesaDto.despesatipo_id } as Despesatipo)
+        : undefined,
     });
 
     return this.despesaRepository.save(despesa);
   }
 
   async findAllDespesas(): Promise<Despesa[]> {
-    return this.despesaRepository.find();
+    return this.despesaRepository.find({
+      relations: ['despesatipo'],
+    });
   }
 
   async findDespesaId(despesa_id: number): Promise<{ despesa: Despesa; mensagem: string }> {
-    const despesa = await this.despesaRepository.findOne({ where: { despesa_id } });
+    const despesa = await this.despesaRepository.findOne({
+      where: { despesa_id },
+      relations: ['despesatipo'],
+    });
 
     if (!despesa) {
       throw new HttpException('Despesa não encontrada', 404);
@@ -50,10 +59,18 @@ export class DespesaService {
       throw new HttpException('Erro ao atualizar despesa', 404);
     }
 
+    const { despesatipo_id, ...restoAtualizacao } = updateDespesaDto;
+
     const despesaAtualizada = this.despesaRepository.merge(
       despesaAtual,
-      updateDespesaDto,
+      restoAtualizacao,
     );
+
+    if (despesatipo_id !== undefined) {
+      despesaAtualizada.despesatipo = despesatipo_id
+        ? ({ despesatipo_id } as Despesatipo)
+        : null;
+    }
 
     const despesaSalva = await this.despesaRepository.save(despesaAtualizada);
 

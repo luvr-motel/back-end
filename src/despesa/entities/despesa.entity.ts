@@ -16,13 +16,13 @@ export class Despesa {
   despesa_valortotal: number;
 
   // relacionamento com pessoa_id
-  // @ManyToOne(()=> Pessoa, (pessoa)=> pessoa.despesas)
+  // @ManyToOne(()=> Pessoa, (pessoa)=> pessoa.despesas, {onDelete: 'SET NULL)
 
   @Column({ name: 'despesa_aberto', type: 'boolean', default: true,nullable: false })
   despesa_aberto: boolean;
 
-  // @Column({ name: 'despesatipo_id', type: 'int', nullable: true })
-  // despesatipoId?: number | null;
+  @Column({ name: 'despesatipo_id', type: 'int', nullable: true })
+  despesatipoId?: number | null;
 
   @ManyToOne(() => Despesatipo, (tipo) => tipo.despesas, {
     nullable: true,
