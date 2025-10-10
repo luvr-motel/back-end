@@ -13,6 +13,8 @@ import { LocacaoPosicao } from './locacao-posicao/entities/locacao-posicao.entit
 import { LocacaoTipo } from './locacao-tipo/entities/locacao-tipo.entity';
 import { EstoqueProdutoModule } from './estoque-produto/estoque-produto.module';
 import { EstoqueProduto } from './estoque-produto/entities/estoque-produto.entity';
+import { PagamentoFormaModule } from './pagamento-forma/pagamento-forma.module';
+import { PagamentoForma } from './pagamento-forma/entities/pagamento-forma.entity';
 
 @Module({
   imports: [ 
@@ -27,7 +29,7 @@ import { EstoqueProduto } from './estoque-produto/entities/estoque-produto.entit
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [ Produto, Comanda, Locacao, LocacaoPosicao, LocacaoTipo, EstoqueProduto ],//adicionar manualmente as entities
+      entities: [ Comanda, EstoqueProduto, Locacao, LocacaoPosicao, LocacaoTipo, PagamentoForma, Produto  ],//adicionar manualmente as entities
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
       synchronize: true,//desabilita quando for para produção
       logging: ['query', 'error', 'schema'], 
@@ -38,7 +40,8 @@ import { EstoqueProduto } from './estoque-produto/entities/estoque-produto.entit
   LocacaoModule,
   LocacaoTipoModule,
   LocacaoPosicaoModule,
-  EstoqueProdutoModule
+  EstoqueProdutoModule,
+  PagamentoFormaModule
   ],
   controllers: [],
   providers: [],
