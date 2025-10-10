@@ -1,0 +1,202 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/moteis": {
+      "post": {
+        "operationId": "MotelController_createMotel",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMotelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      },
+      "get": {
+        "operationId": "MotelController_findAllMoteis",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      }
+    },
+    "/moteis/{id}": {
+      "get": {
+        "operationId": "MotelController_findOneMotel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      },
+      "patch": {
+        "operationId": "MotelController_updateMotel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMotelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      },
+      "delete": {
+        "operationId": "MotelController_deleteMotel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Luvr - Gestão Inteligente",
+    "description": "Escola de T.I - software de gestão de motel.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "API Luvr - BackEnd",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateMotelDto": {
+        "type": "object",
+        "properties": {
+          "motel_descricao": {
+            "type": "string",
+            "example": "LUVR Motel Centro",
+            "maxLength": 255
+          },
+          "motel_endereco": {
+            "type": "string",
+            "example": "Av. Brasil, 1000 - Centro",
+            "maxLength": 255
+          },
+          "motel_email": {
+            "type": "string",
+            "example": "contato@motel.com.br"
+          },
+          "motel_cnpj": {
+            "type": "string",
+            "example": "12.345.678/0001-99",
+            "minLength": 11,
+            "maxLength": 18
+          },
+          "motel_ativo": {
+            "type": "string",
+            "enum": [
+              "ATIVO",
+              "INATIVO"
+            ],
+            "default": "ATIVO"
+          }
+        },
+        "required": [
+          "motel_cnpj"
+        ]
+      },
+      "UpdateMotelDto": {
+        "type": "object",
+        "properties": {
+          "motel_descricao": {
+            "type": "string",
+            "example": "LUVR Motel Centro",
+            "maxLength": 255
+          },
+          "motel_endereco": {
+            "type": "string",
+            "example": "Av. Brasil, 1000 - Centro",
+            "maxLength": 255
+          },
+          "motel_email": {
+            "type": "string",
+            "example": "contato@motel.com.br"
+          },
+          "motel_cnpj": {
+            "type": "string",
+            "example": "12.345.678/0001-99",
+            "minLength": 11,
+            "maxLength": 18
+          },
+          "motel_ativo": {
+            "type": "string",
+            "enum": [
+              "ATIVO",
+              "INATIVO"
+            ],
+            "default": "ATIVO"
+          }
+        }
+      }
+    }
+  }
+}
