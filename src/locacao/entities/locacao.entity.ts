@@ -32,3 +32,16 @@ export class Locacao {
 
 }
 
+//   locacao_id            integer [primary key]
+//   locacao_totalItens    float//count do itemCOmanda
+//   locacao_totalQuarto   float//soma das horas contratadas
+//   locacao_totalDEsconto float//aplicado algum desconto?
+//   locacao_totalLocacao  float//total geral
+//   quarto_id             integer
+//   pessoa_id             integer 
+//   pagamentoforma_id     integer//foi pago como?
+//   usuario_id            integer
+//   locacaoPosicao_id     integer//posicao da locação ( em uso...)
+//   motel_id              integer
+//   locacao_inclusao      timestamp
+//   locacao_exclusao      timestamp

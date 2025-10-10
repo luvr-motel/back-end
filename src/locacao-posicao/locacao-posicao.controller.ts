@@ -9,26 +9,26 @@ export class LocacaoPosicaoController {
 
   @Post()
   create(@Body() createLocacaoPosicaoDto: CreateLocacaoPosicaoDto) {
-    return this.locacaoPosicaoService.create(createLocacaoPosicaoDto);
+    return this.locacaoPosicaoService.createLocacaoPosicao(createLocacaoPosicaoDto);
   }
 
   @Get()
   findAll() {
-    return this.locacaoPosicaoService.findAll();
+    return this.locacaoPosicaoService.findAllLocacaoPosicao();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.locacaoPosicaoService.findOne(+id);
+    return this.locacaoPosicaoService.findLocacaoPosicaoById(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLocacaoPosicaoDto: UpdateLocacaoPosicaoDto) {
-    return this.locacaoPosicaoService.update(+id, updateLocacaoPosicaoDto);
+    return this.locacaoPosicaoService.updateLocacaoPosicaoById(+id, updateLocacaoPosicaoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.locacaoPosicaoService.remove(+id);
+  async deleteLocacaoPosicaoById(@Param('id') id: string) {
+    return this.locacaoPosicaoService.deleteLocacaoPosicaoById(+id);
   }
 }

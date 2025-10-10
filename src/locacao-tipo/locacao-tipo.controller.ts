@@ -9,26 +9,26 @@ export class LocacaoTipoController {
 
   @Post()
   create(@Body() createLocacaoTipoDto: CreateLocacaoTipoDto) {
-    return this.locacaoTipoService.create(createLocacaoTipoDto);
+    return this.locacaoTipoService.createLocacaoTipo(createLocacaoTipoDto);
   }
 
   @Get()
   findAll() {
-    return this.locacaoTipoService.findAll();
+    return this.locacaoTipoService.findAllLocacaoTipo();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.locacaoTipoService.findOne(+id);
+    return this.locacaoTipoService.findLocacaoTipoId(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLocacaoTipoDto: UpdateLocacaoTipoDto) {
-    return this.locacaoTipoService.update(+id, updateLocacaoTipoDto);
+    return this.locacaoTipoService.updateLocacaoTipById(+id, updateLocacaoTipoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.locacaoTipoService.remove(+id);
+  async deleteLocacaoTipo(@Param('id') id: string) {
+    return this.locacaoTipoService.deleteLocacaoTipo(+id);
   }
 }

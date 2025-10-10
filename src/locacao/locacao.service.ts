@@ -20,7 +20,7 @@ export class LocacaoService {
     return this.locacaoRepository.save( locacao );
   }
 
-  async findAllLocacoes(): Promise<Locacao[]> {
+  async findAllLocacoes(): Promise< Locacao[] > {
     return this.locacaoRepository.find();
   }
 

@@ -9,26 +9,26 @@ export class EstoqueProdutoController {
 
   @Post()
   create(@Body() createEstoqueProdutoDto: CreateEstoqueProdutoDto) {
-    return this.estoqueProdutoService.create(createEstoqueProdutoDto);
+    return this.estoqueProdutoService.createEstoqueProduto(createEstoqueProdutoDto);
   }
 
   @Get()
   findAll() {
-    return this.estoqueProdutoService.findAll();
+    return this.estoqueProdutoService.findAllEstoque();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.estoqueProdutoService.findOne(+id);
+    return this.estoqueProdutoService.findEstoqueById(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEstoqueProdutoDto: UpdateEstoqueProdutoDto) {
-    return this.estoqueProdutoService.update(+id, updateEstoqueProdutoDto);
+    return this.estoqueProdutoService.updateEstoqueProduto(+id, updateEstoqueProdutoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.estoqueProdutoService.remove(+id);
+  async deleteEstoqueByProduto(@Param('id') id: string) {
+    return this.estoqueProdutoService.deleteEstoqueByProduto(+id);
   }
 }
