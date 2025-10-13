@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateQuartoDto } from './dto/create-quarto.dto';
@@ -13,40 +13,68 @@ export class QuartoService {
     private quartoRepository: Repository<Quarto>,
   ) {}
 
-  create(createQuartoDto: CreateQuartoDto) {
+  async createQuarto(createQuartoDto: CreateQuartoDto): Promise<Quarto> {
     const { quartotipo_id, ...rest } = createQuartoDto;
     const quarto = this.quartoRepository.create({
       ...rest,
       quartotipo: { quartotipoId: quartotipo_id } as QuartoTipo,
     });
+
     return this.quartoRepository.save(quarto);
   }
 
-  findAll() {
+  async findAllQuartos(): Promise<Quarto[]> {
     return this.quartoRepository.find();
   }
 
-  findOne(id: number) {
-    return this.quartoRepository.findOne({ where: { quarto_id: id } });
-  }
+  async findQuartoId(id: number): Promise<{ mensagem: string; quarto: Quarto }> {
+    const quarto = await this.quartoRepository.findOne({ where: { quarto_id: id } });
 
-  async update(id: number, updateQuartoDto: UpdateQuartoDto) {
-    const { quartotipo_id, ...rest } = updateQuartoDto;
-    const preloadData: Partial<Quarto> = {
-      quarto_id: id,
-      ...rest,
-    };
-
-    if (typeof quartotipo_id !== 'undefined') {
-      preloadData.quartotipo = { quartotipoId: quartotipo_id } as QuartoTipo;
+    if (!quarto) {
+      throw new HttpException('Quarto não encontrado', 404);
     }
 
-    const entity = await this.quartoRepository.preload(preloadData);
-    if (!entity) throw new NotFoundException();
-    return this.quartoRepository.save(entity);
+    return {
+      mensagem: `Quarto #${id}`,
+      quarto,
+    };
   }
 
-  remove(id: number) {
-    return this.quartoRepository.delete(id);
+  async updateQuarto(
+    id: number,
+    updateQuartoDto: UpdateQuartoDto,
+  ): Promise<{ mensagem: string; quarto: Quarto }> {
+    const quartoAtual = await this.quartoRepository.findOne({ where: { quarto_id: id } });
+
+    if (!quartoAtual) {
+      throw new HttpException('Erro ao atualizar quarto', 404);
+    }
+
+    const { quartotipo_id, ...rest } = updateQuartoDto;
+    const quartoAtualizado = this.quartoRepository.merge(quartoAtual, rest);
+
+    if (typeof quartotipo_id !== 'undefined') {
+      quartoAtualizado.quartotipo = {
+        quartotipoId: quartotipo_id,
+      } as QuartoTipo;
+    }
+
+    const quartoSalvo = await this.quartoRepository.save(quartoAtualizado);
+
+    return {
+      mensagem: `Quarto #${id} atualizado com sucesso`,
+      quarto: quartoSalvo,
+    };
+  }
+
+  async deleteQuartoById(id: number): Promise<{ mensagem: string }> {
+    const quarto = await this.quartoRepository.findOne({ where: { quarto_id: id } });
+
+    if (!quarto) {
+      throw new HttpException('Erro ao excluir quarto', 404);
+    }
+
+    await this.quartoRepository.softDelete(id);
+    return { mensagem: `Quarto #${id} excluído com sucesso` };
   }
 }

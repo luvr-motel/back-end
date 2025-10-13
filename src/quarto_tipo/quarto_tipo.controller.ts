@@ -8,27 +8,30 @@ export class QuartoTipoController {
   constructor(private readonly quartoTipoService: QuartoTipoService) {}
 
   @Post()
-  create(@Body() createQuartoTipoDto: CreateQuartoTipoDto) {
-    return this.quartoTipoService.create(createQuartoTipoDto);
+  createQuartoTipo(@Body() createQuartoTipoDto: CreateQuartoTipoDto) {
+    return this.quartoTipoService.createQuartoTipo(createQuartoTipoDto);
   }
 
   @Get()
-  findAll() {
-    return this.quartoTipoService.findAll();
+  findAllQuartoTipos() {
+    return this.quartoTipoService.findAllQuartoTipos();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quartoTipoService.findOne(+id);
+  findQuartoTipoId(@Param('id') id: string) {
+    return this.quartoTipoService.findQuartoTipoId(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuartoTipoDto: UpdateQuartoTipoDto) {
-    return this.quartoTipoService.update(+id, updateQuartoTipoDto);
+  updateQuartoTipo(
+    @Param('id') id: string,
+    @Body() updateQuartoTipoDto: UpdateQuartoTipoDto,
+  ) {
+    return this.quartoTipoService.updateQuartoTipo(+id, updateQuartoTipoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.quartoTipoService.remove(+id);
+  removeQuartoTipo(@Param('id') id: string) {
+    return this.quartoTipoService.removeQuartoTipo(+id);
   }
 }

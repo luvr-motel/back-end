@@ -8,27 +8,27 @@ export class QuartoController {
   constructor(private readonly quartoService: QuartoService) {}
 
   @Post()
-  create(@Body() createQuartoDto: CreateQuartoDto) {
-    return this.quartoService.create(createQuartoDto);
+  createQuarto(@Body() createQuartoDto: CreateQuartoDto) {
+    return this.quartoService.createQuarto(createQuartoDto);
   }
 
   @Get()
-  findAll() {
-    return this.quartoService.findAll();
+  findAllQuartos() {
+    return this.quartoService.findAllQuartos();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quartoService.findOne(+id);
+  findQuartoId(@Param('id') id: string) {
+    return this.quartoService.findQuartoId(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuartoDto: UpdateQuartoDto) {
-    return this.quartoService.update(+id, updateQuartoDto);
+  updateQuarto(@Param('id') id: string,@Body() updateQuartoDto: UpdateQuartoDto,) {
+    return this.quartoService.updateQuarto(+id, updateQuartoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.quartoService.remove(+id);
+  deleteQuartoById(@Param('id') id: string) {
+    return this.quartoService.deleteQuartoById(+id);
   }
 }

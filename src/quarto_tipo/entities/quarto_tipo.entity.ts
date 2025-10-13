@@ -1,4 +1,4 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Quarto } from '../../quarto/entities/quarto.entity';
 
 @Entity('quarto_tipo')
@@ -12,4 +12,10 @@ export class QuartoTipo {
 
   @OneToMany(() => Quarto, (quarto) => quarto.quartotipo)
   quartos: Quarto[];
+
+  @CreateDateColumn({ name: 'quartotipo_inclusao', type: 'timestamp', nullable: true })
+  quartotipo_Inclusao: Date | null;
+  
+  @DeleteDateColumn({ name: 'quartotipo_exclusao', type: 'timestamp'})
+  quartotipo_Exclusao: Date;
 }
