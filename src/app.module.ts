@@ -6,6 +6,7 @@ import { QuartoTipoModule } from './quarto_tipo/quarto_tipo.module';
 import { Quarto } from './quarto/entities/quarto.entity';
 import { QuartoTipo } from './quarto_tipo/entities/quarto_tipo.entity';
 import { Motel } from './motel/entities/motel.entity';
+import { MotelModule } from './motel/motel.module';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -31,5 +32,5 @@ import { Motel } from './motel/entities/motel.entity';
   ],
   controllers: [],
   providers: [],
-
+})
 export class AppModule {}

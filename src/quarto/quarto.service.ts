@@ -17,7 +17,7 @@ export class QuartoService {
     const { quartotipo_id, ...rest } = createQuartoDto;
     const quarto = this.quartoRepository.create({
       ...rest,
-      quartotipo: { quartotipoId: quartotipo_id } as QuartoTipo,
+      quartotipo: { quartotipo_Id: quartotipo_id } as QuartoTipo,
     });
 
     return this.quartoRepository.save(quarto);
@@ -40,32 +40,30 @@ export class QuartoService {
     };
   }
 
-  async updateQuarto(
-    id: number,
-    updateQuartoDto: UpdateQuartoDto,
-  ): Promise<{ mensagem: string; quarto: Quarto }> {
-    const quartoAtual = await this.quartoRepository.findOne({ where: { quarto_id: id } });
+  // async updateQuarto(
+  //   id: number,
+  //   updateQuartoDto: UpdateQuartoDto,
+  // ): Promise<{ mensagem: string; quarto: Quarto }> {
+  //   const quartoAtual = await this.quartoRepository.findOne({ where: { quarto_id: id } });
 
-    if (!quartoAtual) {
-      throw new HttpException('Erro ao atualizar quarto', 404);
-    }
+  //   if (!quartoAtual) {
+  //     throw new HttpException('Erro ao atualizar quarto', 404);
+  //   }
 
-    const { quartotipo_id, ...rest } = updateQuartoDto;
-    const quartoAtualizado = this.quartoRepository.merge(quartoAtual, rest);
+  //   // const { quartotipo_id, ...rest } = updateQuartoDto;
+  //   // const quartoAtualizado = this.quartoRepository.merge(quartoAtual, rest);
 
-    if (typeof quartotipo_id !== 'undefined') {
-      quartoAtualizado.quartotipo = {
-        quartotipoId: quartotipo_id,
-      } as QuartoTipo;
-    }
+  //   // if (typeof quartotipo_id !== 'undefined') {
+  //   //   quartoAtualizado.quartotipo = { quartotipoId: quartotipo_id } as QuartoTipo;
+  //   // }
 
-    const quartoSalvo = await this.quartoRepository.save(quartoAtualizado);
+  //   // const quartoSalvo = await this.quartoRepository.save(quartoAtualizado);
 
-    return {
-      mensagem: `Quarto #${id} atualizado com sucesso`,
-      quarto: quartoSalvo,
-    };
-  }
+  //   // return {
+  //   //   mensagem: `Quarto #${id} atualizado com sucesso`,
+  //   //   quarto: quartoSalvo,
+  //   // };
+  // }
 
   async deleteQuartoById(id: number): Promise<{ mensagem: string }> {
     const quarto = await this.quartoRepository.findOne({ where: { quarto_id: id } });

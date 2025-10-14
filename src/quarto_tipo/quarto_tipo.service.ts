@@ -27,47 +27,42 @@ export class QuartoTipoService {
   }
 
   async findQuartoTipoId(quartotipoId: number): Promise<{ mensagem: string; quartotipo: QuartoTipo }> {
-    const quartotipo = await this.quartoTipoRepository.findOne({
-      where: { quartotipoId },
-    });
+    const quartotipo = await this.quartoTipoRepository.findOne({ where: { quartotipo_Id: quartotipoId } });
 
     if (!quartotipo) {
-      throw new HttpException('Tipo de quarto não encontrado', 404);
+      throw new HttpException( 'Tipo de quarto não encontrado', 404);
     }
 
     return {
       mensagem: `Tipo de quarto #${quartotipoId}`,
-      quartotipo,
+      quartotipo: quartotipo,
     };
   }
 
-  async updateQuartoTipo(
-    quartotipoId: number,
-    updateQuartoTipoDto: UpdateQuartoTipoDto,
+  async updateQuartoTipo( quartotipoId: number, updateQuartoTipoDto: UpdateQuartoTipoDto, 
   ): Promise<{ mensagem: string; quartotipo: QuartoTipo }> {
-    const quartotipoAtual = await this.quartoTipoRepository.findOne({
-      where: { quartotipoId },
+    const quartotipoAtual = await this.quartoTipoRepository.findOne({ where: { quartotipo_Id: quartotipoId },
     });
 
     if (!quartotipoAtual) {
       throw new HttpException('Erro ao atualizar tipo de quarto', 404);
-    }
+    } else {
+     const quartotipoAtualizado = this.quartoTipoRepository.merge(quartotipoAtual, {
+       quartotipoDescricao: updateQuartoTipoDto.quartotipo_descricao ?? quartotipoAtual.quartotipoDescricao,
+     });
 
-    const quartotipoAtualizado = this.quartoTipoRepository.merge(quartotipoAtual, {
-      quartotipoDescricao: updateQuartoTipoDto.quartotipo_descricao ?? quartotipoAtual.quartotipoDescricao,
-    });
+     const quartotipoSalvo = await this.quartoTipoRepository.save(quartotipoAtualizado);
 
-    const quartotipoSalvo = await this.quartoTipoRepository.save(quartotipoAtualizado);
-
-    return {
-      mensagem: `Tipo de quarto #${quartotipoId} atualizado com sucesso`,
-      quartotipo: quartotipoSalvo,
-    };
+      return {
+        mensagem: `Tipo de quarto #${quartotipoId} atualizado com sucesso`,
+        quartotipo: quartotipoSalvo,
+     }
+   };
   }
 
   async removeQuartoTipo(quartotipoId: number): Promise<{ mensagem: string }> {
     const quartotipo = await this.quartoTipoRepository.findOne({
-      where: { quartotipoId },
+      where: { quartotipo_Id: quartotipoId },
     });
 
     if (!quartotipo) {

@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { QuartoTipoService } from './quarto_tipo.service';
 import { CreateQuartoTipoDto } from './dto/create-quarto_tipo.dto';
 import { UpdateQuartoTipoDto } from './dto/update-quarto_tipo.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('quarto-tipo')
 export class QuartoTipoController {
-  constructor(private readonly quartoTipoService: QuartoTipoService) {}
+  constructor( private readonly quartoTipoService: QuartoTipoService) {}
 
   @Post()
   createQuartoTipo(@Body() createQuartoTipoDto: CreateQuartoTipoDto) {
