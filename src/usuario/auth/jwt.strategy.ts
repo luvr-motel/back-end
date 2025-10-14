@@ -7,6 +7,7 @@ export type JwtPayload = {
   sub: number;
   codigo: string;
   motelId?: number | null;
+  role?: string;       
   roles?: string[];
 };
 
@@ -22,11 +23,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: JwtPayload) {
+    const role = payload.role ?? payload.roles?.[0];
+    const roles = payload.roles ?? (payload.role ? [payload.role] : []);
+
     return {
       usuarioId: payload.sub,
       usuarioCodigo: payload.codigo,
       motelId: payload.motelId ?? null,
-      roles: payload.roles ?? [],
+      role,   
+      roles,  
     };
   }
 }

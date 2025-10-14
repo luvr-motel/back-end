@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Pessoa } from './entities/pessoa.entity';
@@ -9,71 +9,86 @@ import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 export class PessoaService {
   constructor(@InjectRepository(Pessoa) private readonly repo: Repository<Pessoa>) {}
 
-  private onlyDigits(v: unknown): string | undefined {
-    if (v === null || v === undefined) return undefined;
-    const s = String(v).replace(/\D/g, '');
-    return s.length ? s : undefined;
-  }
-
   async createPessoa(dto: CreatePessoaDto): Promise<Pessoa> {
     const entity = this.repo.create({
       pessoa_nome: dto.pessoa_nome?.trim(),
-      pessoa_cpf: this.onlyDigits(dto.pessoa_cpf),
-      pessoa_telefone: this.onlyDigits(dto.pessoa_telefone),
-      ...(dto.pessoatipo_id != null ? { pessoatipo: { pessoatipo_id: dto.pessoatipo_id } as any } : {}),
+      pessoa_cpf: dto.pessoa_cpf ?? null,
+      pessoa_telefone: dto.pessoa_telefone ?? null,
+      ...(dto.pessoatipo_id != null
+        ? { pessoatipo: { pessoatipo_id: dto.pessoatipo_id } as any }
+        : {}),
     } as DeepPartial<Pessoa>);
 
     try {
-      const saved = await this.repo.save(entity);
-      return this.findOnePessoa(saved.pessoa_id);
+      return await this.repo.save(entity);
     } catch (e: any) {
-      if (e?.code === '23503') throw new NotFoundException('Tipo não encontrado.');
+      if (e?.code === '23503') throw new HttpException('Tipo não encontrado', 404);
       throw e;
     }
   }
 
   async findAllPessoas(): Promise<Pessoa[]> {
-    return this.repo.find({ relations: { pessoatipo: true }, order: { pessoa_id: 'ASC' } });
+    return this.repo.find({ order: { pessoa_id: 'ASC' } });
   }
 
-  async findOnePessoa(id: number): Promise<Pessoa> {
-    const found = await this.repo.findOne({ where: { pessoa_id: id }, relations: { pessoatipo: true } });
-    if (!found) throw new NotFoundException('Pessoa não encontrada');
-    return found;
+  async findOnePessoa(id: number): Promise<{ mensagem: string; pessoa: Pessoa }> {
+    const pessoa = await this.repo.findOne({
+      where: { pessoa_id: id },
+      relations: { pessoatipo: true }, 
+    });
+    if (!pessoa) throw new HttpException('Pessoa não encontrada', 404);
+
+    return {
+      mensagem: `Pessoa #${id}`,
+      pessoa,
+    };
   }
 
-  async updatePessoa(id: number, dto: UpdatePessoaDto): Promise<Pessoa> {
-    const pessoa = await this.findOnePessoa(id);
+  async updatePessoa(id: number, dto: UpdatePessoaDto): Promise<{ mensagem: string; pessoa: Pessoa }> {
+    const atual = await this.repo.findOne({ where: { pessoa_id: id } });
+    if (!atual) throw new HttpException('Erro ao atualizar pessoa', 404);
 
     if (dto.pessoa_nome !== undefined) {
-      pessoa.pessoa_nome = dto.pessoa_nome?.trim() ?? pessoa.pessoa_nome;
+      atual.pessoa_nome = dto.pessoa_nome?.trim() ?? atual.pessoa_nome;
     }
 
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoatipo_id')) {
-      pessoa.pessoatipo = dto.pessoatipo_id != null ? ({ pessoatipo_id: dto.pessoatipo_id } as any) : (null as any);
+    if ('pessoatipo_id' in dto) {
+      atual.pessoatipo =
+        dto.pessoatipo_id != null ? ({ pessoatipo_id: dto.pessoatipo_id } as any) : (null as any);
     }
 
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoa_cpf')) {
-      pessoa.pessoa_cpf = dto.pessoa_cpf === null ? null : this.onlyDigits(dto.pessoa_cpf) ?? null;
+    if ('pessoa_cpf' in dto) {
+      atual.pessoa_cpf = dto.pessoa_cpf === null ? null : dto.pessoa_cpf;
     }
 
-    if (Object.prototype.hasOwnProperty.call(dto, 'pessoa_telefone')) {
-      pessoa.pessoa_telefone =
-        (dto as any).pessoa_telefone === null ? null : this.onlyDigits((dto as any).pessoa_telefone) ?? null;
+    if ('pessoa_telefone' in dto) {
+      atual.pessoa_telefone = dto.pessoa_telefone === null ? null : dto.pessoa_telefone;
     }
 
     try {
-      await this.repo.save(pessoa);
-      return this.findOnePessoa(id);
+      await this.repo.save(atual);
+
+      const pessoa = await this.repo.findOne({
+        where: { pessoa_id: id },
+        relations: { pessoatipo: true },
+      });
+
+      return {
+        mensagem: `Pessoa #${id} Atualizada com sucesso`,
+        pessoa: pessoa!,
+      };
     } catch (e: any) {
-      if (e?.code === '23503') throw new NotFoundException('Tipo não encontrado.');
+      if (e?.code === '23503') throw new HttpException('Tipo não encontrado', 404);
       throw e;
     }
   }
 
   async removePessoa(id: number): Promise<{ mensagem: string }> {
     const exists = await this.repo.findOne({ where: { pessoa_id: id } });
-    if (!exists) throw new NotFoundException('Erro ao excluir pessoa');
+    if (!exists) throw new HttpException('Erro ao excluir pessoa', 404);
+
+    await this.repo.update(id, { pessoa_ativo: false } as any);
+
     await this.repo.softDelete(id);
     return { mensagem: `Pessoa ${id} excluída com sucesso` };
   }

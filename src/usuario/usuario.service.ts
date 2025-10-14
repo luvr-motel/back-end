@@ -19,21 +19,18 @@ export class UsuarioService {
   }
 
   async create(dto: CreateUsuarioDto): Promise<SafeUsuario> {
-    const exists = await this.repo.findOne({ where: { usuario_codigo: dto.usuarioCodigo } });
+    const codigo = dto.usuarioCodigo.trim();
+    const exists = await this.repo.findOne({ where: { usuario_codigo: codigo } });
     if (exists) throw new ConflictException('Código de usuário já existe');
 
     const entity = this.repo.create({
-      usuario_codigo: dto.usuarioCodigo.trim(),
-      usuario_senha: await argon2.hash(dto.usuarioSenha),
-
-      ...(dto.usuarioAtivo && { usuario_ativo: dto.usuarioAtivo as UsuarioStatus }),
-
-      ...(dto.roles?.length
-        ? { roles: dto.roles as UsuarioRole[] }
-        : dto.usuarioRole
-        ? { roles: [dto.usuarioRole as UsuarioRole] }
-        : {}),
+      usuario_codigo: codigo,
+      usuario_senha : await argon2.hash(dto.usuarioSenha),
+      usuario_ativo : (dto.usuarioAtivo as UsuarioStatus) ?? UsuarioStatus.ATIVO,
+      usuario_role  : dto.usuarioRole ?? UsuarioRole.RECEPCIONISTA,
       ...(dto.pessoaId ? { pessoa: { pessoa_id: dto.pessoaId } as any } : {}),
+      // quando habilitar motel
+      // ...(dto.motelId ? { motel: { motel_id: dto.motelId } as any } : {}),
     });
 
     const saved = await this.repo.save(entity);
@@ -58,16 +55,15 @@ export class UsuarioService {
   }
 
   async findByCodigoWithSenha(usuario_codigo: string): Promise<Usuario> {
-  const user = await this.repo
-    .createQueryBuilder('u')
-    .addSelect('u.usuario_senha')
-    .where('u.usuario_codigo = :usuario_codigo', { usuario_codigo })
-    .getOne();
+    const user = await this.repo
+      .createQueryBuilder('u')
+      .addSelect('u.usuario_senha')
+      .where('u.usuario_codigo = :usuario_codigo', { usuario_codigo })
+      .getOne();
 
-  if (!user) throw new NotFoundException('Usuário não encontrado');
-  return user;
-}
-
+    if (!user) throw new NotFoundException('Usuário não encontrado');
+    return user;
+  }
 
   async update(id: number, dto: UpdateUsuarioDto): Promise<SafeUsuario> {
     const user = await this.repo.findOne({ where: { usuario_id: id } });
@@ -90,16 +86,13 @@ export class UsuarioService {
       user.usuario_ativo = dto.usuarioAtivo as UsuarioStatus;
     }
 
-    if (dto.roles?.length) {
-      user.roles = dto.roles as UsuarioRole[];
-    } else if (dto.usuarioRole) {
-      user.roles = [dto.usuarioRole as UsuarioRole];
+    if (dto.usuarioRole !== undefined) {
+      user.usuario_role = dto.usuarioRole ?? null;
     }
 
     if ('pessoaId' in dto) {
       (user as any).pessoa = dto.pessoaId ? ({ pessoa_id: dto.pessoaId } as any) : null;
     }
-
     await this.repo.save(user);
 
     const fresh = await this.repo.findOne({

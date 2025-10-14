@@ -35,8 +35,8 @@ export class Usuario {
   // @RelationId((u: Usuario) => u.motel)
   // motel_id?: number | null;
 
-  @Column({ name: 'roles', type: 'enum', enum: UsuarioRole, array: true, default: [UsuarioRole.RECEPCIONISTA] })
-  roles: UsuarioRole[];
+  @Column({ name: 'usuario_role', type: 'enum', enum: UsuarioRole, nullable: true })
+  usuario_role?: UsuarioRole | null;
 
   @CreateDateColumn({ name: 'usuario_inclusao', type: 'timestamptz', default: () => 'NOW()' })
   usuario_inclusao: Date;

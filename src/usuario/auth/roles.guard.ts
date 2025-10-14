@@ -14,17 +14,26 @@ export class RolesGuard implements CanActivate {
     ]);
     if (isPublic) return true;
 
-    const required = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
+    const requiredRaw = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
-    if (!required || required.length === 0) return true;
+    const required = (requiredRaw ?? []).map(r => String(r).toLowerCase());
+    if (required.length === 0) return true;
 
     const { user } = context.switchToHttp().getRequest();
-    const userRoles: string[] = user?.roles ?? [];
 
-    const allowed = required.some((r) => userRoles.includes(r));
-    if (!allowed) throw new ForbiddenException('Acesso negado para este perfil.');
+    const have = [
+      ...(Array.isArray(user?.roles) ? user.roles : []),
+      ...(user?.role ? [user.role] : []),
+    ].map(String).map(r => r.toLowerCase());
+
+    const haveSet = new Set(have);
+    const allowed = required.some(r => haveSet.has(r));
+
+    if (!allowed) {
+      throw new ForbiddenException('Acesso negado para este perfil.');
+    }
     return true;
-  }
+    }
 }

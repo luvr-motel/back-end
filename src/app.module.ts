@@ -7,6 +7,10 @@ import { PessoaModule } from './pessoa/pessoa.module';
 import { PessoaTipoModule } from './pessoatipo/pessoatipo.module';
 import { UsuarioModule } from './usuario/usuario.module';
 
+import { Pessoa } from './pessoa/entities/pessoa.entity';
+import { PessoaTipo } from './pessoatipo/entities/pessoatipo.entity';
+import { Usuario } from './usuario/entities/usuario.entity';
+
 import { AuthModule } from './usuario/auth/auth.module';
 import { JwtAuthGuard } from './usuario/auth/jwt-auth.guard';
 import { RolesGuard } from './usuario/auth/roles.guard';
@@ -25,7 +29,7 @@ import { RolesGuard } from './usuario/auth/roles.guard';
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || 'admin',
       database: process.env.DB_DATABASE || 'luvr',
-      entities: [],
+      entities: [Pessoa, PessoaTipo, Usuario],
       autoLoadEntities: true,
       synchronize: true,
       logging: ['query', 'error', 'schema'],

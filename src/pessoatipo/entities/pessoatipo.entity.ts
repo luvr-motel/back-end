@@ -1,7 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, Unique } from 'typeorm';
 
 @Entity({ name: 'pessoatipo' })
-@Unique('uq_pessoatipo_descricao', ['pessoatipo_descricao'])
 export class PessoaTipo {
   @PrimaryGeneratedColumn({ name: 'pessoatipo_id', type: 'integer' })
   pessoatipo_id: number;

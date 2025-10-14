@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, ParseIntPipe } from '@nestjs/common'; 
-import { PessoaTipoService } from './pessoatipo.service'; 
-import { CreatePessoaTipoDto } from './dto/create-pessoatipo.dto'; 
-import { UpdatePessoaTipoDto } from './dto/update-pessoatipo.dto'; 
-import { Roles } from 'src/usuario/auth/roles.decorator'; 
+import { Body, Controller, Delete, Get, Param, Patch, Post, ParseIntPipe } from '@nestjs/common';
+import { PessoaTipoService } from './pessoatipo.service';
+import { CreatePessoaTipoDto } from './dto/create-pessoatipo.dto';
+import { UpdatePessoaTipoDto } from './dto/update-pessoatipo.dto';
+import { Roles } from 'src/usuario/auth/roles.decorator';
 import { PessoaTipo } from './entities/pessoatipo.entity';
 
 @Controller('pessoatipo')
@@ -11,32 +11,36 @@ export class PessoaTipoController {
 
   @Roles('admin', 'gerente')
   @Post()
-  async createPessoaTipo(@Body() dto: CreatePessoaTipoDto): Promise<PessoaTipo> {
+  createPessoaTipo(@Body() dto: CreatePessoaTipoDto): Promise<PessoaTipo> {
     return this.service.createPessoaTipo(dto);
   }
 
   @Roles('admin', 'gerente', 'recepcionista')
   @Get()
-  async findAllPessoaTipos(): Promise<PessoaTipo[]> {
+  findAllPessoaTipos(): Promise<PessoaTipo[]> {
     return this.service.findAllPessoaTipos();
   }
 
   @Roles('admin', 'gerente', 'recepcionista')
   @Get(':id')
-  async findOnePessoaTipo(@Param('id', ParseIntPipe) id: number): Promise<PessoaTipo> {
+  findOnePessoaTipo(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<{ mensagem: string; pessoatipo: PessoaTipo }> {
     return this.service.findOnePessoaTipo(id);
   }
 
   @Roles('admin', 'gerente')
   @Patch(':id')
-  async updatePessoaTipo(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePessoaTipoDto): Promise<PessoaTipo> {
-    return this.service.updatePessoaTipo(id, dto);
+  updatePessoaTipo(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdatePessoaTipoDto,
+  ): Promise<{ mensagem: string; pessoatipo: PessoaTipo }> {
+    return this.service.updatePessoaTipo(id, dto); 
   }
 
   @Roles('admin')
   @Delete(':id')
-  async removePessoaTipo(@Param('id', ParseIntPipe) id: number): Promise<{ message: string }> {
-    await this.service.removePessoaTipo(id);
-    return { message: 'Tipo deletado com sucesso.' };
+  removePessoaTipo(@Param('id', ParseIntPipe) id: number): Promise<{ mensagem: string }> {
+    return this.service.removePessoaTipo(id);
   }
 }
