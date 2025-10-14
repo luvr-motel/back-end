@@ -1,30 +1,30 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config'
-import { ProdutoModule } from './produto/produto.module';
-import { UsersModule } from './users/users.module';
+import { ConfigModule } from '@nestjs/config';
+import { Motel } from './motel/entities/motel.entity';
+import { MotelModule } from './motel/motel.module';
+
 @Module({
-  imports: [ 
-  ConfigModule.forRoot({
-    envFilePath: '.env', 
-    isGlobal: true  
-  }),
-  TypeOrmModule.forRoot({
-      type: "postgres",
-      host: process.env.DB_HOST,
-      // port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [  ],//adicionar manualmente as entities
-      migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
-      synchronize: true,//desabilita quando for para produção
-      logging: ['query', 'error', 'schema'], 
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST || 'localhost',
+      port: Number(process.env.DB_PORT) || 5432,
+      username: process.env.DB_USERNAME || 'postgres',
+      password: process.env.DB_PASSWORD || 'admin',
+      database: process.env.DB_DATABASE || 'luvr',
+      entities: [Motel],
       autoLoadEntities: true,
-  }),
-  ProdutoModule, UsersModule],
-  controllers: [],
-  providers: [],
+      synchronize: true,
+      logging: ['query', 'error', 'schema'],
+      migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
+    }),
+    MotelModule,
+  ],
 })
 export class AppModule {}
-
