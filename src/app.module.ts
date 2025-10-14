@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { QuartoModule } from './quarto/quarto.module';
 import { QuartoTipoModule } from './quarto_tipo/quarto_tipo.module';
-// import { DespesaquartoModule } from './despesaquarto/despesaquarto.module';
 import { Quarto } from './quarto/entities/quarto.entity';
 import { QuartoTipo } from './quarto_tipo/entities/quarto_tipo.entity';
-// import { Despesaquarto } from './despesaquarto/entities/despesaquarto.entity';
+import { Motel } from './motel/entities/motel.entity';
 @Module({
   imports: [ 
   ConfigModule.forRoot({
@@ -20,16 +19,17 @@ import { QuartoTipo } from './quarto_tipo/entities/quarto_tipo.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Quarto, QuartoTipo],//adicionar manualmente as entities
+      entities: [ Quarto, QuartoTipo, Motel ],//adicionar manualmente as entities
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
       synchronize: true,//desabilita quando for para produção
       logging: ['query', 'error', 'schema'], 
       autoLoadEntities: true,
   }),
   QuartoModule,
-  QuartoTipoModule,],
+  QuartoTipoModule,
+  MotelModule,
+  ],
   controllers: [],
   providers: [],
-})
-export class AppModule {}
 
+export class AppModule {}

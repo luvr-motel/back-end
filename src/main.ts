@@ -9,10 +9,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Luvr - Gestão Inteligente')
-    .setDescription('Escola de T.I - software de gestão de motel.')
-    .setVersion('1.0')
-    .addTag('API Luvr - BackEnd')
+    .setTitle( 'Luvr - Gestão Inteligente' )
+    .setDescription( 'Escola de T.I - software de gestão de motel.' )
+    .setVersion( '1.0' )
+    .addTag( 'API Luvr - BackEnd' )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -35,7 +35,7 @@ async function bootstrap() {
 
   app.enableCors();
   await app.listen(process.env.PORT ?? 3000);
-  console.log(`🚀 Server running at http://localhost:${process.env.PORT ?? 3000}/api`);
-  console.log(`📄 Swagger JSON at http://localhost:${process.env.PORT ?? 3000}/openapi.json`);
+  console.log(`🚀 Server running at http://localhost:${process.env.PORT ?? 3000}/api` );
+  console.log(`📄 Swagger JSON at http://localhost:${process.env.PORT ?? 3000}/openapi.json` );
 }
 bootstrap();
