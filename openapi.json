@@ -666,6 +666,117 @@
           "EstoqueProduto"
         ]
       }
+    },
+    "/pagamento-forma": {
+      "post": {
+        "operationId": "PagamentoFormaController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePagamentoFormaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      },
+      "get": {
+        "operationId": "PagamentoFormaController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      }
+    },
+    "/pagamento-forma/{id}": {
+      "get": {
+        "operationId": "PagamentoFormaController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      },
+      "patch": {
+        "operationId": "PagamentoFormaController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePagamentoFormaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      },
+      "delete": {
+        "operationId": "PagamentoFormaController_deletePagamentoForma",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      }
     }
   },
   "info": {
@@ -873,6 +984,27 @@
             "example": 16
           }
         }
+      },
+      "CreatePagamentoFormaDto": {
+        "type": "object",
+        "properties": {
+          "pagamentoForma_descricao": {
+            "type": "string",
+            "example": "PIX"
+          },
+          "pagamentoForma_contaDestino": {
+            "type": "string",
+            "example": "1078-x"
+          }
+        },
+        "required": [
+          "pagamentoForma_descricao",
+          "pagamentoForma_contaDestino"
+        ]
+      },
+      "UpdatePagamentoFormaDto": {
+        "type": "object",
+        "properties": {}
       }
     }
   }

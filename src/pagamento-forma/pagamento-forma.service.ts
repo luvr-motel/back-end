@@ -11,8 +11,8 @@ export class PagamentoFormaService {
   constructor ( @InjectRepository( PagamentoForma ) private readonly formaRepository: Repository< PagamentoForma >){}
   async createPagamentoForma( pagamentoFormaDto: CreatePagamentoFormaDto) {
     const posicaoNew = this.formaRepository.create({
-      pagamentoForma_descricao    : pagamentoFormaDto.pagamentoforma_descricao,
-      pagamentoForma_contaDestino : pagamentoFormaDto.pagamentoforma_contaDestino   
+      pagamentoForma_descricao    : pagamentoFormaDto.pagamentoForma_descricao,
+      pagamentoForma_contaDestino : pagamentoFormaDto.pagamentoForma_contaDestino   
     });
     if ( !posicaoNew ) {
       throw new HttpException('Não foi possivel criar nova forma de pagamento!', 404);
