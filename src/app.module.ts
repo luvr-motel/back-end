@@ -1,49 +1,45 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
-
-import { PessoaModule } from './pessoa/pessoa.module';
-import { PessoaTipoModule } from './pessoatipo/pessoatipo.module';
-import { UsuarioModule } from './usuario/usuario.module';
-
+import { QuartoModule } from './quarto/quarto.module';
+import { QuartoTipoModule } from './quarto_tipo/quarto_tipo.module';
+import { Quarto } from './quarto/entities/quarto.entity';
+import { QuartoTipo } from './quarto_tipo/entities/quarto_tipo.entity';
+import { Motel } from './motel/entities/motel.entity';
+import { MotelModule } from './motel/motel.module';
 import { Pessoa } from './pessoa/entities/pessoa.entity';
 import { PessoaTipo } from './pessoatipo/entities/pessoatipo.entity';
 import { Usuario } from './usuario/entities/usuario.entity';
-
-import { AuthModule } from './usuario/auth/auth.module';
-import { JwtAuthGuard } from './usuario/auth/jwt-auth.guard';
-import { RolesGuard } from './usuario/auth/roles.guard';
-
+import { UsuarioModule } from './usuario/usuario.module';
+import { PessoaModule } from './pessoa/pessoa.module';
+import { PessoaTipoModule } from './pessoatipo/pessoatipo.module';
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
-
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      port: Number(process.env.DB_PORT) || 5432,
-      username: process.env.DB_USERNAME || 'postgres',
-      password: process.env.DB_PASSWORD || 'admin',
-      database: process.env.DB_DATABASE || 'luvr',
-      entities: [Pessoa, PessoaTipo, Usuario],
-      autoLoadEntities: true,
-      synchronize: true,
-      logging: ['query', 'error', 'schema'],
+  imports: [ 
+  ConfigModule.forRoot({
+    envFilePath: '.env', 
+    isGlobal: true  
+  }),
+  TypeOrmModule.forRoot({
+      type: "postgres",
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [ Quarto, QuartoTipo, Motel, Pessoa, PessoaTipo, Usuario ],//adicionar manualmente as entities
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
-    }),
-    PessoaModule,
-    PessoaTipoModule,
-    UsuarioModule,
-    AuthModule,
+      synchronize: true,//desabilita quando for para produção
+      logging: ['query', 'error', 'schema'], 
+      autoLoadEntities: true,
+  }),
+  QuartoModule,
+  QuartoTipoModule,
+  MotelModule,
+  UsuarioModule,
+  PessoaModule,
+  PessoaTipoModule,
   ],
-  
-  providers: [
-    { provide: APP_GUARD, useClass: JwtAuthGuard }, 
-    { provide: APP_GUARD, useClass: RolesGuard },  
-  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

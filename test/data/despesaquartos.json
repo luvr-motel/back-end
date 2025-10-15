@@ -1,0 +1,19 @@
+[
+  {
+    "despesaquarto_descricao": "Substituição de roupas de cama",
+    "despesaquarto_parcela": 1,
+    "despesaquarto_itens": "Enxoval premium",
+    "despesatipo_id": 1,
+    "quarto_id": 1,
+    "pessoa_id": 2,
+    "usuario_id": 5,
+    "motel_id": 1
+  },
+  {
+    "despesaquarto_descricao": "Manutenção do ar-condicionado",
+    "despesaquarto_itens": "Filtro, gás refrigerante",
+    "quarto_id": 2,
+    "usuario_id": 3,
+    "motel_id": 1
+  }
+]

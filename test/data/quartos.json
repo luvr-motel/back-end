@@ -1,0 +1,14 @@
+[
+  {
+    "quarto_descricao": "Suíte Master 101",
+    "quarto_atributos": "Hidromassagem, ar-condicionado, TV 65\"",
+    "quarto_ativo": true,
+    "quartotipo_id": 1
+  },
+  {
+    "quarto_descricao": "Suíte Standard 202",
+    "quarto_atributos": "Cama queen, frigobar",
+    "quarto_ativo": false,
+    "quartotipo_id": 2
+  }
+]
