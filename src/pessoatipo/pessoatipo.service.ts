@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PessoaTipo } from './entities/pessoatipo.entity';
@@ -10,23 +10,25 @@ export class PessoaTipoService {
   constructor(@InjectRepository(PessoaTipo) private readonly repo: Repository<PessoaTipo>) {}
 
   async createPessoaTipo(dto: CreatePessoaTipoDto): Promise<PessoaTipo> {
-    const entity = this.repo.create({ pessoatipo_descricao: dto.pessoatipo_descricao?.trim() });
-    try {
-      return await this.repo.save(entity);
-    } catch (e: any) {
-      if (e?.code === '23505') throw new ConflictException('Descrição já cadastrada.');
-      throw e;
-    }
+    const entity = this.repo.create({
+      pessoatipo_descricao: dto.pessoatipo_descricao,
+    });
+    return this.repo.save(entity);
   }
 
   async findAllPessoaTipos(): Promise<PessoaTipo[]> {
-    return this.repo.find({ order: { pessoatipo_id: 'ASC' } });
+    return this.repo.find();
   }
 
   async findOnePessoaTipo(id: number): Promise<{ mensagem: string; pessoatipo: PessoaTipo }> {
-    const found = await this.repo.findOne({ where: { pessoatipo_id: id } });
-    if (!found) throw new NotFoundException('Tipo não encontrado.');
-    return { mensagem: `Tipo #${id}`, pessoatipo: found };
+    const data = await this.repo.findOne({ where: { pessoatipo_id: id } });
+    if (!data) {
+      throw new HttpException('Tipo não encontrado', 404);
+    }
+    return {
+      mensagem: `Tipo #${id}`,
+      pessoatipo: data,
+    };
   }
 
   async updatePessoaTipo(
@@ -34,26 +36,25 @@ export class PessoaTipoService {
     dto: UpdatePessoaTipoDto,
   ): Promise<{ mensagem: string; pessoatipo: PessoaTipo }> {
     const atual = await this.repo.findOne({ where: { pessoatipo_id: id } });
-    if (!atual) throw new NotFoundException('Tipo não encontrado.');
-
-    if (dto.pessoatipo_descricao !== undefined) {
-      atual.pessoatipo_descricao = dto.pessoatipo_descricao?.trim() ?? atual.pessoatipo_descricao;
-    }
-
-    try {
-      await this.repo.save(atual);
-      const atualizado = await this.repo.findOne({ where: { pessoatipo_id: id } });
-      return { mensagem: `Tipo #${id} atualizado com sucesso`, pessoatipo: atualizado! };
-    } catch (e: any) {
-      if (e?.code === '23505') throw new ConflictException('Descrição já cadastrada.');
-      throw e;
+    if (!atual) {
+      throw new HttpException('Erro ao atualizar tipo', 404);
+    } else {
+      const merged = this.repo.merge(atual, dto);
+      const saved = await this.repo.save(merged);
+      return {
+        mensagem: `Tipo #${id} Atualizado com sucesso`,
+        pessoatipo: saved,
+      };
     }
   }
 
   async removePessoaTipo(id: number): Promise<{ mensagem: string }> {
-    const ok = await this.repo.findOne({ where: { pessoatipo_id: id } });
-    if (!ok) throw new NotFoundException('Tipo não encontrado.');
-    await this.repo.softDelete(id);
-    return { mensagem: `Tipo ${id} excluído com sucesso` };
+    const found = await this.repo.findOne({ where: { pessoatipo_id: id } });
+    if (!found) {
+      throw new HttpException('Erro ao excluir tipo', 404);
+    } else {
+      await this.repo.softDelete(id);
+      return { mensagem: `Tipo ${id} excluido com sucesso` };
+    }
   }
 }

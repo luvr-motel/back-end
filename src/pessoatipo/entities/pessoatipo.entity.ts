@@ -1,20 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity({ name: 'pessoatipo' })
 export class PessoaTipo {
   @PrimaryGeneratedColumn({ name: 'pessoatipo_id', type: 'integer' })
   pessoatipo_id: number;
 
-  @Column({ name: 'pessoatipo_descricao', type: 'varchar', length: 255, nullable: false })
+  @Column({ name: 'pessoatipo_descricao', type: 'varchar', nullable: false })
   pessoatipo_descricao: string;
 
-  @CreateDateColumn({ name: 'pessoatipo_inclusao', type: 'timestamptz', default: () => 'NOW()' })
+  @CreateDateColumn({ name: 'pessoatipo_inclusao', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   pessoatipo_inclusao: Date;
 
-  @DeleteDateColumn({ name: 'pessoatipo_exclusao', type: 'timestamptz', nullable: true })
-  pessoatipo_exclusao: Date | null;
+  @DeleteDateColumn({ name: 'pessoatipo_exclusao', type: 'timestamp', nullable: true })
+  pessoatipo_exclusao: Date;
 }
-
 
 
 //Vai diferenciar os tipos de pessoas ( fornecedor, prestador de serviço, funcionario, cliente )

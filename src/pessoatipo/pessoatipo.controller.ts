@@ -5,6 +5,8 @@ import { UpdatePessoaTipoDto } from './dto/update-pessoatipo.dto';
 import { Roles } from 'src/usuario/auth/roles.decorator';
 import { PessoaTipo } from './entities/pessoatipo.entity';
 
+type PessoaTipoResp = { mensagem: string; pessoatipo: PessoaTipo };
+
 @Controller('pessoatipo')
 export class PessoaTipoController {
   constructor(private readonly service: PessoaTipoService) {}
@@ -23,19 +25,14 @@ export class PessoaTipoController {
 
   @Roles('admin', 'gerente', 'recepcionista')
   @Get(':id')
-  findOnePessoaTipo(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<{ mensagem: string; pessoatipo: PessoaTipo }> {
+  findOnePessoaTipo(@Param('id', ParseIntPipe) id: number): Promise<PessoaTipoResp> {
     return this.service.findOnePessoaTipo(id);
   }
 
   @Roles('admin', 'gerente')
   @Patch(':id')
-  updatePessoaTipo(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdatePessoaTipoDto,
-  ): Promise<{ mensagem: string; pessoatipo: PessoaTipo }> {
-    return this.service.updatePessoaTipo(id, dto); 
+  updatePessoaTipo( @Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePessoaTipoDto, ): Promise<PessoaTipoResp> {
+    return this.service.updatePessoaTipo(id, dto);
   }
 
   @Roles('admin')

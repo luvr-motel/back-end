@@ -1,25 +1,21 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString, MaxLength, Length, Matches } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsInt, IsNotEmpty, IsString, MaxLength, Length } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePessoaDto {
-  @ApiProperty({ example: 'Maria da Silva', maxLength: 255, description: 'Nome completo da pessoa.' })
-  @IsString()
+  @ApiProperty({ example: 'Maria da Silva', description: 'Nome completo da pessoa.' })
+  @IsString({ message: 'pessoa_nome deve ser uma string.' })
   @IsNotEmpty()
   @MaxLength(255)
   pessoa_nome: string;
 
-  @ApiPropertyOptional({ example: '12345678901', minLength: 11, maxLength: 11, pattern: '^\\d+$', description: 'CPF somente com dígitos (11 caracteres).' })
-  @IsString()
-  @IsOptional()
+  @ApiProperty({ example: '12345678901' })
+  @IsString({ message: 'pessoa_cpf deve ser uma string.' })
   @Length(11, 11)
-  @Matches(/^\d+$/, { message: 'CPF deve conter apenas dígitos' })
   pessoa_cpf?: string;
 
-  @ApiPropertyOptional({ example: '44999998888', maxLength: 20, pattern: '^\\d+$', description: 'Telefone somente com dígitos (até 20).' })
-  @IsOptional()
-  @IsString()
+  @ApiProperty({ example: '44999998888', description: 'Telefone somente com dígitos (até 20).' })
+  @IsString({ message: 'pessoa_telefone deve ser uma string.' })
   @MaxLength(20)
-  @Matches(/^\d+$/, { message: 'Telefone deve conter apenas dígitos' })
   pessoa_telefone?: string;
 
   @ApiProperty({ example: 1, type: Number, description: 'ID do tipo de pessoa (FK de pessoatipo).' })

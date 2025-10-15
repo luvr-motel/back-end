@@ -5,91 +5,63 @@ import { Pessoa } from './entities/pessoa.entity';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 
+
 @Injectable()
 export class PessoaService {
   constructor(@InjectRepository(Pessoa) private readonly repo: Repository<Pessoa>) {}
 
   async createPessoa(dto: CreatePessoaDto): Promise<Pessoa> {
-    const entity = this.repo.create({
-      pessoa_nome: dto.pessoa_nome?.trim(),
-      pessoa_cpf: dto.pessoa_cpf ?? null,
-      pessoa_telefone: dto.pessoa_telefone ?? null,
-      ...(dto.pessoatipo_id != null
-        ? { pessoatipo: { pessoatipo_id: dto.pessoatipo_id } as any }
-        : {}),
-    } as DeepPartial<Pessoa>);
+    const partial: DeepPartial<Pessoa> = {};
+    if (dto.pessoa_nome != null) partial.pessoa_nome = dto.pessoa_nome.trim();
+    if (dto.pessoa_cpf !== undefined) partial.pessoa_cpf = dto.pessoa_cpf;
+    if (dto.pessoa_telefone !== undefined) partial.pessoa_telefone = dto.pessoa_telefone;
+    if (dto.pessoatipo_id !== undefined) partial.pessoatipo = { pessoatipo_id: dto.pessoatipo_id } as any;
 
-    try {
-      return await this.repo.save(entity);
-    } catch (e: any) {
-      if (e?.code === '23503') throw new HttpException('Tipo não encontrado', 404);
-      throw e;
-    }
+    const entity = this.repo.create(partial); 
+    return this.repo.save(entity);            
   }
 
   async findAllPessoas(): Promise<Pessoa[]> {
-    return this.repo.find({ order: { pessoa_id: 'ASC' } });
+    return this.repo.find();
   }
 
   async findOnePessoa(id: number): Promise<{ mensagem: string; pessoa: Pessoa }> {
     const pessoa = await this.repo.findOne({
       where: { pessoa_id: id },
-      relations: { pessoatipo: true }, 
+      relations: { pessoatipo: true },
     });
     if (!pessoa) throw new HttpException('Pessoa não encontrada', 404);
-
-    return {
-      mensagem: `Pessoa #${id}`,
-      pessoa,
-    };
+    return { mensagem: `Pessoa #${id}`, pessoa };
   }
 
   async updatePessoa(id: number, dto: UpdatePessoaDto): Promise<{ mensagem: string; pessoa: Pessoa }> {
     const atual = await this.repo.findOne({ where: { pessoa_id: id } });
-    if (!atual) throw new HttpException('Erro ao atualizar pessoa', 404);
+      if (!atual) throw new HttpException('Erro ao atualizar pessoa', 404);
 
-    if (dto.pessoa_nome !== undefined) {
-      atual.pessoa_nome = dto.pessoa_nome?.trim() ?? atual.pessoa_nome;
-    }
+    const partial: DeepPartial<Pessoa> = {};
+      if (dto.pessoa_nome != null) partial.pessoa_nome = dto.pessoa_nome.trim();
+      if (dto.pessoa_cpf !== undefined) partial.pessoa_cpf = dto.pessoa_cpf;
+      if (dto.pessoa_telefone !== undefined) partial.pessoa_telefone = dto.pessoa_telefone;
+      if (dto.pessoatipo_id !== undefined) partial.pessoatipo = { pessoatipo_id: dto.pessoatipo_id } as any;
 
-    if ('pessoatipo_id' in dto) {
-      atual.pessoatipo =
-        dto.pessoatipo_id != null ? ({ pessoatipo_id: dto.pessoatipo_id } as any) : (null as any);
-    }
+    const merged = this.repo.merge(atual, partial);
+      await this.repo.save(merged);
 
-    if ('pessoa_cpf' in dto) {
-      atual.pessoa_cpf = dto.pessoa_cpf === null ? null : dto.pessoa_cpf;
-    }
+    const pessoa = await this.repo.findOne({
+      where: { pessoa_id: id },
+      relations: { pessoatipo: true },
+  });
 
-    if ('pessoa_telefone' in dto) {
-      atual.pessoa_telefone = dto.pessoa_telefone === null ? null : dto.pessoa_telefone;
-    }
-
-    try {
-      await this.repo.save(atual);
-
-      const pessoa = await this.repo.findOne({
-        where: { pessoa_id: id },
-        relations: { pessoatipo: true },
-      });
-
-      return {
-        mensagem: `Pessoa #${id} Atualizada com sucesso`,
-        pessoa: pessoa!,
-      };
-    } catch (e: any) {
-      if (e?.code === '23503') throw new HttpException('Tipo não encontrado', 404);
-      throw e;
-    }
-  }
+  return { mensagem: `Pessoa #${id} Atualizada com sucesso`, pessoa: pessoa! };
+}
 
   async removePessoa(id: number): Promise<{ mensagem: string }> {
     const exists = await this.repo.findOne({ where: { pessoa_id: id } });
     if (!exists) throw new HttpException('Erro ao excluir pessoa', 404);
 
     await this.repo.update(id, { pessoa_ativo: false } as any);
-
     await this.repo.softDelete(id);
+
     return { mensagem: `Pessoa ${id} excluída com sucesso` };
   }
 }

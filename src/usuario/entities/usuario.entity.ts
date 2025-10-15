@@ -6,15 +6,14 @@ import { UsuarioRole } from './usuario-role.enum';
 export enum UsuarioStatus { ATIVO = 'ativo', INATIVO = 'inativo' }
 
 @Entity({ name: 'usuario' })
-@Unique('uq_usuario_codigo', ['usuario_codigo'])
 export class Usuario {
   @PrimaryGeneratedColumn({ name: 'usuario_id', type: 'integer' })
   usuario_id: number;
 
-  @Column({ name: 'usuario_codigo', type: 'varchar', length: 255, nullable: false })
+  @Column({ name: 'usuario_codigo', type: 'varchar', nullable: false })
   usuario_codigo: string;
 
-  @Column({ name: 'usuario_senha', type: 'varchar', length: 255, nullable: false })
+  @Column({ name: 'usuario_senha', type: 'varchar', nullable: false })
   usuario_senha: string;
 
   @Column({ name: 'usuario_ativo', type: 'enum', enum: UsuarioStatus, default: UsuarioStatus.ATIVO })
@@ -22,10 +21,10 @@ export class Usuario {
 
   @ManyToOne(() => Pessoa, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'pessoa_id', referencedColumnName: 'pessoa_id' })
-  pessoa?: Pessoa | null;
+  pessoa: Pessoa;
 
   @RelationId((u: Usuario) => u.pessoa)
-  pessoa_id: number | null;
+  pessoa_id: number;
 
   // relacao do motel
   // @ManyToOne(() => Motel, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
@@ -36,14 +35,15 @@ export class Usuario {
   // motel_id?: number | null;
 
   @Column({ name: 'usuario_role', type: 'enum', enum: UsuarioRole, nullable: true })
-  usuario_role?: UsuarioRole | null;
+  usuario_role?: UsuarioRole;
 
-  @CreateDateColumn({ name: 'usuario_inclusao', type: 'timestamptz', default: () => 'NOW()' })
+  @CreateDateColumn({ name: 'usuario_inclusao', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   usuario_inclusao: Date;
 
-  @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamptz', nullable: true })
-  usuario_exclusao: Date | null;
+  @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamp', nullable: true })
+  usuario_exclusao: Date;
 }
+
 
 // Usuario do sistema de fato, os funcionarios 
 // table usuario {

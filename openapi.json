@@ -394,22 +394,15 @@
           "pessoa_nome": {
             "type": "string",
             "example": "Maria da Silva",
-            "maxLength": 255,
             "description": "Nome completo da pessoa."
           },
           "pessoa_cpf": {
             "type": "string",
-            "example": "12345678901",
-            "minLength": 11,
-            "maxLength": 11,
-            "pattern": "^\\d+$",
-            "description": "CPF somente com dígitos (11 caracteres)."
+            "example": "12345678901"
           },
           "pessoa_telefone": {
             "type": "string",
             "example": "44999998888",
-            "maxLength": 20,
-            "pattern": "^\\d+$",
             "description": "Telefone somente com dígitos (até 20)."
           },
           "pessoatipo_id": {
@@ -420,6 +413,8 @@
         },
         "required": [
           "pessoa_nome",
+          "pessoa_cpf",
+          "pessoa_telefone",
           "pessoatipo_id"
         ]
       },
@@ -429,22 +424,15 @@
           "pessoa_nome": {
             "type": "string",
             "example": "Maria da Silva",
-            "maxLength": 255,
             "description": "Nome completo da pessoa."
           },
           "pessoa_cpf": {
             "type": "string",
-            "example": "12345678901",
-            "minLength": 11,
-            "maxLength": 11,
-            "pattern": "^\\d+$",
-            "description": "CPF somente com dígitos (11 caracteres)."
+            "example": "12345678901"
           },
           "pessoa_telefone": {
             "type": "string",
             "example": "44999998888",
-            "maxLength": 20,
-            "pattern": "^\\d+$",
             "description": "Telefone somente com dígitos (até 20)."
           },
           "pessoatipo_id": {
@@ -460,7 +448,6 @@
           "pessoatipo_descricao": {
             "type": "string",
             "example": "Funcionário",
-            "maxLength": 255,
             "description": "Descrição do tipo de pessoa."
           }
         },
@@ -474,7 +461,6 @@
           "pessoatipo_descricao": {
             "type": "string",
             "example": "Funcionário",
-            "maxLength": 255,
             "description": "Descrição do tipo de pessoa."
           }
         }
