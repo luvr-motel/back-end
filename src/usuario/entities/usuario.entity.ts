@@ -35,7 +35,7 @@ export class Usuario {
   // motel_id?: number | null;
 
   @Column({ name: 'usuario_role', type: 'enum', enum: UsuarioRole, nullable: true })
-  usuario_role?: UsuarioRole;
+  usuario_role: UsuarioRole;
 
   @CreateDateColumn({ name: 'usuario_inclusao', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   usuario_inclusao: Date;
