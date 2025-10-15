@@ -1,0 +1,539 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/pessoa": {
+      "post": {
+        "operationId": "PessoaController_createPessoa",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePessoaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      },
+      "get": {
+        "operationId": "PessoaController_findAllPessoas",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      }
+    },
+    "/pessoa/{id}": {
+      "get": {
+        "operationId": "PessoaController_findOnePessoa",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      },
+      "patch": {
+        "operationId": "PessoaController_updatePessoa",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePessoaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      },
+      "delete": {
+        "operationId": "PessoaController_removePessoa",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      }
+    },
+    "/pessoatipo": {
+      "post": {
+        "operationId": "PessoaTipoController_createPessoaTipo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePessoaTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      },
+      "get": {
+        "operationId": "PessoaTipoController_findAllPessoaTipos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      }
+    },
+    "/pessoatipo/{id}": {
+      "get": {
+        "operationId": "PessoaTipoController_findOnePessoaTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      },
+      "patch": {
+        "operationId": "PessoaTipoController_updatePessoaTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePessoaTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      },
+      "delete": {
+        "operationId": "PessoaTipoController_removePessoaTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      }
+    },
+    "/usuarios": {
+      "post": {
+        "operationId": "UsuarioController_createUsuario",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUsuarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      },
+      "get": {
+        "operationId": "UsuarioController_findAllUsuarios",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      }
+    },
+    "/usuarios/me/profile": {
+      "get": {
+        "operationId": "UsuarioController_getMyProfileUsuario",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "operationId": "UsuarioController_findOneUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      },
+      "patch": {
+        "operationId": "UsuarioController_updateUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUsuarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      },
+      "delete": {
+        "operationId": "UsuarioController_removeUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Luvr - Gestão Inteligente",
+    "description": "Escola de T.I - software de gestão de motel.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "API Luvr - BackEnd",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreatePessoaDto": {
+        "type": "object",
+        "properties": {
+          "pessoa_nome": {
+            "type": "string",
+            "example": "Maria da Silva",
+            "description": "Nome completo da pessoa."
+          },
+          "pessoa_cpf": {
+            "type": "string",
+            "example": "12345678901"
+          },
+          "pessoa_telefone": {
+            "type": "string",
+            "example": "44999998888",
+            "description": "Telefone somente com dígitos (até 20)."
+          },
+          "pessoatipo_id": {
+            "type": "number",
+            "example": 1,
+            "description": "ID do tipo de pessoa (FK de pessoatipo)."
+          }
+        },
+        "required": [
+          "pessoa_nome",
+          "pessoa_cpf",
+          "pessoa_telefone",
+          "pessoatipo_id"
+        ]
+      },
+      "UpdatePessoaDto": {
+        "type": "object",
+        "properties": {
+          "pessoa_nome": {
+            "type": "string",
+            "example": "Maria da Silva",
+            "description": "Nome completo da pessoa."
+          },
+          "pessoa_cpf": {
+            "type": "string",
+            "example": "12345678901"
+          },
+          "pessoa_telefone": {
+            "type": "string",
+            "example": "44999998888",
+            "description": "Telefone somente com dígitos (até 20)."
+          },
+          "pessoatipo_id": {
+            "type": "number",
+            "example": 1,
+            "description": "ID do tipo de pessoa (FK de pessoatipo)."
+          }
+        }
+      },
+      "CreatePessoaTipoDto": {
+        "type": "object",
+        "properties": {
+          "pessoatipo_descricao": {
+            "type": "string",
+            "example": "Funcionário",
+            "description": "Descrição do tipo de pessoa."
+          }
+        },
+        "required": [
+          "pessoatipo_descricao"
+        ]
+      },
+      "UpdatePessoaTipoDto": {
+        "type": "object",
+        "properties": {
+          "pessoatipo_descricao": {
+            "type": "string",
+            "example": "Funcionário",
+            "description": "Descrição do tipo de pessoa."
+          }
+        }
+      },
+      "CreateUsuarioDto": {
+        "type": "object",
+        "properties": {
+          "usuarioCodigo": {
+            "type": "string",
+            "example": "max.v",
+            "description": "Código único de login do usuário."
+          },
+          "usuarioSenha": {
+            "type": "string",
+            "example": "MUNDIAL2012CORINTHIANS",
+            "description": "Senha em texto plano (será hasheada no servidor)."
+          },
+          "usuarioAtivo": {
+            "type": "string",
+            "enum": [
+              "ativo",
+              "inativo"
+            ],
+            "example": "ativo",
+            "description": "Padrão ATIVO se omitido."
+          },
+          "pessoaId": {
+            "type": "number",
+            "example": 7,
+            "description": "ID da Pessoa vinculada."
+          },
+          "motelId": {
+            "type": "number",
+            "example": 3,
+            "description": "ID do Motel (quando habilitado)."
+          },
+          "usuarioRole": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "gerente",
+              "recepcionista"
+            ],
+            "example": "recepcionista",
+            "description": "Papel do usuário."
+          }
+        },
+        "required": [
+          "usuarioCodigo",
+          "usuarioSenha"
+        ]
+      },
+      "UpdateUsuarioDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "usuarioCodigo": {
+            "type": "string",
+            "example": "rodrigo"
+          },
+          "senha": {
+            "type": "string",
+            "example": "senhadificildemaiscorinthians"
+          }
+        },
+        "required": [
+          "usuarioCodigo",
+          "senha"
+        ]
+      }
+    }
+  }
+}
