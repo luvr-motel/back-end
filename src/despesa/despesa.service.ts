@@ -23,13 +23,16 @@ export class DespesaService {
         ? ({ despesatipo_id: createDespesaDto.despesatipo_id } as Despesatipo)
         : undefined,
     });
-
-    return this.despesaRepository.save(despesa);
+    if (!despesa){
+      throw new HttpException( 'Produto não encontrado', 404 )  
+    } else {
+      return this.despesaRepository.save(despesa)
+    }
   }
 
   async findAllDespesas(): Promise<Despesa[]> {
     return this.despesaRepository.find({
-      relations: ['despesatipo'],
+      relations: [ 'despesatipo' ],
     });
   }
 

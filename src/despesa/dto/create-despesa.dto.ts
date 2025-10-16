@@ -17,25 +17,24 @@ export class CreateDespesaDto {
   @MaxLength(255)
   despesa_descricao: string;
 
-  @ApiProperty({ example: 1, required: false })
+  @ApiProperty({ example: 1 })
   @IsOptional()
-  @Type(() => Number)
   @IsInt()
-  despesa_parcela?: number | null;
+  despesa_parcela: number ;
 
   @ApiProperty({ example: true })
   @IsBoolean()
   despesa_aberto: boolean;
 
   @ApiProperty({ example: 1250.75 })
-  @Type(() => Number)
-  @IsNumber({ maxDecimalPlaces: 2 })
+  // @Type(() => Number)
+  @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
   @IsNotEmpty()
   despesa_valortotal: number;
 
-  @ApiProperty({ example: 2, required: false })
+  @ApiProperty({ example: 2 })
   @IsOptional()
-  @Type(() => Number)
+  // @Type(() => Number)
   @IsInt()
-  despesatipo_id?: number;
+  despesatipo_id: number;
 }
