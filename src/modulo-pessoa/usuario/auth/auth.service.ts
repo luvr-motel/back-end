@@ -2,8 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { UsuarioService } from '../usuario.service';
-import { UsuarioRole } from '../../usuario/entities/usuario-role.enum';
-import { UsuarioStatus } from '../../usuario/entities/usuario.entity';
+import { UsuarioRole } from '../entities/usuario-role.enum';
+import { UsuarioStatus } from '../entities/usuario.entity';
 
 @Injectable()
 export class AuthService {

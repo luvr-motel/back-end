@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, ParseIntPipe } from 
 import { PessoaTipoService } from './pessoatipo.service';
 import { CreatePessoaTipoDto } from './dto/create-pessoatipo.dto';
 import { UpdatePessoaTipoDto } from './dto/update-pessoatipo.dto';
-import { Roles } from 'src/usuario/auth/roles.decorator';
+import { Roles } from 'src/modulo-pessoa/usuario/auth/roles.decorator';
 import { PessoaTipo } from './entities/pessoatipo.entity';
 
 type PessoaTipoResp = { mensagem: string; pessoatipo: PessoaTipo };
