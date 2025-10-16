@@ -3,7 +3,7 @@ import { DespesaService } from './despesa.service';
 import { CreateDespesaDto } from './dto/create-despesa.dto';
 import { UpdateDespesaDto } from './dto/update-despesa.dto';
 
-@Controller('despesageral')
+@Controller()
 export class DespesaController {
   constructor(private readonly despesaService: DespesaService) {}
 
@@ -31,7 +31,7 @@ export class DespesaController {
   }
 
   @Delete(':despesa_id')
-  removeDespesa(@Param('despesa_id') despesa_id: string) {
+  async removeDespesa(@Param('despesa_id') despesa_id: string) {
     return this.despesaService.removeDespesa(+despesa_id);
   }
 }

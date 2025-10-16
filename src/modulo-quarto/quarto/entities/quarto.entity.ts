@@ -6,13 +6,13 @@ export class Quarto {
     @PrimaryGeneratedColumn()
     quarto_id: number;
 
-    @Column({ length: 256, default: '' })
+    @Column({ name:'quarto_descricao', type:'varchar', length: 256 })
     quarto_descricao: string;
 
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ name: 'quarto_atributos', type: 'varchar', nullable: true })
     quarto_atributos: string;
 
-    @Column({ type: 'boolean', default: false })
+    @Column({ name:'quarto_ativo', type: 'boolean', default: false })
     quarto_ativo: boolean;
 
     @ManyToOne(() => QuartoTipo, { eager: true, nullable: false, onDelete: 'RESTRICT' })

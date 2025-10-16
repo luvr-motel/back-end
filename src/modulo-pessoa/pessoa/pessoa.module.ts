@@ -6,12 +6,9 @@ import { PessoaController } from './pessoa.controller';
 import { PessoaTipoModule } from '../pessoatipo/pessoatipo.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Pessoa]),
-    PessoaTipoModule,
-  ],
+  imports: [ TypeOrmModule.forFeature([Pessoa]) ],
   controllers: [PessoaController],
   providers: [PessoaService],
-  exports: [PessoaService, TypeOrmModule],
+  exports: [TypeOrmModule],
 })
 export class PessoaModule {}

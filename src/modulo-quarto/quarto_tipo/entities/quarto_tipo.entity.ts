@@ -1,5 +1,5 @@
+import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Quarto } from '../../../quarto/entities/quarto.entity';
 
 @Entity()
 // @Index('uq_quartotipo_descricao', ['quartotipoDescricao'], { unique: true })

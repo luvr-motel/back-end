@@ -32,7 +32,7 @@ export class QuartoTipoController {
   }
 
   @Delete(':id')
-  removeQuartoTipo(@Param('id') id: string) {
+  async removeQuartoTipo(@Param('id') id: string) {
     return this.quartoTipoService.removeQuartoTipo(+id);
   }
 }

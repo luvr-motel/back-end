@@ -38,7 +38,7 @@ export class PessoaController {
 
   @Roles('admin')
   @Delete(':id')
-  removePessoa(@Param('id', ParseIntPipe) id: number): Promise<{ mensagem: string }> {
+  async removePessoa(@Param('id', ParseIntPipe) id: number): Promise<{ mensagem: string }> {
     return this.pessoaService.removePessoa(id); 
   }
 }

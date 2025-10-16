@@ -7,14 +7,11 @@ import { UpdateMotelDto } from './dto/update-motel.dto';
 import { Status } from './common/enums/status.enum';
 
 @Injectable()
-export class MotelService {
-  constructor(
-    @InjectRepository(Motel)
-    private readonly repo: Repository<Motel>,
-  ) {}
+export class MotelService {//renomear repository
+  constructor( @InjectRepository(Motel) private readonly repo: Repository<Motel> ) {}
 
   async createMotel(dto: CreateMotelDto): Promise<Motel> {
-    if (!dto.motel_cnpj) throw new BadRequestException('motel_cnpj é obrigatório');
+    // if (!dto.motel_cnpj) throw new BadRequestException('motel_cnpj é obrigatório');
 
     const exists = await this.repo.findOne({
       where: { motelCnpj: dto.motel_cnpj, motelExclusao: IsNull() },
@@ -22,14 +19,17 @@ export class MotelService {
     if (exists) throw new BadRequestException('CNPJ já cadastrado');
 
     const entity = this.repo.create({
-      motelDescricao: dto.motel_descricao ?? null,
-      motelEndereco: dto.motel_endereco ?? null,
-      motelEmail: dto.motel_email ?? null,
-      motelCnpj: dto.motel_cnpj,
-      motelAtivo: dto.motel_ativo ?? Status.ATIVO,
+      motelDescricao: dto.motel_descricao,
+      motelEndereco : dto.motel_endereco,
+      motelEmail    : dto.motel_email,
+      motelCnpj     : dto.motel_cnpj,
+      motelAtivo    : dto.motel_ativo ?? Status.ATIVO,
     });
-
-    return this.repo.save(entity);
+    if (!entity){
+      throw new HttpException( 'Erro ao cadastrar Motel', 404 )
+    } else {
+      return this.repo.save(entity)
+    }
   }
 
   async findAllMoteis(): Promise<Motel[]> {
@@ -43,12 +43,15 @@ export class MotelService {
     const found = await this.repo.findOne({
       where: { motelId: id, motelExclusao: IsNull() },
     });
-    if (!found) throw new NotFoundException('Motel não encontrado');
-    return found;
+    if (!found) {
+      throw new NotFoundException( 'Motel não encontrado' )
+    } else {
+      return found
+    }
   }
 
   async updateMotel(id: number, dto: UpdateMotelDto): Promise<Motel> {
-    const entity = await this.findOneMotel(id);
+    const entity = await this.findOneMotel(id);//testar
 
     if (dto.motel_cnpj && dto.motel_cnpj !== entity.motelCnpj) {
       const exists = await this.repo.findOne({
@@ -71,12 +74,12 @@ export class MotelService {
 
   if (!motel) {
     throw new HttpException('Erro ao excluir motel', 404);
-  }
-  
-  motel.motelExclusao = new Date();
-  motel.motelAtivo = Status.INATIVO;
-  await this.repo.save(motel);
+  } else {  
+      // motel.motelExclusao = new Date();
+      // motel.motelAtivo = Status.INATIVO;
+      await this.repo.softDelete(id);
 
-  return { mensagem: `Motel ${id} excluído com sucesso` };
+      return { mensagem: `Motel ${id} excluído com sucesso` }
+    }
   }
 }

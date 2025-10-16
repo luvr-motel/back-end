@@ -28,7 +28,7 @@ export class MotelController {
   }
 
   @Delete(':id')
-  deleteMotel(@Param('id', ParseIntPipe) id: number) {
+  async deleteMotel(@Param('id', ParseIntPipe) id: number) {
     return this.service.deleteMotel(id);
   }
 }

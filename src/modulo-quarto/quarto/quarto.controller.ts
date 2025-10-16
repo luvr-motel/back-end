@@ -28,7 +28,7 @@ export class QuartoController {
   // }
 
   @Delete(':id')
-  deleteQuartoById(@Param('id') id: string) {
+  async deleteQuartoById(@Param('id') id: string) {
     return this.quartoService.deleteQuartoById(+id);
   }
 }

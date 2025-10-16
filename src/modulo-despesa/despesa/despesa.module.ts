@@ -10,4 +10,4 @@ import { Despesa } from './entities/despesa.entity';
   providers: [DespesaService],
   exports:[TypeOrmModule]
 })
-export class DespesageralModule {}
+export class DespesaModule {}
