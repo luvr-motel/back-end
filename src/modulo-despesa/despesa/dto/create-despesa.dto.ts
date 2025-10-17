@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsInt,
@@ -18,22 +19,25 @@ export class CreateDespesaDto {
 
   @ApiProperty({ example: 1 })
   @IsOptional()
-  @IsInt()
+  @IsNumber()
+  @Type(() => Number)
   despesa_parcela: number ;
 
   @ApiProperty({ example: true })
   @IsBoolean()
+  @Type(() => Boolean)
+  @IsNotEmpty()
   despesa_aberto: boolean;
 
   @ApiProperty({ example: 1250.75 })
-  // @Type(() => Number)
+  @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
   @IsNotEmpty()
   despesa_valortotal: number;
 
   @ApiProperty({ example: 2 })
   @IsOptional()
-  // @Type(() => Number)
-  @IsInt()
+  @Type(() => Number)
+  @IsNumber()
   despesatipo_id: number;
 }

@@ -1,5 +1,7 @@
-import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToOne,OneToMany,PrimaryGeneratedColumn,} from 'typeorm';
+import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToMany,ManyToOne,OneToMany,PrimaryGeneratedColumn,} from 'typeorm';
 import { Despesatipo } from '../../despesatipo/entities/despesatipo.entity';
+import { Usuario } from 'src/modulo-pessoa/usuario/entities/usuario.entity';
+import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
 
 @Entity()
 export class Despesa {
@@ -24,15 +26,19 @@ export class Despesa {
   @Column({ name: 'despesatipo_id', type: 'integer', nullable: true })
   despesatipoId: number;
 
-  @ManyToOne(() => Despesatipo, (tipo) => tipo.despesas, {
+  @ManyToOne(() => Despesa, (despesa) => despesa.despesatipo, {
     nullable: true,
     onDelete: 'SET NULL',
+    onUpdate: 'CASCADE'
   })
-  @JoinColumn({ name: 'despesatipo_id' })
-  despesatipo: Despesatipo ;
+  despesatipo: Despesatipo;
   
-  // @ManyToOne(() => usuario => usuario.despesas)
-  // @OneToMany(()=> Motel, (motel)=> motel.despesa))
+  @ManyToOne(() => Usuario => Usuario.despesas)
+  usuario: Usuario;
+
+  @OneToMany(() => Despesa, (despesa) => despesa.motel)
+  motel: Motel;
+
 
   @CreateDateColumn({type: 'timestamp', name: 'despesa_inclusao' })
   despesa_inclusao: Date;
