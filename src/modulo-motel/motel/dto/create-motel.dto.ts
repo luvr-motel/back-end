@@ -1,30 +1,28 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
-import { Status } from '../common/enums/status.enum';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength, Matches } from 'class-validator';
+import { MotelStatus as Status } from '../entities/motel.entity';
 
 export class CreateMotelDto {
-  @ApiProperty({ example: 'LUVR Motel Centro'})
-  @IsString() 
-  @Length(255)
+  @ApiProperty({ example: 'Amantes Motel' })
+  @IsString({ message: 'motel_descricao deve ser uma string' })
   @IsNotEmpty()
   motel_descricao: string;
 
-  @ApiPropertyOptional({ example: 'Av. Brasil, 1000 - Centro' })
-  @IsString() 
+  @ApiPropertyOptional({ example: 'Cidade Universitaria' })
+  @IsString({ message: 'motel_endereco deve ser uma string' })
   @IsNotEmpty()
-  @Length(255)
-  motel_endereco?: string;
+  motel_endereco: string;
 
-  @ApiProperty({ example: 'contato@motel.com.br' })
-  @IsEmail()
+  @ApiPropertyOptional({ example: 'contato@motel.com.br' })
+  @IsEmail({}, { message: 'motel_email deve ser um e-mail válido' })
   motel_email: string;
 
-  @ApiProperty({ example: '12.345.678/0001-99'})
-  @IsString() 
+  @ApiProperty({ example: '12.345.678/0001-99' })
+  @IsString({ message: 'motel_cnpj deve ser uma string' })
   @IsNotEmpty()
   motel_cnpj: string;
 
   @ApiProperty({ enum: Status, default: Status.ATIVO })
-  @IsEnum(Status)
+  @IsEnum(Status, { message: 'motel_ativo deve ser ATIVO ou INATIVO' })
   motel_ativo: Status;
 }

@@ -1,29 +1,30 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Status } from '../common/enums/status.enum';
 
-@Entity()
+export enum MotelStatus { ATIVO = 'ATIVO', INATIVO = 'INATIVO' }
+
+@Entity({ name: 'motel' })
 export class Motel {
   @PrimaryGeneratedColumn({ name: 'motel_id', type: 'integer' })
-  motelId: number;
+  motel_id: number;
 
   @Column({ name: 'motel_descricao', type: 'varchar', length: 255, nullable: true })
-  motelDescricao: string;
+  motel_descricao: string;
 
   @Column({ name: 'motel_endereco', type: 'varchar', length: 255, nullable: true })
-  motelEndereco: string;
+  motel_endereco: string;
 
   @Column({ name: 'motel_email', type: 'varchar', length: 255, nullable: true })
-  motelEmail: string;
+  motel_email: string;
 
   @Column({ name: 'motel_cnpj', type: 'varchar', length: 18, nullable: false, unique: true })
-  motelCnpj: string;
+  motel_cnpj: string;
 
-  @Column({ name: 'motel_ativo', type: 'enum', enum: Status, default: Status.ATIVO })
-  motelAtivo: Status;
+  @Column({ name: 'motel_ativo', type: 'enum', enum: MotelStatus, enumName: 'status', default: MotelStatus.ATIVO })
+  motel_ativo: MotelStatus;
 
-  @CreateDateColumn({ name: 'motel_inclusao', type: 'timestamp' })
-  motelInclusao: Date;
+  @CreateDateColumn({ name: 'motel_inclusao', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  motel_inclusao: Date;
 
   @DeleteDateColumn({ name: 'motel_exclusao', type: 'timestamp', nullable: true })
-  motelExclusao: Date;
+  motel_exclusao: Date;
 }

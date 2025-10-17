@@ -1987,11 +1987,11 @@
         "properties": {
           "motel_descricao": {
             "type": "string",
-            "example": "LUVR Motel Centro"
+            "example": "Amantes Motel"
           },
           "motel_endereco": {
             "type": "string",
-            "example": "Av. Brasil, 1000 - Centro"
+            "example": "Cidade Universitaria"
           },
           "motel_email": {
             "type": "string",
@@ -2012,7 +2012,6 @@
         },
         "required": [
           "motel_descricao",
-          "motel_email",
           "motel_cnpj",
           "motel_ativo"
         ]
@@ -2022,11 +2021,11 @@
         "properties": {
           "motel_descricao": {
             "type": "string",
-            "example": "LUVR Motel Centro"
+            "example": "Amantes Motel"
           },
           "motel_endereco": {
             "type": "string",
-            "example": "Av. Brasil, 1000 - Centro"
+            "example": "Cidade Universitaria"
           },
           "motel_email": {
             "type": "string",
