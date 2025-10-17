@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Quarto } from "./Quarto";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Locacao {
@@ -17,7 +18,12 @@ export class Locacao {
     
     @Column({ type:'numeric', precision: 10, scale: 2 , name:'locacao_totalLocacao', nullable: false  })
     locacao_totalLocacao: number;
-  
+    
+    @OneToOne(() => Quarto, (quarto) => quarto.locacao )
+    @JoinColumn()
+    Quarto: Quarto
+
+
     // quarto_id             integer
     // pessoa_id             integer 
     // pagamentoforma_id     integer

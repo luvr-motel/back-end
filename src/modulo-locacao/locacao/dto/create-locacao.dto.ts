@@ -1,5 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsCurrency, IsDate, IsInt, IsNumber, IsOptional } from "class-validator";
+import { Quarto } from "src/modulo-quarto/quarto/entities/quarto.entity";
+import { OneToMany } from "typeorm";
 
 export class CreateLocacaoDto {
 
@@ -22,6 +24,8 @@ export class CreateLocacaoDto {
     @IsOptional()
     @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
     locacao_totalLocacao: number;
+
+    @OneToMany(( type ) => Quarto, (Quarto) => )
   
     // quarto_id             integer
     // pessoa_id             integer 
