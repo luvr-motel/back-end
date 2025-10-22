@@ -40,30 +40,19 @@ export class QuartoService {
     };
   }
 
-  // async updateQuarto(
-  //   id: number,
-  //   updateQuartoDto: UpdateQuartoDto,
-  // ): Promise<{ mensagem: string; quarto: Quarto }> {
-  //   const quartoAtual = await this.quartoRepository.findOne({ where: { quarto_id: id } });
+  async updateQuarto(id: number, updateQuarto: UpdateQuartoDto){
+    const quartoAtualizado = await this.quartoRepository.findOne({where: {quarto_id : id}})
+    if( !quartoAtualizado){
+      throw new HttpException( 'Erro ao atualizar quarto', 404)
+    }else{
+      const quarto = this.quartoRepository.merge( quartoAtualizado, updateQuarto);
+      const quartoSave = await this.quartoRepository.save( quarto);
 
-  //   if (!quartoAtual) {
-  //     throw new HttpException('Erro ao atualizar quarto', 404);
-  //   }
-
-  //   // const { quartotipo_id, ...rest } = updateQuartoDto;
-  //   // const quartoAtualizado = this.quartoRepository.merge(quartoAtual, rest);
-
-  //   // if (typeof quartotipo_id !== 'undefined') {
-  //   //   quartoAtualizado.quartotipo = { quartotipoId: quartotipo_id } as QuartoTipo;
-  //   // }
-
-  //   // const quartoSalvo = await this.quartoRepository.save(quartoAtualizado);
-
-  //   // return {
-  //   //   mensagem: `Quarto #${id} atualizado com sucesso`,
-  //   //   quarto: quartoSalvo,
-  //   // };
-  // }
+      return{
+        mensagem: `quarto #${id} atualizado com sucesso`
+      }
+    }
+  }
 
   async deleteQuartoById(id: number): Promise<{ mensagem: string }> {
     const quarto = await this.quartoRepository.findOne({ where: { quarto_id: id } });

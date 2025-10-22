@@ -8,7 +8,7 @@ export class Despesa {
   @PrimaryGeneratedColumn({ name: 'despesa_id', type: 'integer' })
   despesa_id: number;
 
-  @Column({ name: 'despesa_descricao', type: 'varchar', length: 255})
+  @Column({name: 'despesa_descricao',type: 'varchar',length: 255,default: ''})
   despesa_descricao: string;
 
   @Column({ name: 'despesa_parcela', type: 'integer', nullable: true })
@@ -26,20 +26,20 @@ export class Despesa {
   @Column({ name: 'despesatipo_id', type: 'integer', nullable: true })
   despesatipoId: number;
 
-  @ManyToOne(() => Despesa, (despesa) => despesa.despesatipo, {
+  @ManyToOne(() => Despesatipo, (despesatipo) => despesatipo.despesas, {
     nullable: true,
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE'
   })
   despesatipo: Despesatipo;
   
-  @ManyToOne(() => Usuario => Usuario.despesas)
-  usuario: Usuario;
+  // @ManyToOne(() => Usuario => Usuario.despesas)
+  // usuario: Usuario;
 
-  @OneToMany(() => Despesa, (despesa) => despesa.motel)
+  @ManyToOne(() => Motel, (motel) => motel.despesa)
   motel: Motel;
 
-
+  
   @CreateDateColumn({type: 'timestamp', name: 'despesa_inclusao' })
   despesa_inclusao: Date;
 

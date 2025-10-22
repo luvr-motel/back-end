@@ -26,6 +26,7 @@ export class Despesatipo {
   @OneToMany(() => Despesa, (despesa) => despesa.despesatipo, {  
     nullable:true,
     onDelete: 'SET NULL', 
-    onUpdate: 'CASCADE',})
-  despesas: Despesa;
+    onUpdate: 'CASCADE',
+    })
+  despesas: Despesa[];
 }

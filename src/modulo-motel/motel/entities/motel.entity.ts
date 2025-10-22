@@ -1,5 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Status } from '../common/enums/status.enum';
+import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
+import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 
 @Entity()
 export class Motel {
@@ -26,4 +28,10 @@ export class Motel {
 
   @DeleteDateColumn({ name: 'motel_exclusao', type: 'timestamp', nullable: true })
   motelExclusao: Date;
+
+  @OneToMany(() => Quarto, (quarto) => quarto.motel)
+  quartos: Quarto[];
+
+  @OneToMany(() => Despesa, (despesa) => despesa.motel)
+  despesa: Despesa[];
 }

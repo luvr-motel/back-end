@@ -23,10 +23,7 @@ export class DespesaController {
   }
 
   @Patch(':despesa_id')
-  updateDespesa(
-    @Param('despesa_id') despesa_id: string,
-    @Body() updateDespesageralDto: UpdateDespesaDto,
-  ) {
+  updateDespesa(@Param('despesa_id') despesa_id: string,@Body() updateDespesageralDto: UpdateDespesaDto,){
     return this.despesaService.updateDespesa(+despesa_id, updateDespesageralDto);
   }
 
