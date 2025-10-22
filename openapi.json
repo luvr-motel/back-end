@@ -1,0 +1,177 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/registroponto": {
+      "post": {
+        "operationId": "RegistroPontoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRegistroPontoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      },
+      "get": {
+        "operationId": "RegistroPontoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      }
+    },
+    "/registroponto/{id}": {
+      "get": {
+        "operationId": "RegistroPontoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      },
+      "patch": {
+        "operationId": "RegistroPontoController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRegistroPontoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      },
+      "delete": {
+        "operationId": "RegistroPontoController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Luvr - Gestão Inteligente",
+    "description": "Escola de T.I - software de gestão de motel.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "API Luvr - BackEnd",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateRegistroPontoDto": {
+        "type": "object",
+        "properties": {
+          "usuario_id": {
+            "type": "number",
+            "example": 1,
+            "description": "ID do usuário"
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 10,
+            "description": "ID do motel"
+          },
+          "registroponto_entrada": {
+            "type": "boolean",
+            "example": true,
+            "description": "Define o tipo do registro"
+          }
+        },
+        "required": [
+          "usuario_id",
+          "registroponto_entrada"
+        ]
+      },
+      "UpdateRegistroPontoDto": {
+        "type": "object",
+        "properties": {
+          "usuario_id": {
+            "type": "number",
+            "example": 1,
+            "description": "ID do usuário"
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 10,
+            "description": "ID do motel"
+          },
+          "registroponto_entrada": {
+            "type": "boolean",
+            "example": true,
+            "description": "Define o tipo do registro"
+          }
+        }
+      }
+    }
+  }
+}
