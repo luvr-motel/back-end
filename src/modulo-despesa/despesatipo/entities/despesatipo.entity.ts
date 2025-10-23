@@ -28,5 +28,5 @@ export class Despesatipo {
     onDelete: 'SET NULL', 
     onUpdate: 'CASCADE',
     })
-  despesas: Despesa[];
+  despesa: Despesa[];
 }

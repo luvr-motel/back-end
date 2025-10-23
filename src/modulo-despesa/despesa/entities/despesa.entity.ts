@@ -1,7 +1,8 @@
-import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToMany,ManyToOne,OneToMany,PrimaryGeneratedColumn,} from 'typeorm';
+import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToOne,PrimaryGeneratedColumn} from 'typeorm';
 import { Despesatipo } from '../../despesatipo/entities/despesatipo.entity';
 import { Usuario } from 'src/modulo-pessoa/usuario/entities/usuario.entity';
 import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
+import { Pessoa } from 'src/modulo-pessoa/pessoa/entities/pessoa.entity';
 
 @Entity()
 export class Despesa {
@@ -14,30 +15,52 @@ export class Despesa {
   @Column({ name: 'despesa_parcela', type: 'integer', nullable: true })
   despesa_parcela: number;
 
-  @Column({name: 'despesa_valortotal',type: 'decimal', precision: 10,scale: 2, nullable: true })
-  despesa_valortotal: number;
-
   // relacionamento com pessoa_id
-  // @ManyToOne(()=> Pessoa, (pessoa)=> pessoa.despesas, {onDelete: 'SET NULL)
+  @ManyToOne(() => Pessoa, (pessoa) => pessoa.despesa, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'pessoa_id' })
+  pessoa: Pessoa | null;
 
   @Column({ name: 'despesa_aberto', type: 'boolean', default: true })
   despesa_aberto: boolean;
 
-  @Column({ name: 'despesatipo_id', type: 'integer', nullable: true })
-  despesatipoId: number;
-
-  @ManyToOne(() => Despesatipo, (despesatipo) => despesatipo.despesas, {
+  @ManyToOne(() => Despesatipo, (despesatipo) => despesatipo.despesa, {
     nullable: true,
     onDelete: 'SET NULL',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
+  @JoinColumn({ name: 'despesatipo_id' })
   despesatipo: Despesatipo;
   
-  // @ManyToOne(() => Usuario => Usuario.despesas)
-  // usuario: Usuario;
+  @Column({
+    name: 'despesa_valortotal',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: true,
+  })
+  despesa_valortotal: number;
 
-  @ManyToOne(() => Motel, (motel) => motel.despesa)
-  motel: Motel;
+  // relacionamento com usuario
+  @ManyToOne(() => Usuario, (usuario) => usuario.despesas, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'usuario_id' })
+  usuario: Usuario | null;
+
+  // relacionamento com motel
+  @ManyToOne(() => Motel, (motel) => motel.despesa, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'motel_id' })
+  motel: Motel | null;
 
   
   @CreateDateColumn({type: 'timestamp', name: 'despesa_inclusao' })

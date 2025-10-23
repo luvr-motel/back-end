@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, OneToMany } from 'typeorm';
 import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
+import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 
 @Entity({ name: 'pessoa' })
 export class Pessoa {
@@ -30,6 +31,10 @@ export class Pessoa {
 
   @DeleteDateColumn({ name: 'pessoa_exclusao', type: 'timestamp', nullable: true })
   pessoa_exclusao: Date;
+
+  //relacionamento com despesa
+  @OneToMany(() => Despesa, (despesa) => despesa.pessoa)
+  despesa: Despesa[];
 }
 
 
