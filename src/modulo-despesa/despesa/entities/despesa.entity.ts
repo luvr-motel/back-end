@@ -36,13 +36,13 @@ export class Despesa {
   despesatipo: Despesatipo;
   
   @Column({
-    name: 'despesa_valortotal',
+    name: 'despesa_total',
     type: 'decimal',
     precision: 10,
     scale: 2,
     nullable: true,
   })
-  despesa_valortotal: number;
+  despesa_total: number;
 
   // relacionamento com usuario
   @ManyToOne(() => Usuario, (usuario) => usuario.despesas, {
@@ -60,7 +60,7 @@ export class Despesa {
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'motel_id' })
-  motel: Motel | null;
+  motel: Motel;
 
   
   @CreateDateColumn({type: 'timestamp', name: 'despesa_inclusao' })
