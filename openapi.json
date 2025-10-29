@@ -1,16 +1,16 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/": {
+    "/despesa": {
       "post": {
-        "operationId": "DespesaquartoController_createDespesaquarto",
+        "operationId": "DespesaController_createDespesa",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDespesaquartoDto"
+                "$ref": "#/components/schemas/CreateDespesaDto"
               }
             }
           }
@@ -21,11 +21,11 @@
           }
         },
         "tags": [
-          "Despesaquarto"
+          "Despesa"
         ]
       },
       "get": {
-        "operationId": "DespesaquartoController_findAllDespesasQuarto",
+        "operationId": "DespesaController_findAllDespesa",
         "parameters": [],
         "responses": {
           "200": {
@@ -33,11 +33,11 @@
           }
         },
         "tags": [
-          "Despesaquarto"
+          "Despesa"
         ]
       }
     },
-    "/{despesa_id}": {
+    "/despesa/{despesa_id}": {
       "get": {
         "operationId": "DespesaController_findOneDespesa",
         "parameters": [
@@ -223,7 +223,43 @@
         ]
       }
     },
-    "/{id}": {
+    "/despesaQuaro": {
+      "post": {
+        "operationId": "DespesaquartoController_createDespesaquarto",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDespesaquartoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesaquarto"
+        ]
+      },
+      "get": {
+        "operationId": "DespesaquartoController_findAllDespesasQuarto",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesaquarto"
+        ]
+      }
+    },
+    "/despesaQuaro/{id}": {
       "get": {
         "operationId": "DespesaquartoController_findDespesaquartoId",
         "parameters": [

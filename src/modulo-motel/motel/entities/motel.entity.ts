@@ -1,5 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Status } from '../common/enums/status.enum';
+import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
+import { Comanda } from '../../../modulo-locacao/comanda/entities/comanda.entity';
 
 @Entity()
 export class Motel {
@@ -20,6 +22,13 @@ export class Motel {
 
   @Column({ name: 'motel_ativo', type: 'enum', enum: Status, default: Status.ATIVO })
   motelAtivo: Status;
+
+  // Relacionamentos reversos
+  @OneToMany(() => Locacao, (locacao) => locacao.motel)
+  locacoes: Locacao[];
+
+  @OneToMany(() => Comanda, (comanda) => comanda.motel)
+  comandas: Comanda[];
 
   @CreateDateColumn({ name: 'motel_inclusao', type: 'timestamp' })
   motelInclusao: Date;

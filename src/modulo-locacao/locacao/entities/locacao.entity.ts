@@ -1,5 +1,11 @@
-import { Quarto } from "./Quarto";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Quarto } from "../../../modulo-quarto/quarto/entities/quarto.entity";
+import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
+import { Pessoa } from "../../../modulo-pessoa/pessoa/entities/pessoa.entity";
+import { Usuario } from "../../../modulo-pessoa/usuario/entities/usuario.entity";
+import { PagamentoForma } from "../../../modulo-pagamento/pagamento-forma/entities/pagamento-forma.entity";
+import { LocacaoPosicao } from "../../locacao-posicao/entities/locacao-posicao.entity";
+import { Comanda } from "../../comanda/entities/comanda.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
 @Entity()
 export class Locacao {
@@ -19,16 +25,57 @@ export class Locacao {
     @Column({ type:'numeric', precision: 10, scale: 2 , name:'locacao_totalLocacao', nullable: false  })
     locacao_totalLocacao: number;
     
-    @OneToOne(() => Quarto, (quarto) => quarto.locacao )
-    @JoinColumn()
-    Quarto: Quarto
+    // Relacionamento com Motel
+    @ManyToOne(() => Motel, { nullable: false })
+    @JoinColumn({ name: 'motel_id' })
+    motel: Motel;
 
+    @RelationId((locacao: Locacao) => locacao.motel)
+    motel_id: number;
 
-    // quarto_id             integer
-    // pessoa_id             integer 
-    // pagamentoforma_id     integer
-    // usuario_id            integer
-    // locacaoPosicao_id     integer
+    // Relacionamento com Quarto
+    @ManyToOne(() => Quarto, { nullable: false })
+    @JoinColumn({ name: 'quarto_id' })
+    quarto: Quarto;
+
+    @RelationId((locacao: Locacao) => locacao.quarto)
+    quarto_id: number;
+
+    // Relacionamento com Pessoa
+    @ManyToOne(() => Pessoa, { nullable: false })
+    @JoinColumn({ name: 'pessoa_id' })
+    pessoa: Pessoa;
+
+    @RelationId((locacao: Locacao) => locacao.pessoa)
+    pessoa_id: number;
+
+    // Relacionamento com PagamentoForma
+    @ManyToOne(() => PagamentoForma, { nullable: true })
+    @JoinColumn({ name: 'pagamentoforma_id' })
+    pagamentoForma: PagamentoForma;
+
+    @RelationId((locacao: Locacao) => locacao.pagamentoForma)
+    pagamentoforma_id: number;
+
+    // Relacionamento com Usuario
+    @ManyToOne(() => Usuario, { nullable: true })
+    @JoinColumn({ name: 'usuario_id' })
+    usuario: Usuario;
+
+    @RelationId((locacao: Locacao) => locacao.usuario)
+    usuario_id: number;
+
+    // Relacionamento com LocacaoPosicao
+    @ManyToOne(() => LocacaoPosicao, { nullable: true })
+    @JoinColumn({ name: 'locacaoPosicao_id' })
+    locacaoPosicao: LocacaoPosicao;
+
+    @RelationId((locacao: Locacao) => locacao.locacaoPosicao)
+    locacaoPosicao_id: number;
+
+    // Relacionamento reverso com Comanda
+    @OneToMany(() => Comanda, (comanda) => comanda.locacao)
+    comandas: Comanda[];
 
     @CreateDateColumn({type:'timestamp', name: 'locacao_inclusao'})
     locacao_inclusao: Date;
@@ -37,17 +84,3 @@ export class Locacao {
     locacao_exclusao: Date;    
 
 }
-
-//   locacao_id            integer [primary key]
-//   locacao_totalItens    float//count do itemCOmanda
-//   locacao_totalQuarto   float//soma das horas contratadas
-//   locacao_totalDEsconto float//aplicado algum desconto?
-//   locacao_totalLocacao  float//total geral
-//   quarto_id             integer
-//   pessoa_id             integer 
-//   pagamentoforma_id     integer//foi pago como?
-//   usuario_id            integer
-//   locacaoPosicao_id     integer//posicao da locação ( em uso...)
-//   motel_id              integer
-//   locacao_inclusao      timestamp
-//   locacao_exclusao      timestamp

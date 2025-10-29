@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsCurrency, IsDate, IsInt, IsNumber, IsOptional } from "class-validator";
-import { Quarto } from "src/modulo-quarto/quarto/entities/quarto.entity";
-import { OneToMany } from "typeorm";
+// DTO não deve declarar relacionamentos; manter apenas campos de entrada
 
 export class CreateLocacaoDto {
 
@@ -25,8 +24,7 @@ export class CreateLocacaoDto {
     @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
     locacao_totalLocacao: number;
 
-    @OneToMany(( type ) => Quarto, (Quarto) => )
-  
+    // relacionamentos são definidos na entidade, não no DTO
     // quarto_id             integer
     // pessoa_id             integer 
     // pagamentoforma_id     integer
