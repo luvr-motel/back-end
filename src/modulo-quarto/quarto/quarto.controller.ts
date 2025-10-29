@@ -22,10 +22,10 @@ export class QuartoController {
     return this.quartoService.findQuartoId(+id);
   }
 
-  // @Patch(':id')
-  // updateQuarto(@Param('id') id: string,@Body() updateQuartoDto: UpdateQuartoDto,) {
-  //   return this.quartoService.updateQuarto(+id, updateQuartoDto);
-  // }
+  @Patch(':id')
+  updateQuarto(@Param('id') id: string,@Body() updateQuartoDto: UpdateQuartoDto,) {
+    return this.quartoService.updateQuarto(+id, updateQuartoDto);
+  }
 
   @Delete(':id')
   async deleteQuartoById(@Param('id') id: string) {

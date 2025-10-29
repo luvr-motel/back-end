@@ -1,11 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MaxLength } from 'class-validator';
 
 export class CreateDespesaquartoDto {
   @ApiProperty({ example: 'Manutenção do ar-condicionado' })
   @IsString()
   @IsNotEmpty()
-//   @MaxLength(256)
+  @MaxLength(256)
   despesaquarto_descricao: string;
 
   @ApiPropertyOptional({ example: 2 })
@@ -17,7 +18,7 @@ export class CreateDespesaquartoDto {
   @ApiProperty({ example: 'Filtro, gás refrigerante' })
   @IsString()
   @IsNotEmpty()
-//   @MaxLength(256)
+  @MaxLength(256)
   despesaquarto_itens: string;
 
   @ApiProperty({ example: 1 })
@@ -39,6 +40,7 @@ export class CreateDespesaquartoDto {
 
   @ApiProperty({ example: 5 })
   @IsInt()
+  @Type(() => Number)
   @IsPositive()
   usuario_id: number;
 

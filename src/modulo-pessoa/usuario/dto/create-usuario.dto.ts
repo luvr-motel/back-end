@@ -26,7 +26,7 @@ export class CreateUsuarioDto {
   @ApiPropertyOptional({ example: 3, type: Number, description: 'ID do Motel (quando habilitado).' })
   @IsOptional() //tirar quando importar modulo motel
   @IsInt()
-  motelId?: number;
+  motel_id?: number;
 
   @ApiPropertyOptional({ enum: UsuarioRole, example: 'recepcionista', description: 'Papel do usuário.' })
   @IsEnum(UsuarioRole)

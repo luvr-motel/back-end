@@ -20,5 +20,12 @@ export class CreateQuartoDto {
     @IsInt()
     @IsPositive()
     @IsNotEmpty()
+    @ApiProperty({ example: 1})
     quartotipo_id: number;  
+
+    @IsInt()
+    @IsPositive()
+    @IsNotEmpty()
+    @ApiProperty({ example: 1})
+    motel: number;
 }

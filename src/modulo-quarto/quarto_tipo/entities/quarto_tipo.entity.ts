@@ -7,7 +7,7 @@ export class QuartoTipo {
   @PrimaryGeneratedColumn({ name: 'quartotipo_id', type: 'int' })
   quartotipo_Id: number;
 
-  @Column({ name: 'quartotipo_descricao', type: 'varchar', length: 255 })
+  @Column({name: 'quartotipo_descricao',type: 'varchar',length: 255,default: ''})
   quartotipoDescricao: string;
 
   @OneToMany(() => Quarto, (quarto) => quarto.quartotipo)
