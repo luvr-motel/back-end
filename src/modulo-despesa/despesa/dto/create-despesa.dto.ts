@@ -28,7 +28,7 @@ export class CreateDespesaDto {
   despesa_aberto: boolean;
   
   @ApiProperty({ example: 2 })
-  @IsOptional()
+  @IsNotEmpty()
   @Type(() => Number)
   @IsNumber()
   despesatipo_id: number;
@@ -47,7 +47,7 @@ export class CreateDespesaDto {
 
   @ApiProperty({ example: 1 })
   @IsInt()
-  @IsOptional()
+  @IsNotEmpty()
   @Type(() => Number)
   motel_id: number;
 }

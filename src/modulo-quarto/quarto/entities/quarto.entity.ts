@@ -25,10 +25,15 @@ export class Quarto {
     @RelationId((quarto: Quarto) => quarto.quartotipo)
     quartotipo_id: number;
 
-    @ManyToOne(() => Motel,( motel) => motel.quartos, { onDelete: 'CASCADE',
-        // nullable: false    lembrar de trocar 
-     })
-    motel: number;
+    @ManyToOne(() => Motel, (motel) => motel.quartos, { 
+        onDelete: 'RESTRICT',
+        nullable: true // mudar para false     
+    })
+    @JoinColumn({ name: 'motel_id' })
+    motel: Motel;
+
+    @RelationId((quarto: Quarto) => quarto.motel)
+    motel_id: number;
 
     @CreateDateColumn({ type:'timestamp', name:'quarto_inclusao' })
     quarto_inclusao: Date;

@@ -14,10 +14,11 @@ export class QuartoService {
   ) {}
 
   async createQuarto(createQuartoDto: CreateQuartoDto): Promise<Quarto> {
-    const { quartotipo_id, ...rest } = createQuartoDto;
+    const { quartotipo_id, motel, ...rest } = createQuartoDto;
     const quarto = this.quartoRepository.create({
       ...rest,
       quartotipo: { quartotipo_Id: quartotipo_id } as QuartoTipo,
+      motel: motel ? ({ motel_id: motel } as any) : undefined,
     });
 
     return this.quartoRepository.save(quarto);
@@ -40,17 +41,18 @@ export class QuartoService {
     };
   }
 
-  async updateQuarto(id: number, updateQuarto: UpdateQuartoDto){
+  async updateQuarto(id: number, updateQuartoDto: UpdateQuartoDto): Promise<{ mensagem: string; quarto: Quarto }> {
     const quartoAtualizado = await this.quartoRepository.findOne({where: {quarto_id : id}})
     if( !quartoAtualizado){
       throw new HttpException( 'Erro ao atualizar quarto', 404)
-    }else{
-      const quarto = this.quartoRepository.merge( quartoAtualizado, updateQuarto);
-      const quartoSave = await this.quartoRepository.save( quarto);
+    }
 
-      return{
-        mensagem: `quarto #${id} atualizado com sucesso`
-      }
+    const quarto = this.quartoRepository.merge(quartoAtualizado, updateQuartoDto as any);
+    const quartoSave = await this.quartoRepository.save(quarto);
+
+    return {
+      mensagem: `quarto #${id} atualizado com sucesso`,
+      quarto: quartoSave
     }
   }
 

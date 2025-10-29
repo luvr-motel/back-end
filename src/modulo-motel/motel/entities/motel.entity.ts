@@ -2,11 +2,12 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryG
 import { Status } from '../common/enums/status.enum';
 import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
 import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
+import { Despesaquarto } from 'src/modulo-despesa/despesaquarto/entities/despesaquarto.entity';
 
 @Entity()
 export class Motel {
   @PrimaryGeneratedColumn({ name: 'motel_id', type: 'integer' })
-  motelId: number;
+  motel_id: number;
 
   @Column({ name: 'motel_descricao', type: 'varchar', length: 255, nullable: true })
   motelDescricao: string;
@@ -31,6 +32,9 @@ export class Motel {
 
   @OneToMany(() => Quarto, (quarto) => quarto.motel)
   quartos: Quarto[];
+
+  @OneToMany(() => Despesaquarto, (despesaquarto) => despesaquarto.motel)
+  despesaquarto: Despesaquarto[];
 
   @OneToMany(() => Despesa, (despesa) => despesa.motel)
   despesa: Despesa[];

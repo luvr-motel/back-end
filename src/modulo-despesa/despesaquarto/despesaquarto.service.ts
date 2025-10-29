@@ -5,6 +5,7 @@ import { CreateDespesaquartoDto } from './dto/create-despesaquarto.dto';
 import { UpdateDespesaquartoDto } from './dto/update-despesaquarto.dto';
 import { Despesaquarto } from './entities/despesaquarto.entity';
 import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
+import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
 
 @Injectable()
 export class DespesaquartoService {
@@ -13,7 +14,7 @@ export class DespesaquartoService {
     private readonly despesaquartoRepository: Repository<Despesaquarto>,
   ) {}
 
-  async createDespesaquarto(createDespesaquartoDto: CreateDespesaquartoDto): Promise<Despesaquarto> {
+  async createDespesaquarto(createDespesaquartoDto: CreateDespesaquartoDto,): Promise<Despesaquarto> {
     const despesaquarto = this.despesaquartoRepository.create({
       despesaquarto_descricao: createDespesaquartoDto.despesaquarto_descricao,
       despesaquarto_parcela: createDespesaquartoDto.despesaquarto_parcela ?? null,
@@ -21,7 +22,7 @@ export class DespesaquartoService {
       despesatipo_id: createDespesaquartoDto.despesatipo_id ?? null,
       pessoa_id: createDespesaquartoDto.pessoa_id ?? null,
       usuario_id: createDespesaquartoDto.usuario_id,
-      motel_id: createDespesaquartoDto.motel_id,
+      motel: { motel_id: createDespesaquartoDto.motel_id } as Motel,
       quarto: { quarto_id: createDespesaquartoDto.quarto_id } as Quarto,
     });
 
@@ -30,7 +31,7 @@ export class DespesaquartoService {
 
   async findAllDespesasQuarto(): Promise<Despesaquarto[]> {
     return this.despesaquartoRepository.find({
-      relations: ['quarto'],
+      relations: ['quarto', 'motel'],
     });
   }
 
@@ -39,61 +40,53 @@ export class DespesaquartoService {
   ): Promise<{ mensagem: string; despesaquarto: Despesaquarto }> {
     const despesaquarto = await this.despesaquartoRepository.findOne({
       where: { despesaquarto_id },
-      relations: ['quarto'],
+      relations: ['quarto', 'motel'],
     });
 
     if (!despesaquarto) {
       throw new HttpException('Despesaquarto não encontrada', 404);
+    } else {
+      return {
+        mensagem: `Despesaquarto #${despesaquarto_id}`,
+        despesaquarto,
+      };
     }
-
-    return {
-      mensagem: `Despesaquarto #${despesaquarto_id}`,
-      despesaquarto,
-    };
   }
-
-  async updateDespesaquarto(
-    despesaquarto_id: number,
-    updateDespesaquartoDto: UpdateDespesaquartoDto,
-  ): Promise<{ mensagem: string; despesaquarto: Despesaquarto }> {
-    const despesaquartoAtual = await this.despesaquartoRepository.findOne({
-      where: { despesaquarto_id },
-    });
+  async updateDespesaquarto(despesaquarto_id: number,updateDespesaquartoDto: UpdateDespesaquartoDto,): Promise<{ mensagem: string; despesaquarto: Despesaquarto }> {
+    const despesaquartoAtual = await this.despesaquartoRepository.findOne({where: { despesaquarto_id },});
 
     if (!despesaquartoAtual) {
       throw new HttpException('Erro ao atualizar despesaquarto', 404);
+    } else {
+      const despesaquartoAtualizado = this.despesaquartoRepository.merge(
+        despesaquartoAtual,
+        updateDespesaquartoDto,
+      );
+      const despesaquartoSalvo =
+        await this.despesaquartoRepository.save(despesaquartoAtualizado);
+
+      return {
+        mensagem: `Despesaquarto #${despesaquarto_id} atualizada com sucesso`,
+        despesaquarto: despesaquartoSalvo,
+      };
     }
-
-    const { quarto_id, ...restoAtualizacao } = updateDespesaquartoDto;
-
-    const despesaquartoAtualizada = this.despesaquartoRepository.merge(
-      despesaquartoAtual,
-      restoAtualizacao,
-      quarto_id !== undefined
-        ? {
-            quarto: { quarto_id } as Quarto,
-          }
-        : {},
-    );
-
-    const despesaquartoSalva = await this.despesaquartoRepository.save(despesaquartoAtualizada);
-
-    return {
-      mensagem: `Despesaquarto #${despesaquarto_id} atualizada com sucesso`,
-      despesaquarto: despesaquartoSalva,
-    };
   }
 
-  async removeDespesaquarto(despesaquarto_id: number): Promise<{ mensagem: string }> {
+
+  async removeDespesaquarto(
+    despesaquarto_id: number,
+  ): Promise<{ mensagem: string }> {
     const despesaquarto = await this.despesaquartoRepository.findOne({
       where: { despesaquarto_id },
     });
 
     if (!despesaquarto) {
       throw new HttpException('Erro ao excluir despesaquarto', 404);
+    } else {
+      await this.despesaquartoRepository.softDelete(despesaquarto_id);
+      return {
+        mensagem: `Despesaquarto #${despesaquarto_id} excluída com sucesso`,
+      };
     }
-
-    await this.despesaquartoRepository.softDelete(despesaquarto_id);
-    return { mensagem: `Despesaquarto #${despesaquarto_id} excluída com sucesso` };
   }
 }

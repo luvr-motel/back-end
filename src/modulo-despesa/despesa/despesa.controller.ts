@@ -8,23 +8,23 @@ export class DespesaController {
   constructor(private readonly despesaService: DespesaService) {}
 
   @Post()
-  createDespesa(@Body() createDespesageralDto: CreateDespesaDto) {
-    return this.despesaService.createDespesa(createDespesageralDto);
+  createDespesa(@Body() createDespesaDto: CreateDespesaDto) {
+    return this.despesaService.createDespesa(createDespesaDto);
   }
 
   @Get()
-  findAllDespesa() {
+  findAllDespesas() {
     return this.despesaService.findAllDespesas();
   }
 
   @Get(':despesa_id')
-  findOneDespesa(@Param('despesa_id') despesa_id: string) {
+  findDespesaId(@Param('despesa_id') despesa_id: string) {
     return this.despesaService.findDespesaId(+despesa_id);
   }
 
   @Patch(':despesa_id')
-  updateDespesa(@Param('despesa_id') despesa_id: string,@Body() updateDespesageralDto: UpdateDespesaDto,){
-    return this.despesaService.updateDespesa(+despesa_id, updateDespesageralDto);
+  updateDespesa(@Param('despesa_id') despesa_id: string, @Body() updateDespesaDto: UpdateDespesaDto) {
+    return this.despesaService.updateDespesa(+despesa_id, updateDespesaDto);
   }
 
   @Delete(':despesa_id')

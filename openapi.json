@@ -25,7 +25,7 @@
         ]
       },
       "get": {
-        "operationId": "DespesaController_findAllDespesa",
+        "operationId": "DespesaController_findAllDespesas",
         "parameters": [],
         "responses": {
           "200": {
@@ -39,7 +39,7 @@
     },
     "/despesa/{despesa_id}": {
       "get": {
-        "operationId": "DespesaController_findOneDespesa",
+        "operationId": "DespesaController_findDespesaId",
         "parameters": [
           {
             "name": "despesa_id",
@@ -1707,25 +1707,40 @@
             "type": "number",
             "example": 1
           },
+          "pessoa": {
+            "type": "number",
+            "example": 2
+          },
           "despesa_aberto": {
             "type": "boolean",
             "example": true
           },
-          "despesa_valortotal": {
-            "type": "number",
-            "example": 1250.75
-          },
           "despesatipo_id": {
             "type": "number",
             "example": 2
+          },
+          "despesa_total": {
+            "type": "number",
+            "example": 1250.75
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
           }
         },
         "required": [
           "despesa_descricao",
           "despesa_parcela",
+          "pessoa",
           "despesa_aberto",
-          "despesa_valortotal",
-          "despesatipo_id"
+          "despesatipo_id",
+          "despesa_total",
+          "usuario_id",
+          "motel_id"
         ]
       },
       "UpdateDespesaDto": {
@@ -1739,17 +1754,29 @@
             "type": "number",
             "example": 1
           },
+          "pessoa": {
+            "type": "number",
+            "example": 2
+          },
           "despesa_aberto": {
             "type": "boolean",
             "example": true
           },
-          "despesa_valortotal": {
-            "type": "number",
-            "example": 1250.75
-          },
           "despesatipo_id": {
             "type": "number",
             "example": 2
+          },
+          "despesa_total": {
+            "type": "number",
+            "example": 1250.75
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
           }
         }
       },
@@ -1758,7 +1785,7 @@
         "properties": {
           "despesatipo_descricao": {
             "type": "string",
-            "example": "Luxo"
+            "example": "Manutenção"
           }
         },
         "required": [
@@ -1770,7 +1797,7 @@
         "properties": {
           "despesatipo_descricao": {
             "type": "string",
-            "example": "Luxo"
+            "example": "Manutenção"
           }
         }
       },
@@ -2281,7 +2308,7 @@
             "example": 7,
             "description": "ID da Pessoa vinculada."
           },
-          "motelId": {
+          "motel_id": {
             "type": "number",
             "example": 3,
             "description": "ID do Motel (quando habilitado)."

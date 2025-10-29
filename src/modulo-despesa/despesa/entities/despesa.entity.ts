@@ -28,8 +28,8 @@ export class Despesa {
   despesa_aberto: boolean;
 
   @ManyToOne(() => Despesatipo, (despesatipo) => despesatipo.despesa, {
-    nullable: true,
-    onDelete: 'SET NULL',
+    nullable: false,
+    onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'despesatipo_id' })
@@ -46,7 +46,7 @@ export class Despesa {
 
   // relacionamento com usuario
   @ManyToOne(() => Usuario, (usuario) => usuario.despesas, {
-    nullable: true,
+    nullable: false, //mudar para true 
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
@@ -55,8 +55,8 @@ export class Despesa {
 
   // relacionamento com motel
   @ManyToOne(() => Motel, (motel) => motel.despesa, {
-    nullable: true,
-    onDelete: 'SET NULL',
+    nullable: false,
+    onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'motel_id' })
