@@ -12,3 +12,7 @@ Produto
 
 Nao vamos deletar nada de fato, apenas setar exclusão.
 - Deletar produto
+
+
+
+atualizar nodejs

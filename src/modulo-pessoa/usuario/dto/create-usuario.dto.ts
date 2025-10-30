@@ -4,12 +4,12 @@ import { UsuarioStatus } from '../entities/usuario.entity';
 import { UsuarioRole } from '../entities/usuario-role.enum';
 
 export class CreateUsuarioDto {
-  @ApiProperty({ example: 'max.v', description: 'Código único de login do usuário.' })
+  @ApiProperty({ example: 'LUVR.RODRIGO', description: 'Código único de login do usuário.' })
   @IsString({ message: 'usuarioCodigo deve ser uma string.' })
   @IsNotEmpty()
   usuarioCodigo: string;
 
-  @ApiProperty({ example: 'MUNDIAL2012CORINTHIANS', description: 'Senha em texto plano (será hasheada no servidor).' })
+  @ApiProperty({ example: 'luvr#123', description: 'Senha em texto plano ( será hasheada no servidor ).' })
   @IsString({ message: 'usuarioSenha deve ser uma string.' })
   @IsNotEmpty()
   usuarioSenha: string;
@@ -28,7 +28,8 @@ export class CreateUsuarioDto {
   @IsInt()
   motelId?: number;
 
-  @ApiPropertyOptional({ enum: UsuarioRole, example: 'recepcionista', description: 'Papel do usuário.' })
+  @ApiPropertyOptional({ enum: UsuarioRole, example: 'Recepcionista', description: 'Cargo usuário.' })
   @IsEnum(UsuarioRole)
+  @IsOptional()
   usuarioRole?: UsuarioRole;
 }

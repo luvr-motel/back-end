@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsCurrency, IsDate, IsInt, IsNumber, IsOptional } from "class-validator";
+import { IsInt, IsNumber, IsOptional } from "class-validator";
 // DTO não deve declarar relacionamentos; manter apenas campos de entrada
 
 export class CreateLocacaoDto {
@@ -25,10 +25,39 @@ export class CreateLocacaoDto {
     locacao_totalLocacao: number;
 
     // relacionamentos são definidos na entidade, não no DTO
-    // quarto_id             integer
-    // pessoa_id             integer 
-    // pagamentoforma_id     integer
-    // usuario_id            integer
-    // locacaoPosicao_id     integer
+    @ApiProperty({ example: 1 })
+    @IsOptional()
+    @IsInt()
+    motel_id?: number;
+
+    @ApiProperty({ example: 10 })
+    @IsOptional()
+    @IsInt()
+    quarto_id?: number;
+
+    @ApiProperty({ example: 5 })
+    @IsOptional()
+    @IsInt()
+    pessoa_id?: number;
+
+    @ApiProperty({ example: 2 })
+    @IsOptional()
+    @IsInt()
+    pagamentoforma_id?: number;
+
+    @ApiProperty({ example: 3 })
+    @IsOptional()
+    @IsInt()
+    usuario_id?: number;
+
+    @ApiProperty({ example: 1 })
+    @IsOptional()
+    @IsInt()
+    locacaoPosicao_id?: number;
+
+    @ApiProperty({ example: 1 })
+    @IsOptional()
+    @IsInt()
+    locacaoTipo_id?: number;
 
 }

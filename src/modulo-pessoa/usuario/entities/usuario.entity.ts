@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, OneToMany, RelationId, Index, Unique } from 'typeorm'; 
 import { Pessoa } from '../../pessoa/entities/pessoa.entity'; 
 import { UsuarioRole } from './usuario-role.enum';
+import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
 import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
 
 export enum UsuarioStatus { ATIVO = 'ativo', INATIVO = 'inativo' }
@@ -25,6 +26,14 @@ export class Usuario {
 
   @RelationId((u: Usuario) => u.pessoa)
   pessoa_id: number;
+
+  // Relacionamento com Motel
+  @ManyToOne(() => Motel, { nullable: true })
+  @JoinColumn({ name: 'motel_id' })
+  motel?: Motel | null;
+
+  @RelationId((u: Usuario) => u.motel)
+  motel_id?: number | null;
 
   // Relacionamento reverso com Locacao
   @OneToMany(() => Locacao, (locacao) => locacao.usuario)

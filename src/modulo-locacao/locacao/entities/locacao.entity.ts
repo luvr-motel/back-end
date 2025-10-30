@@ -4,6 +4,7 @@ import { Pessoa } from "../../../modulo-pessoa/pessoa/entities/pessoa.entity";
 import { Usuario } from "../../../modulo-pessoa/usuario/entities/usuario.entity";
 import { PagamentoForma } from "../../../modulo-pagamento/pagamento-forma/entities/pagamento-forma.entity";
 import { LocacaoPosicao } from "../../locacao-posicao/entities/locacao-posicao.entity";
+import { LocacaoTipo } from "../../locacao-tipo/entities/locacao-tipo.entity";
 import { Comanda } from "../../comanda/entities/comanda.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
@@ -26,7 +27,7 @@ export class Locacao {
     locacao_totalLocacao: number;
     
     // Relacionamento com Motel
-    @ManyToOne(() => Motel, { nullable: false })
+    @ManyToOne(() => Motel, { nullable: true })
     @JoinColumn({ name: 'motel_id' })
     motel: Motel;
 
@@ -72,6 +73,14 @@ export class Locacao {
 
     @RelationId((locacao: Locacao) => locacao.locacaoPosicao)
     locacaoPosicao_id: number;
+
+    // Relacionamento com LocacaoTipo
+    @ManyToOne(() => LocacaoTipo, { nullable: true })
+    @JoinColumn({ name: 'locacaoTipo_id' })
+    locacaoTipo: LocacaoTipo;
+
+    @RelationId((locacao: Locacao) => locacao.locacaoTipo)
+    locacaoTipo_id: number;
 
     // Relacionamento reverso com Comanda
     @OneToMany(() => Comanda, (comanda) => comanda.locacao)

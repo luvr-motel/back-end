@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsInt, IsNotEmpty } from "class-validator"
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional } from "class-validator"
 
 export class CreateEstoqueProdutoDto {
 
@@ -9,9 +9,18 @@ export class CreateEstoqueProdutoDto {
     estoqueProduto_fisico: number
 
     @IsBoolean()
+    @IsOptional()
+    @ApiProperty({ example: true })
     estoqueProduto_ativo: boolean
 
-    // produto_id
-    // motel_id
+    @IsInt()
+    @IsOptional()
+    @ApiProperty({ example: 1 })
+    produto_id?: number
+
+    @IsInt()
+    @IsOptional()
+    @ApiProperty({ example: 1 })
+    motel_id?: number
 }
 
