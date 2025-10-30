@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Locacao } from "../../locacao/entities/locacao.entity";
 
 @Entity()
 export class LocacaoPosicao {
@@ -8,6 +9,10 @@ export class LocacaoPosicao {
 
    @Column({ type: 'varchar', name: 'locacaoPosicao_descricao', nullable: false })
    locacaoPosicao_descricao: string;
+
+   // Relacionamento reverso com Locacao
+   @OneToMany(() => Locacao, (locacao) => locacao.locacaoPosicao)
+   locacoes: Locacao[];
    
    @CreateDateColumn({ type: 'timestamp', name: 'locacaoPosicao_inclusao' })
    locacaoPosicao_inclusao: Date;

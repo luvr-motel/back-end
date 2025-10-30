@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateDespesatipoDto {
-  @ApiProperty({example: 'Manutenção'})
+  @ApiProperty({example: 'Fornecedor'})
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)

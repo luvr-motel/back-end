@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
+import { Produto } from "../../produto/entities/produto.entity";
+import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
 
 @Entity()
 export class EstoqueProduto {
@@ -11,8 +13,21 @@ export class EstoqueProduto {
     @Column({type: 'boolean', name:'estoqueProduto_ativo', nullable: false, default: true })
     estoqueProduto_ativo: boolean
 
-    // produto_id
-    // motel_id
+    // Relacionamento com Produto
+    @ManyToOne(() => Produto, { nullable: true })
+    @JoinColumn({ name: 'produto_id' })
+    produto: Produto;
+
+    @RelationId((e: EstoqueProduto) => e.produto)
+    produto_id: number;
+
+    // Relacionamento com Motel
+    @ManyToOne(() => Motel, { nullable: true })
+    @JoinColumn({ name: 'motel_id' })
+    motel: Motel;
+
+    @RelationId((e: EstoqueProduto) => e.motel)
+    motel_id: number;
     @CreateDateColumn({ type: 'timestamp', name:'estoqueProduto_inclusao' })
     estoqueProduto_inclusao: Date
 

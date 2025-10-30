@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class LocacaoTipo {
    @PrimaryGeneratedColumn({type:'integer', name: 'locacaoTipo_id'})
    locacaoTipo_id : number;
