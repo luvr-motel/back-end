@@ -3,6 +3,7 @@ import { Pessoa } from '../../pessoa/entities/pessoa.entity';
 import { UsuarioRole } from './usuario-role.enum';
 import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
 import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
+import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 
 export enum UsuarioStatus { ATIVO = 'ativo', INATIVO = 'inativo' }
 
@@ -47,4 +48,9 @@ export class Usuario {
 
   @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamp', nullable: true })
   usuario_exclusao: Date;
+
+
+  //Relcionamento com despesa
+  @OneToMany(() => Despesa, (despesa) => despesa.usuario)
+  despesas: Despesa[];
 }

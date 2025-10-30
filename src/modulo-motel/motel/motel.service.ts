@@ -35,13 +35,13 @@ export class MotelService {//renomear repository
   async findAllMoteis(): Promise<Motel[]> {
     return this.repo.find({
       where: { motelExclusao: IsNull() },
-      order: { motelId: 'ASC' },
+      order: { motel_id: 'ASC' },
     });
   }
 
   async findOneMotel(id: number): Promise<Motel> {
     const found = await this.repo.findOne({
-      where: { motelId: id, motelExclusao: IsNull() },
+      where: { motel_id: id, motelExclusao: IsNull() },
     });
     if (!found) {
       throw new NotFoundException( 'Motel não encontrado' )
@@ -55,7 +55,7 @@ export class MotelService {//renomear repository
 
     if (dto.motel_cnpj && dto.motel_cnpj !== entity.motelCnpj) {
       const exists = await this.repo.findOne({
-        where: { motelCnpj: dto.motel_cnpj, motelExclusao: IsNull(), motelId: Not(id) },
+        where: { motelCnpj: dto.motel_cnpj, motelExclusao: IsNull(), motel_id: Not(id) },
       });
       if (exists) throw new BadRequestException('CNPJ já cadastrado');
       entity.motelCnpj = dto.motel_cnpj;
@@ -70,7 +70,7 @@ export class MotelService {//renomear repository
   }
 
   async deleteMotel(id: number): Promise<{ mensagem: string }> {
-  const motel = await this.repo.findOne({ where: { motelId: id, motelExclusao: IsNull() } });
+  const motel = await this.repo.findOne({ where: { motel_id: id, motelExclusao: IsNull() } });
 
   if (!motel) {
     throw new HttpException('Erro ao excluir motel', 404);

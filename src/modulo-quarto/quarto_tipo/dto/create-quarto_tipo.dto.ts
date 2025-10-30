@@ -6,5 +6,6 @@ export class CreateQuartoTipoDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
+  @ApiProperty({example: 'Luxo'})
   quartotipo_descricao: string;
 }

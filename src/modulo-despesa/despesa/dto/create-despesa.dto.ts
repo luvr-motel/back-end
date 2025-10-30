@@ -1,13 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsInt,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { Type } from 'class-transformer';
+import {IsBoolean,IsInt,IsNotEmpty,IsNumber,IsOptional,IsString,MaxLength,} from 'class-validator';
 
 export class CreateDespesaDto {
   @ApiProperty({ example: 'Hospedagem equipe comercial' })
@@ -18,22 +11,43 @@ export class CreateDespesaDto {
 
   @ApiProperty({ example: 1 })
   @IsOptional()
-  @IsInt()
+  @IsNumber()
+  @Type(() => Number)
   despesa_parcela: number ;
+
+  @ApiProperty({ example: 2 })
+  @IsInt()
+  @IsOptional()
+  @Type(() => Number)
+  pessoa: number;
 
   @ApiProperty({ example: true })
   @IsBoolean()
+  @Type(() => Boolean)
+  @IsNotEmpty()
   despesa_aberto: boolean;
+  
+  @ApiProperty({ example: 2 })
+  @IsNotEmpty()
+  @Type(() => Number)
+  @IsNumber()
+  despesatipo_id: number;
 
   @ApiProperty({ example: 1250.75 })
-  // @Type(() => Number)
+  @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 }, { message: 'O valor deve ser numérico com até 2 casas decimais' })
   @IsNotEmpty()
-  despesa_valortotal: number;
+  despesa_total: number;
 
-  @ApiProperty({ example: 2 })
-  @IsOptional()
-  // @Type(() => Number)
+  @ApiProperty({ example: 1 })
   @IsInt()
-  despesatipo_id: number;
+  @IsOptional()
+  @Type(() => Number)
+  usuario_id: number;
+
+  @ApiProperty({ example: 1 })
+  @IsInt()
+  @IsNotEmpty()
+  @Type(() => Number)
+  motel_id: number;
 }

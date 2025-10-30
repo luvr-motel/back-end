@@ -35,4 +35,8 @@ export class Pessoa {
 
   @DeleteDateColumn({ name: 'pessoa_exclusao', type: 'timestamp', nullable: true })
   pessoa_exclusao: Date;
+
+  //relacionamento com despesa
+  @OneToMany(() => Despesa, (despesa) => despesa.pessoa)
+  despesa: Despesa[];
 }
