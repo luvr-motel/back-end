@@ -1,15 +1,12 @@
 services:
-  postgres:
-    image: postgres:15
-    restart: always
+  api:
+    build: .
+    container_name: backend
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: luvr
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
     ports:
-      - "5435:5432"
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      - "8080:8080"
