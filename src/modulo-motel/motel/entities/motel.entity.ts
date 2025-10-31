@@ -1,3 +1,4 @@
+import { MaxLength } from 'class-validator';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Status } from '../common/enums/status.enum';
 import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
@@ -11,16 +12,16 @@ export class Motel {
   @PrimaryGeneratedColumn({ name: 'motel_id', type: 'integer' })
   motel_id: number;
 
-  @Column({ name: 'motel_descricao', type: 'varchar', length: 255, nullable: true })
+  @Column({ name: 'motel_descricao', type: 'varchar', nullable: true })
   motelDescricao: string;
 
-  @Column({ name: 'motel_endereco', type: 'varchar', length: 255, nullable: true })
+  @Column({ name: 'motel_endereco', type: 'varchar', nullable: true })
   motelEndereco: string;
 
-  @Column({ name: 'motel_email', type: 'varchar', length: 255, nullable: true })
+  @Column({ name: 'motel_email', type: 'varchar',  nullable: true })
   motelEmail: string;
 
-  @Column({ name: 'motel_cnpj', type: 'varchar', length: 18, nullable: false, unique: true })
+  @Column({ name: 'motel_cnpj', type: 'varchar', nullable: false, unique: true })
   motelCnpj: string;
 
   @Column({ name: 'motel_ativo', type: 'enum', enum: Status, default: Status.ATIVO })

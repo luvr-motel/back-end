@@ -5,14 +5,12 @@ import { Status } from '../common/enums/status.enum';
 export class CreateMotelDto {
   @ApiProperty({ example: 'LUVR Motel Centro'})
   @IsString() 
-  @Length(255)
   @IsNotEmpty()
   motel_descricao: string;
 
   @ApiPropertyOptional({ example: 'Av. Brasil, 1000 - Centro' })
   @IsString() 
   @IsNotEmpty()
-  @Length(255)
   motel_endereco?: string;
 
   @ApiProperty({ example: 'contato@motel.com.br' })
