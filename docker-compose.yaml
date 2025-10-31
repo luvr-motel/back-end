@@ -1,12 +1,17 @@
+version: '3.9'
+
 services:
-  api:
+  backend:
     build: .
     container_name: backend
-    environment:
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DATABASE=${DB_DATABASE}
+    restart: always
     ports:
       - "8080:8080"
+    environment:
+      # Variáveis de conexão com o banco — o Railway injeta essas automaticamente
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+    command: npm run start:prod
