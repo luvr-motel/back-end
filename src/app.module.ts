@@ -39,20 +39,28 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
     envFilePath: '.env', 
     isGlobal: true  
   }),
-  TypeOrmModule.forRoot({
-      type: "postgres",
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [ Despesa, Despesaquarto, Despesatipo, Comanda, Locacao, LocacaoPosicao, LocacaoTipo, Produto, EstoqueProduto, Quarto, QuartoTipo, Motel, PagamentoForma, Pessoa, PessoaTipo, Quarto, QuartoTipo, Usuario ],
-      //Comanda, EstoqueProduto, Locacao, LocacaoPosicao, LocacaoTipo, PagamentoForma, Produto//adicionar manualmente as entities
-      migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
-      synchronize: true,//desabilita quando for para produção
-      logging: ['query', 'error', 'schema'], 
-      autoLoadEntities: true,
-  }),
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'postgres',
+        host: process.env.DB_HOST,
+        port: Number(process.env.DB_PORT),
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE,
+        entities: [
+          Despesa, Despesaquarto, Despesatipo, Comanda, Locacao,
+          LocacaoPosicao, LocacaoTipo, Produto, EstoqueProduto,
+          Quarto, QuartoTipo, Motel, PagamentoForma, Pessoa,
+          PessoaTipo, Usuario,
+        ],
+        synchronize: true, // desabilite em produção se quiser proteger o schema
+        autoLoadEntities: true,
+        ssl: { rejectUnauthorized: false }, // 👈 necessário no Railway
+        retryAttempts: 10, // tenta reconectar 10 vezes
+        retryDelay: 5000,  // 5 segundos entre as tentativas
+        logging: ['error'],
+      }),
+    }),
   DespesaModule,
   DespesatipoModule,
   DespesaquartoModule,
