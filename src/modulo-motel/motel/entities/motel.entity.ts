@@ -21,7 +21,7 @@ export class Motel {
   @Column({ name: 'motel_email', type: 'varchar',  nullable: true })
   motelEmail: string;
 
-  @Column({ name: 'motel_cnpj', type: 'varchar', nullable: false, unique: true })
+  @Column({ name: 'motel_cnpj', type: 'varchar',   nullable: false, unique: true })
   motelCnpj: string;
 
   @Column({ name: 'motel_ativo', type: 'enum', enum: Status, default: Status.ATIVO })
