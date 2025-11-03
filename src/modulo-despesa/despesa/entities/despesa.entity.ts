@@ -9,7 +9,7 @@ export class Despesa {
   @PrimaryGeneratedColumn({ name: 'despesa_id', type: 'integer' })
   despesa_id: number;
 
-  @Column({name: 'despesa_descricao',type: 'varchar',length: 255,default: ''})
+  @Column({name: 'despesa_descricao',type: 'varchar', length : 255,default: ''})
   despesa_descricao: string;
 
   @Column({ name: 'despesa_parcela', type: 'integer', nullable: true })
