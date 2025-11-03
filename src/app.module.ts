@@ -39,19 +39,34 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
     envFilePath: '.env', 
     isGlobal: true  
   }),
-  TypeOrmModule.forRoot({
-      type: "postgres",
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      autoLoadEntities: true,
-      // entities: [ Despesa, Despesaquarto, Despesatipo, Comanda, Locacao, LocacaoPosicao, LocacaoTipo, Produto, EstoqueProduto, Quarto, QuartoTipo, Motel, PagamentoForma, Pessoa, PessoaTipo, Quarto, QuartoTipo, Usuario ],
-      //Comanda, EstoqueProduto, Locacao, LocacaoPosicao, LocacaoTipo, PagamentoForma, Produto//adicionar manualmente as entities
-      migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
-      synchronize: true,//desabilita quando for para produção
-      logging: ['query', 'error', 'schema']
+    TypeOrmModule.forRootAsync({
+      useFactory: () => {
+        const isProd = process.env.NODE_ENV === 'production';
+        const hasUrl = !!process.env.DATABASE_URL;
+        const base = {
+          type: 'postgres' as const,
+          autoLoadEntities: true,
+          migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
+          logging: ['query', 'error', 'schema'] as any,
+        };
+        if (hasUrl) {
+          return {
+            ...base,
+            url: process.env.DATABASE_URL,
+            ssl: isProd ? { rejectUnauthorized: false } : false,
+            synchronize: process.env.TYPEORM_SYNC === 'true',
+          };
+        }
+        return {
+          ...base,
+          host: process.env.DB_HOST,
+          port: Number(process.env.DB_PORT),
+          username: process.env.DB_USERNAME,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_DATABASE,
+          synchronize: process.env.TYPEORM_SYNC === 'true',
+        };
+      }
   }),
   // TypeOrmModule.forRootAsync({
   //     useFactory: () => ({
@@ -92,3 +107,4 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
   providers: [],
 })
 export class AppModule {}
+
