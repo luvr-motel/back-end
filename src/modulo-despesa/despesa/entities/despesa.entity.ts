@@ -46,7 +46,7 @@ export class Despesa {
 
   // relacionamento com usuario
   @ManyToOne(() => Usuario, (usuario) => usuario.despesas, {
-    nullable: false, //mudar para true 
+    nullable: true,
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })

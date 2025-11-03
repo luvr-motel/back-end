@@ -46,13 +46,32 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [ Despesa, Despesaquarto, Despesatipo, Comanda, Locacao, LocacaoPosicao, LocacaoTipo, Produto, EstoqueProduto, Quarto, QuartoTipo, Motel, PagamentoForma, Pessoa, PessoaTipo, Quarto, QuartoTipo, Usuario ],
+      autoLoadEntities: true,
+      // entities: [ Despesa, Despesaquarto, Despesatipo, Comanda, Locacao, LocacaoPosicao, LocacaoTipo, Produto, EstoqueProduto, Quarto, QuartoTipo, Motel, PagamentoForma, Pessoa, PessoaTipo, Quarto, QuartoTipo, Usuario ],
       //Comanda, EstoqueProduto, Locacao, LocacaoPosicao, LocacaoTipo, PagamentoForma, Produto//adicionar manualmente as entities
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
       synchronize: true,//desabilita quando for para produção
-      logging: ['query', 'error', 'schema'], 
-      autoLoadEntities: true,
+      logging: ['query', 'error', 'schema']
   }),
+  // TypeOrmModule.forRootAsync({
+  //     useFactory: () => ({
+  //       type: 'postgres',
+  //       host: process.env.DB_HOST,
+  //       port: Number(process.env.DB_PORT),
+  //       username: process.env.DB_USERNAME,
+  //       password: process.env.DB_PASSWORD,
+  //       database: process.env.DB_DATABASE,
+  //       autoLoadEntities: true,
+  //       synchronize: true, // desative em produção se usar migrations
+  //       ssl:
+  //         process.env.NODE_ENV === 'production'
+  //           ? { rejectUnauthorized: false }
+  //           : false, // 👈 SSL só em produção
+  //       retryAttempts: 10,
+  //       retryDelay: 5000,
+  //       logging: ['error'],
+  //     }),
+  //   }),
   DespesaModule,
   DespesatipoModule,
   DespesaquartoModule,
@@ -67,8 +86,6 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
   PagamentoFormaModule,
   PessoaModule,
   PessoaTipoModule,
-  QuartoModule,
-  QuartoTipoModule,
   UsuarioModule,
   ],
   controllers: [],

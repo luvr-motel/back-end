@@ -68,19 +68,19 @@ export class Locacao {
 
     // Relacionamento com LocacaoPosicao
     @ManyToOne(() => LocacaoPosicao, { nullable: true })
-    @JoinColumn({ name: 'locacaoPosicao_id' })
+    @JoinColumn({ name: 'locacao_posicao_id' })
     locacaoPosicao: LocacaoPosicao;
 
     @RelationId((locacao: Locacao) => locacao.locacaoPosicao)
-    locacaoPosicao_id: number;
+    locacao_posicao_id: number;
 
     // Relacionamento com LocacaoTipo
     @ManyToOne(() => LocacaoTipo, { nullable: true })
-    @JoinColumn({ name: 'locacaoTipo_id' })
+    @JoinColumn({ name: 'locacao_tipo_id' })
     locacaoTipo: LocacaoTipo;
 
     @RelationId((locacao: Locacao) => locacao.locacaoTipo)
-    locacaoTipo_id: number;
+    locacao_tipo_id: number;
 
     // Relacionamento reverso com Comanda
     @OneToMany(() => Comanda, (comanda) => comanda.locacao)
