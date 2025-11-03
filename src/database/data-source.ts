@@ -8,7 +8,7 @@ const baseOptions = {
   type: 'postgres' as const,
   entities: [__dirname + '/../**/*.entity{.js,.ts}'],
   migrations: [__dirname + '/migrations/*{.js,.ts}'],
-  logging: ['error'],
+  logging: false,
 };
 
 export const AppDataSource = new DataSource(
@@ -31,4 +31,3 @@ export const AppDataSource = new DataSource(
 );
 
 export default AppDataSource;
-
