@@ -1693,7 +1693,14 @@
       "description": ""
     }
   ],
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://api.luvr.com.br"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
   "components": {
     "schemas": {
       "CreateDespesaDto": {

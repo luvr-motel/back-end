@@ -26,6 +26,18 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
   }),
     TypeOrmModule.forRootAsync({
       useFactory: () => {
+        // Debug minimal para confirmar qual config está ativa
+        const dbg = {
+          NODE_ENV: process.env.NODE_ENV,
+          HAS_DATABASE_URL: !!process.env.DATABASE_URL,
+          DB_HOST: process.env.DB_HOST,
+          DB_PORT: process.env.DB_PORT,
+          DB_USERNAME: process.env.DB_USERNAME,
+          DB_DATABASE: process.env.DB_DATABASE,
+          TYPEORM_SYNC: process.env.TYPEORM_SYNC,
+        };
+        // eslint-disable-next-line no-console
+        console.log('[DBCFG]', dbg);
         const isProd = process.env.NODE_ENV === 'production';
         const hasUrl = !!process.env.DATABASE_URL;
         const base = {
