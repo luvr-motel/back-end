@@ -1,0 +1,2435 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/despesa": {
+      "post": {
+        "operationId": "DespesaController_createDespesa",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDespesaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesa"
+        ]
+      },
+      "get": {
+        "operationId": "DespesaController_findAllDespesas",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesa"
+        ]
+      }
+    },
+    "/despesa/{despesa_id}": {
+      "get": {
+        "operationId": "DespesaController_findDespesaId",
+        "parameters": [
+          {
+            "name": "despesa_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesa"
+        ]
+      },
+      "patch": {
+        "operationId": "DespesaController_updateDespesa",
+        "parameters": [
+          {
+            "name": "despesa_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDespesaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesa"
+        ]
+      },
+      "delete": {
+        "operationId": "DespesaController_removeDespesa",
+        "parameters": [
+          {
+            "name": "despesa_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesa"
+        ]
+      }
+    },
+    "/despesatipo": {
+      "post": {
+        "operationId": "DespesatipoController_createDespesatipo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDespesatipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesatipo"
+        ]
+      },
+      "get": {
+        "operationId": "DespesatipoController_findAllDespesatipo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesatipo"
+        ]
+      }
+    },
+    "/despesatipo/{despesatipo_id}": {
+      "get": {
+        "operationId": "DespesatipoController_findOneDespesatipo",
+        "parameters": [
+          {
+            "name": "despesatipo_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesatipo"
+        ]
+      },
+      "patch": {
+        "operationId": "DespesatipoController_updateDespesatipo",
+        "parameters": [
+          {
+            "name": "despesatipo_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDespesatipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesatipo"
+        ]
+      },
+      "delete": {
+        "operationId": "DespesatipoController_removeDespesatipo",
+        "parameters": [
+          {
+            "name": "despesatipo_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesatipo"
+        ]
+      }
+    },
+    "/despesaQuaro": {
+      "post": {
+        "operationId": "DespesaquartoController_createDespesaquarto",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDespesaquartoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesaquarto"
+        ]
+      },
+      "get": {
+        "operationId": "DespesaquartoController_findAllDespesasQuarto",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesaquarto"
+        ]
+      }
+    },
+    "/despesaQuaro/{id}": {
+      "get": {
+        "operationId": "DespesaquartoController_findDespesaquartoId",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesaquarto"
+        ]
+      },
+      "patch": {
+        "operationId": "DespesaquartoController_updateDespesaquarto",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDespesaquartoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesaquarto"
+        ]
+      },
+      "delete": {
+        "operationId": "DespesaquartoController_removeDespesaquarto",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Despesaquarto"
+        ]
+      }
+    },
+    "/locacao": {
+      "post": {
+        "operationId": "LocacaoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLocacaoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      },
+      "get": {
+        "operationId": "LocacaoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      }
+    },
+    "/locacao/{id}": {
+      "get": {
+        "operationId": "LocacaoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      },
+      "patch": {
+        "operationId": "LocacaoController_updateLocacao",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLocacaoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      },
+      "delete": {
+        "operationId": "LocacaoController_deleteLocacaoById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      }
+    },
+    "/locacao-tipo": {
+      "post": {
+        "operationId": "LocacaoTipoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLocacaoTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoTipo"
+        ]
+      },
+      "get": {
+        "operationId": "LocacaoTipoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoTipo"
+        ]
+      }
+    },
+    "/locacao-tipo/{id}": {
+      "get": {
+        "operationId": "LocacaoTipoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoTipo"
+        ]
+      },
+      "patch": {
+        "operationId": "LocacaoTipoController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLocacaoTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoTipo"
+        ]
+      },
+      "delete": {
+        "operationId": "LocacaoTipoController_deleteLocacaoTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoTipo"
+        ]
+      }
+    },
+    "/locacao-posicao": {
+      "post": {
+        "operationId": "LocacaoPosicaoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLocacaoPosicaoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoPosicao"
+        ]
+      },
+      "get": {
+        "operationId": "LocacaoPosicaoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoPosicao"
+        ]
+      }
+    },
+    "/locacao-posicao/{id}": {
+      "get": {
+        "operationId": "LocacaoPosicaoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoPosicao"
+        ]
+      },
+      "patch": {
+        "operationId": "LocacaoPosicaoController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLocacaoPosicaoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoPosicao"
+        ]
+      },
+      "delete": {
+        "operationId": "LocacaoPosicaoController_deleteLocacaoPosicaoById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "LocacaoPosicao"
+        ]
+      }
+    },
+    "/produto": {
+      "post": {
+        "operationId": "ProdutoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProdutoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Produto"
+        ]
+      },
+      "get": {
+        "operationId": "ProdutoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Produto"
+        ]
+      }
+    },
+    "/produto/{id}": {
+      "get": {
+        "operationId": "ProdutoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Produto"
+        ]
+      },
+      "patch": {
+        "operationId": "ProdutoController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProdutoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Produto"
+        ]
+      },
+      "delete": {
+        "operationId": "ProdutoController_removeProduto",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Produto"
+        ]
+      }
+    },
+    "/estoque-produto": {
+      "post": {
+        "operationId": "EstoqueProdutoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEstoqueProdutoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "EstoqueProduto"
+        ]
+      },
+      "get": {
+        "operationId": "EstoqueProdutoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "EstoqueProduto"
+        ]
+      }
+    },
+    "/estoque-produto/{id}": {
+      "get": {
+        "operationId": "EstoqueProdutoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "EstoqueProduto"
+        ]
+      },
+      "patch": {
+        "operationId": "EstoqueProdutoController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEstoqueProdutoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "EstoqueProduto"
+        ]
+      },
+      "delete": {
+        "operationId": "EstoqueProdutoController_deleteEstoqueByProduto",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "EstoqueProduto"
+        ]
+      }
+    },
+    "/quarto": {
+      "post": {
+        "operationId": "QuartoController_createQuarto",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuartoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quarto"
+        ]
+      },
+      "get": {
+        "operationId": "QuartoController_findAllQuartos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quarto"
+        ]
+      }
+    },
+    "/quarto/{id}": {
+      "get": {
+        "operationId": "QuartoController_findQuartoId",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quarto"
+        ]
+      },
+      "patch": {
+        "operationId": "QuartoController_updateQuarto",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuartoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quarto"
+        ]
+      },
+      "delete": {
+        "operationId": "QuartoController_deleteQuartoById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quarto"
+        ]
+      }
+    },
+    "/quarto-tipo": {
+      "post": {
+        "operationId": "QuartoTipoController_createQuartoTipo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuartoTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "QuartoTipo"
+        ]
+      },
+      "get": {
+        "operationId": "QuartoTipoController_findAllQuartoTipos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "QuartoTipo"
+        ]
+      }
+    },
+    "/quarto-tipo/{id}": {
+      "get": {
+        "operationId": "QuartoTipoController_findQuartoTipoId",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "QuartoTipo"
+        ]
+      },
+      "patch": {
+        "operationId": "QuartoTipoController_updateQuartoTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuartoTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "QuartoTipo"
+        ]
+      },
+      "delete": {
+        "operationId": "QuartoTipoController_removeQuartoTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "QuartoTipo"
+        ]
+      }
+    },
+    "/moteis": {
+      "post": {
+        "operationId": "MotelController_createMotel",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMotelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      },
+      "get": {
+        "operationId": "MotelController_findAllMoteis",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      }
+    },
+    "/moteis/{id}": {
+      "get": {
+        "operationId": "MotelController_findOneMotel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      },
+      "patch": {
+        "operationId": "MotelController_updateMotel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMotelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      },
+      "delete": {
+        "operationId": "MotelController_deleteMotel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Motel"
+        ]
+      }
+    },
+    "/pagamento-forma": {
+      "post": {
+        "operationId": "PagamentoFormaController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePagamentoFormaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      },
+      "get": {
+        "operationId": "PagamentoFormaController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      }
+    },
+    "/pagamento-forma/{id}": {
+      "get": {
+        "operationId": "PagamentoFormaController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      },
+      "patch": {
+        "operationId": "PagamentoFormaController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePagamentoFormaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      },
+      "delete": {
+        "operationId": "PagamentoFormaController_deletePagamentoForma",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PagamentoForma"
+        ]
+      }
+    },
+    "/pessoa": {
+      "post": {
+        "operationId": "PessoaController_createPessoa",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePessoaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      },
+      "get": {
+        "operationId": "PessoaController_findAllPessoas",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      }
+    },
+    "/pessoa/{id}": {
+      "get": {
+        "operationId": "PessoaController_findOnePessoa",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      },
+      "patch": {
+        "operationId": "PessoaController_updatePessoa",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePessoaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      },
+      "delete": {
+        "operationId": "PessoaController_removePessoa",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Pessoa"
+        ]
+      }
+    },
+    "/pessoatipo": {
+      "post": {
+        "operationId": "PessoaTipoController_createPessoaTipo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePessoaTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      },
+      "get": {
+        "operationId": "PessoaTipoController_findAllPessoaTipos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      }
+    },
+    "/pessoatipo/{id}": {
+      "get": {
+        "operationId": "PessoaTipoController_findOnePessoaTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      },
+      "patch": {
+        "operationId": "PessoaTipoController_updatePessoaTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePessoaTipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      },
+      "delete": {
+        "operationId": "PessoaTipoController_removePessoaTipo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PessoaTipo"
+        ]
+      }
+    },
+    "/usuarios": {
+      "post": {
+        "operationId": "UsuarioController_createUsuario",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUsuarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      },
+      "get": {
+        "operationId": "UsuarioController_findAllUsuarios",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      }
+    },
+    "/usuarios/me/profile": {
+      "get": {
+        "operationId": "UsuarioController_getMyProfileUsuario",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "operationId": "UsuarioController_findOneUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      },
+      "patch": {
+        "operationId": "UsuarioController_updateUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUsuarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      },
+      "delete": {
+        "operationId": "UsuarioController_removeUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Usuario"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Luvr - Gestão Inteligente",
+    "description": "Escola de T.I - software de gestão de motel.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "API Luvr - BackEnd",
+      "description": ""
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.luvr.com.br"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CreateDespesaDto": {
+        "type": "object",
+        "properties": {
+          "despesa_descricao": {
+            "type": "string",
+            "example": "Hospedagem equipe comercial"
+          },
+          "despesa_parcela": {
+            "type": "number",
+            "example": 1
+          },
+          "pessoa": {
+            "type": "number",
+            "example": 2
+          },
+          "despesa_aberto": {
+            "type": "boolean",
+            "example": true
+          },
+          "despesatipo_id": {
+            "type": "number",
+            "example": 2
+          },
+          "despesa_total": {
+            "type": "number",
+            "example": 1250.75
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "despesa_descricao",
+          "despesa_parcela",
+          "pessoa",
+          "despesa_aberto",
+          "despesatipo_id",
+          "despesa_total",
+          "usuario_id",
+          "motel_id"
+        ]
+      },
+      "UpdateDespesaDto": {
+        "type": "object",
+        "properties": {
+          "despesa_descricao": {
+            "type": "string",
+            "example": "Hospedagem equipe comercial"
+          },
+          "despesa_parcela": {
+            "type": "number",
+            "example": 1
+          },
+          "pessoa": {
+            "type": "number",
+            "example": 2
+          },
+          "despesa_aberto": {
+            "type": "boolean",
+            "example": true
+          },
+          "despesatipo_id": {
+            "type": "number",
+            "example": 2
+          },
+          "despesa_total": {
+            "type": "number",
+            "example": 1250.75
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "CreateDespesatipoDto": {
+        "type": "object",
+        "properties": {
+          "despesatipo_descricao": {
+            "type": "string",
+            "example": "Fornecedor"
+          }
+        },
+        "required": [
+          "despesatipo_descricao"
+        ]
+      },
+      "UpdateDespesatipoDto": {
+        "type": "object",
+        "properties": {
+          "despesatipo_descricao": {
+            "type": "string",
+            "example": "Fornecedor"
+          }
+        }
+      },
+      "CreateDespesaquartoDto": {
+        "type": "object",
+        "properties": {
+          "despesaquarto_descricao": {
+            "type": "string",
+            "example": "Manutenção do ar-condicionado"
+          },
+          "despesaquarto_parcela": {
+            "type": "number",
+            "example": 2
+          },
+          "despesaquarto_itens": {
+            "type": "string",
+            "example": "Filtro, gás refrigerante"
+          },
+          "despesatipo_id": {
+            "type": "number",
+            "example": 1
+          },
+          "quarto_id": {
+            "type": "number",
+            "example": 3
+          },
+          "pessoa_id": {
+            "type": "number",
+            "example": 12
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 5
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "despesaquarto_descricao",
+          "despesaquarto_itens",
+          "despesatipo_id",
+          "quarto_id",
+          "pessoa_id",
+          "usuario_id",
+          "motel_id"
+        ]
+      },
+      "UpdateDespesaquartoDto": {
+        "type": "object",
+        "properties": {
+          "despesaquarto_descricao": {
+            "type": "string",
+            "example": "Manutenção do ar-condicionado"
+          },
+          "despesaquarto_parcela": {
+            "type": "number",
+            "example": 2
+          },
+          "despesaquarto_itens": {
+            "type": "string",
+            "example": "Filtro, gás refrigerante"
+          },
+          "despesatipo_id": {
+            "type": "number",
+            "example": 1
+          },
+          "quarto_id": {
+            "type": "number",
+            "example": 3
+          },
+          "pessoa_id": {
+            "type": "number",
+            "example": 12
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 5
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "CreateLocacaoDto": {
+        "type": "object",
+        "properties": {
+          "locacao_totalItens": {
+            "type": "number",
+            "example": 129
+          },
+          "locacao_totalQuarto": {
+            "type": "number",
+            "example": 240
+          },
+          "locacao_totalDesconto": {
+            "type": "number",
+            "example": 20
+          },
+          "locacao_totalLocacao": {
+            "type": "number",
+            "example": 349
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          },
+          "quarto_id": {
+            "type": "number",
+            "example": 10
+          },
+          "pessoa_id": {
+            "type": "number",
+            "example": 5
+          },
+          "pagamentoforma_id": {
+            "type": "number",
+            "example": 2
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 3
+          },
+          "locacaoPosicao_id": {
+            "type": "number",
+            "example": 1
+          },
+          "locacaoTipo_id": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "locacao_totalItens",
+          "locacao_totalQuarto",
+          "locacao_totalDesconto",
+          "locacao_totalLocacao",
+          "motel_id",
+          "quarto_id",
+          "pessoa_id",
+          "pagamentoforma_id",
+          "usuario_id",
+          "locacaoPosicao_id",
+          "locacaoTipo_id"
+        ]
+      },
+      "UpdateLocacaoDto": {
+        "type": "object",
+        "properties": {
+          "locacao_totalItens": {
+            "type": "number",
+            "example": 129
+          },
+          "locacao_totalQuarto": {
+            "type": "number",
+            "example": 240
+          },
+          "locacao_totalDesconto": {
+            "type": "number",
+            "example": 20
+          },
+          "locacao_totalLocacao": {
+            "type": "number",
+            "example": 349
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          },
+          "quarto_id": {
+            "type": "number",
+            "example": 10
+          },
+          "pessoa_id": {
+            "type": "number",
+            "example": 5
+          },
+          "pagamentoforma_id": {
+            "type": "number",
+            "example": 2
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 3
+          },
+          "locacaoPosicao_id": {
+            "type": "number",
+            "example": 1
+          },
+          "locacaoTipo_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "CreateLocacaoTipoDto": {
+        "type": "object",
+        "properties": {
+          "locacaoTipo_descricao": {
+            "type": "string",
+            "example": "Super Luxo"
+          }
+        },
+        "required": [
+          "locacaoTipo_descricao"
+        ]
+      },
+      "UpdateLocacaoTipoDto": {
+        "type": "object",
+        "properties": {
+          "locacaoTipo_descricao": {
+            "type": "string",
+            "example": "Super Luxo"
+          }
+        }
+      },
+      "CreateLocacaoPosicaoDto": {
+        "type": "object",
+        "properties": {
+          "locacaoPosicao_descricao": {
+            "type": "string",
+            "example": "Ocupado "
+          }
+        },
+        "required": [
+          "locacaoPosicao_descricao"
+        ]
+      },
+      "UpdateLocacaoPosicaoDto": {
+        "type": "object",
+        "properties": {
+          "locacaoPosicao_descricao": {
+            "type": "string",
+            "example": "Ocupado "
+          }
+        }
+      },
+      "CreateProdutoDto": {
+        "type": "object",
+        "properties": {
+          "produto_descricao": {
+            "type": "string",
+            "example": "Coca-cola",
+            "maxLength": 255
+          },
+          "produto_custo": {
+            "type": "number",
+            "example": 1.1
+          },
+          "produto_venda": {
+            "type": "number",
+            "example": 3.5
+          },
+          "produto_marckup": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "produto_descricao",
+          "produto_custo",
+          "produto_venda",
+          "produto_marckup"
+        ]
+      },
+      "UpdateProdutoDto": {
+        "type": "object",
+        "properties": {
+          "produto_descricao": {
+            "type": "string",
+            "example": "Coca-cola",
+            "maxLength": 255
+          },
+          "produto_custo": {
+            "type": "number",
+            "example": 1.1
+          },
+          "produto_venda": {
+            "type": "number",
+            "example": 3.5
+          },
+          "produto_marckup": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "CreateEstoqueProdutoDto": {
+        "type": "object",
+        "properties": {
+          "estoqueProduto_fisico": {
+            "type": "number",
+            "example": 16
+          },
+          "estoqueProduto_ativo": {
+            "type": "boolean",
+            "example": true
+          },
+          "produto_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "estoqueProduto_fisico",
+          "estoqueProduto_ativo",
+          "produto_id",
+          "motel_id"
+        ]
+      },
+      "UpdateEstoqueProdutoDto": {
+        "type": "object",
+        "properties": {
+          "estoqueProduto_fisico": {
+            "type": "number",
+            "example": 16
+          },
+          "estoqueProduto_ativo": {
+            "type": "boolean",
+            "example": true
+          },
+          "produto_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "CreateQuartoDto": {
+        "type": "object",
+        "properties": {
+          "quarto_descricao": {
+            "type": "string",
+            "example": "Suíte 101"
+          },
+          "quarto_atributos": {
+            "type": "string",
+            "example": "Ar-condicionado, teto",
+            "maxLength": 256
+          },
+          "quarto_ativo": {
+            "type": "boolean",
+            "example": true
+          },
+          "quartotipo_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "quarto_descricao",
+          "quarto_atributos",
+          "quarto_ativo",
+          "quartotipo_id",
+          "motel"
+        ]
+      },
+      "UpdateQuartoDto": {
+        "type": "object",
+        "properties": {
+          "quarto_descricao": {
+            "type": "string",
+            "example": "Suíte 101"
+          },
+          "quarto_atributos": {
+            "type": "string",
+            "example": "Ar-condicionado, teto",
+            "maxLength": 256
+          },
+          "quarto_ativo": {
+            "type": "boolean",
+            "example": true
+          },
+          "quartotipo_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "CreateQuartoTipoDto": {
+        "type": "object",
+        "properties": {
+          "quartotipo_descricao": {
+            "type": "string",
+            "example": "Luxo"
+          }
+        },
+        "required": [
+          "quartotipo_descricao"
+        ]
+      },
+      "UpdateQuartoTipoDto": {
+        "type": "object",
+        "properties": {
+          "quartotipo_descricao": {
+            "type": "string",
+            "example": "Luxo"
+          }
+        }
+      },
+      "CreateMotelDto": {
+        "type": "object",
+        "properties": {
+          "motel_descricao": {
+            "type": "string",
+            "example": "LUVR Motel Centro"
+          },
+          "motel_endereco": {
+            "type": "string",
+            "example": "Av. Brasil, 1000 - Centro"
+          },
+          "motel_email": {
+            "type": "string",
+            "example": "contato@motel.com.br"
+          },
+          "motel_cnpj": {
+            "type": "string",
+            "example": "12.345.678/0001-99"
+          },
+          "motel_ativo": {
+            "type": "string",
+            "enum": [
+              "ATIVO",
+              "INATIVO"
+            ],
+            "default": "ATIVO"
+          }
+        },
+        "required": [
+          "motel_descricao",
+          "motel_email",
+          "motel_cnpj",
+          "motel_ativo"
+        ]
+      },
+      "UpdateMotelDto": {
+        "type": "object",
+        "properties": {
+          "motel_descricao": {
+            "type": "string",
+            "example": "LUVR Motel Centro"
+          },
+          "motel_endereco": {
+            "type": "string",
+            "example": "Av. Brasil, 1000 - Centro"
+          },
+          "motel_email": {
+            "type": "string",
+            "example": "contato@motel.com.br"
+          },
+          "motel_cnpj": {
+            "type": "string",
+            "example": "12.345.678/0001-99"
+          },
+          "motel_ativo": {
+            "type": "string",
+            "enum": [
+              "ATIVO",
+              "INATIVO"
+            ],
+            "default": "ATIVO"
+          }
+        }
+      },
+      "CreatePagamentoFormaDto": {
+        "type": "object",
+        "properties": {
+          "pagamentoForma_descricao": {
+            "type": "string",
+            "example": "PIX"
+          },
+          "pagamentoForma_contaDestino": {
+            "type": "string",
+            "example": "1078-x"
+          }
+        },
+        "required": [
+          "pagamentoForma_descricao",
+          "pagamentoForma_contaDestino"
+        ]
+      },
+      "UpdatePagamentoFormaDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreatePessoaDto": {
+        "type": "object",
+        "properties": {
+          "pessoa_nome": {
+            "type": "string",
+            "example": "Maria da Silva"
+          },
+          "pessoa_cpf": {
+            "type": "string",
+            "example": "12345678901"
+          },
+          "pessoa_telefone": {
+            "type": "string",
+            "example": "44999998888"
+          },
+          "pessoatipo_id": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "pessoa_nome",
+          "pessoa_cpf",
+          "pessoa_telefone",
+          "pessoatipo_id"
+        ]
+      },
+      "UpdatePessoaDto": {
+        "type": "object",
+        "properties": {
+          "pessoa_nome": {
+            "type": "string",
+            "example": "Maria da Silva"
+          },
+          "pessoa_cpf": {
+            "type": "string",
+            "example": "12345678901"
+          },
+          "pessoa_telefone": {
+            "type": "string",
+            "example": "44999998888"
+          },
+          "pessoatipo_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "CreatePessoaTipoDto": {
+        "type": "object",
+        "properties": {
+          "pessoatipo_descricao": {
+            "type": "string",
+            "example": "Funcionário",
+            "description": "Descrição do tipo de pessoa."
+          }
+        },
+        "required": [
+          "pessoatipo_descricao"
+        ]
+      },
+      "UpdatePessoaTipoDto": {
+        "type": "object",
+        "properties": {
+          "pessoatipo_descricao": {
+            "type": "string",
+            "example": "Funcionário",
+            "description": "Descrição do tipo de pessoa."
+          }
+        }
+      },
+      "CreateUsuarioDto": {
+        "type": "object",
+        "properties": {
+          "usuarioCodigo": {
+            "type": "string",
+            "example": "LUVR.RODRIGO",
+            "description": "Código único de login do usuário."
+          },
+          "usuarioSenha": {
+            "type": "string",
+            "example": "luvr#123",
+            "description": "Senha em texto plano ( será hasheada no servidor )."
+          },
+          "usuarioAtivo": {
+            "type": "string",
+            "enum": [
+              "ativo",
+              "inativo"
+            ],
+            "example": "ativo",
+            "description": "Padrão ATIVO se omitido."
+          },
+          "pessoaId": {
+            "type": "number",
+            "example": 7,
+            "description": "ID da Pessoa vinculada."
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 3,
+            "description": "ID do Motel (quando habilitado)."
+          },
+          "usuarioRole": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "gerente",
+              "recepcionista"
+            ],
+            "example": "Recepcionista",
+            "description": "Cargo usuário."
+          }
+        },
+        "required": [
+          "usuarioCodigo",
+          "usuarioSenha"
+        ]
+      },
+      "UpdateUsuarioDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}
