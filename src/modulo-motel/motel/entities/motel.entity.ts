@@ -3,6 +3,7 @@ import { Status } from '../common/enums/status.enum';
 import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
 import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 import { Despesaquarto } from 'src/modulo-despesa/despesaquarto/entities/despesaquarto.entity';
+import { Recebimento } from 'src/modulo-pagamento/recebimento/entities/recebimento.entity';
 
 @Entity()
 export class Motel {
@@ -29,6 +30,9 @@ export class Motel {
 
   @DeleteDateColumn({ name: 'motel_exclusao', type: 'timestamp', nullable: true })
   motelExclusao: Date;
+
+  @OneToMany(() => Recebimento, (recebimento) => recebimento.motel_id)
+  recebimento: Recebimento[];
 
   @OneToMany(() => Quarto, (quarto) => quarto.motel)
   quartos: Quarto[];

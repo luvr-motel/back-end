@@ -9,26 +9,26 @@ export class RecebimentoController {
 
   @Post()
   create(@Body() createRecebimentoDto: CreateRecebimentoDto) {
-    return this.recebimentoService.create(createRecebimentoDto);
+    return this.recebimentoService.createRecebimento(createRecebimentoDto);
   }
 
   @Get()
   findAll() {
-    return this.recebimentoService.findAll();
+    return this.recebimentoService.findAllRecebimento();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.recebimentoService.findOne(+id);
+    return this.recebimentoService.findRecebimentoById(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRecebimentoDto: UpdateRecebimentoDto) {
-    return this.recebimentoService.update(+id, updateRecebimentoDto);
+    return this.recebimentoService.updateRecebimentoById(+id, updateRecebimentoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.recebimentoService.remove(+id);
+    return this.recebimentoService.deleteRecebimento(+id);
   }
 }

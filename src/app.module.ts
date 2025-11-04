@@ -32,6 +32,7 @@ import { UsuarioModule } from './modulo-pessoa/usuario/usuario.module';
 import { DespesaModule } from './modulo-despesa/despesa/despesa.module';
 import { Despesaquarto } from './modulo-despesa/despesaquarto/entities/despesaquarto.entity';
 import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquarto.module';
+import { Recebimento } from './modulo-pagamento/recebimento/entities/recebimento.entity';
 
 @Module({
   imports: [ 
@@ -46,7 +47,7 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [ Despesa, Despesaquarto, Despesatipo, Comanda, Locacao, LocacaoPosicao, LocacaoTipo, Produto, EstoqueProduto, Quarto, QuartoTipo, Motel, PagamentoForma, Pessoa, PessoaTipo, Quarto, QuartoTipo, Usuario ],
+      entities: [ Recebimento,Despesa, Despesaquarto, Despesatipo, Comanda, Locacao, LocacaoPosicao, LocacaoTipo, Produto, EstoqueProduto, Quarto, QuartoTipo, Motel, PagamentoForma, Pessoa, PessoaTipo, Quarto, QuartoTipo, Usuario ],
       //Comanda, EstoqueProduto, Locacao, LocacaoPosicao, LocacaoTipo, PagamentoForma, Produto//adicionar manualmente as entities
       migrations: [__dirname + '/database/migrations/*{.js,.ts}'],
       synchronize: true,//desabilita quando for para produção

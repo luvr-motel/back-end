@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Motel } from "src/modulo-motel/motel/entities/motel.entity";
+import { PagamentoForma } from "src/modulo-pagamento/pagamento-forma/entities/pagamento-forma.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Recebimento {
@@ -8,10 +10,18 @@ export class Recebimento {
     @Column({ name: 'recebimento_descricao', type: 'varchar', length: 255, nullable: false })
     recebimento_descricao: string;
 
+    @Column({ name: 'recebimento_total', type: 'decimal', precision: 10, scale: 2, nullable: true })
+    recebimento_total: number;
+
 // relacionamento com pagamentoforma_id
+    @OneToMany(() => PagamentoForma, (pagamentoForma) => pagamentoForma.recebimento, {
+      nullable: true,
+    })
+    pagamentoforma_id: PagamentoForma[];
 
 // relacionamento com motel_id
-
+    @ManyToOne(() => Motel, (motel) => motel.recebimento)
+    motel_id: Motel;
 
     @CreateDateColumn({ name: 'recebimento_inclusao', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     recebimento_inclusao: Date;

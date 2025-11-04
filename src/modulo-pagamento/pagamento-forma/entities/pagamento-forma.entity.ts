@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Recebimento } from 'src/modulo-pagamento/recebimento/entities/recebimento.entity';
+import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToOne,PrimaryGeneratedColumn,} from 'typeorm';
 
 @Entity()
 export class PagamentoForma {
@@ -10,6 +11,13 @@ export class PagamentoForma {
 
   @Column({ type: 'varchar', name: 'pagamentoForma_contaDestino', nullable: false })
   pagamentoForma_contaDestino: string;
+
+  @ManyToOne(() => Recebimento, (recebimento) => recebimento.pagamentoforma_id, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'recebimento_id' })
+  recebimento: Recebimento;
 
 //   motel_id                    integer
   @CreateDateColumn({ type: 'timestamp', name: 'pagamentoforma_inclusao' })
