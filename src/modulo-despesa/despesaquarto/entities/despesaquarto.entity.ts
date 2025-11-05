@@ -1,5 +1,5 @@
-import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
+import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
+import { Quarto } from '../../../modulo-quarto/quarto/entities/quarto.entity';
 import {
   Column,
   CreateDateColumn,

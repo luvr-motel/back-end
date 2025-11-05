@@ -1,5 +1,5 @@
-import { Motel } from "src/modulo-motel/motel/entities/motel.entity";
-import { PagamentoForma } from "src/modulo-pagamento/pagamento-forma/entities/pagamento-forma.entity";
+import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
+import { PagamentoForma } from "../../pagamento-forma/entities/pagamento-forma.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from 
 import { PessoaService } from './pessoa.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { Roles } from 'src/modulo-pessoa/usuario/auth/roles.decorator';
+import { Roles } from '../usuario/auth/roles.decorator';
 import { Pessoa } from './entities/pessoa.entity';
 
 @Controller('pessoa')

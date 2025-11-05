@@ -1,9 +1,9 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Status } from '../common/enums/status.enum';
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
-import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
-import { Despesaquarto } from 'src/modulo-despesa/despesaquarto/entities/despesaquarto.entity';
-import { Recebimento } from 'src/modulo-pagamento/recebimento/entities/recebimento.entity';
+import { Quarto } from '../../../modulo-quarto/quarto/entities/quarto.entity';
+import { Despesa } from '../../../modulo-despesa/despesa/entities/despesa.entity';
+import { Despesaquarto } from '../../../modulo-despesa/despesaquarto/entities/despesaquarto.entity';
+import { Recebimento } from '../../../modulo-pagamento/recebimento/entities/recebimento.entity';
 
 @Entity()
 export class Motel {

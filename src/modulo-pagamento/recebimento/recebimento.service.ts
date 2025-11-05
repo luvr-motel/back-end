@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateRecebimentoDto } from './dto/create-recebimento.dto';
 import { UpdateRecebimentoDto } from './dto/update-recebimento.dto';
 import { Recebimento } from './entities/recebimento.entity';
-import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
+import { Motel } from '../../modulo-motel/motel/entities/motel.entity';
 
 @Injectable()
 export class RecebimentoService {

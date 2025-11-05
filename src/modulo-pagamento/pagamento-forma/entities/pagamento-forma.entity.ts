@@ -1,4 +1,4 @@
-import { Recebimento } from 'src/modulo-pagamento/recebimento/entities/recebimento.entity';
+import { Recebimento } from '../../recebimento/entities/recebimento.entity';
 import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToOne,PrimaryGeneratedColumn,} from 'typeorm';
 
 @Entity()

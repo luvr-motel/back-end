@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, OneToMany } from 'typeorm';
 import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
-import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
+import { Despesa } from '../../../modulo-despesa/despesa/entities/despesa.entity';
 
 @Entity({ name: 'pessoa' })
 export class Pessoa {

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, Index, Unique, OneToMany } from 'typeorm'; 
 import { Pessoa } from '../../pessoa/entities/pessoa.entity'; 
 import { UsuarioRole } from './usuario-role.enum';
-import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
+import { Despesa } from '../../../modulo-despesa/despesa/entities/despesa.entity';
 // import { Motel } from '../../motel/entities/motel.entity';
 
 export enum UsuarioStatus { ATIVO = 'ativo', INATIVO = 'inativo' }
