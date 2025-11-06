@@ -66,8 +66,17 @@ export class LocacaoService {
   }
 
   async getTotalLocacaoByTurno( usuario_id : number ) : Promise<{   mensagem: string }>{
-    const query = ``;
-    return await 
+    const ultimoPonto = await  this.dataSource.query(
+      ` select
+        from ponto 
+        where usuario_id = $1 
+        order by hora desc`, [ usuario_id ],
+    );
+
+    if ( !ultimoPonto.length ) {
+      throw new error('Nenhum ponto encontrado para este usuário')
+    }
+    return await query.
   }
 
 }
