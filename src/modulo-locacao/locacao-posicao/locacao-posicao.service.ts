@@ -18,6 +18,7 @@ export class LocacaoPosicaoService {
     if (!posicao){
       throw new HttpException( 'Erro ao criar posicao', 404);
     } else {
+      const feito = this.posicaoRepository.save( posicao )
       return {
         mensagem: 'Posição criada com sucesso!',
         posicao: posicao
