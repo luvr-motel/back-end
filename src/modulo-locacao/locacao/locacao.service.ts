@@ -64,4 +64,10 @@ export class LocacaoService {
     }
 
   }
+
+  async getTotalLocacaoByTurno( usuario_id : number ) : Promise<{   mensagem: string }>{
+    const query = ``;
+    return await 
+  }
+
 }

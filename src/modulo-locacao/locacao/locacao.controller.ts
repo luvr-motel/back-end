@@ -22,6 +22,11 @@ export class LocacaoController {
     return this.locacaoService.findLocacaoId(+id);
   }
 
+  @Get('usuario/:usuario_id/turno')
+  async getTotalTurnoLocacaoByUsuario(@Param('usuario_id') usuario_id: number) {
+    return await this.locacaoService.getTotalLocacaoByTurno( usuario_id );
+  }  
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLocacaoDto: UpdateLocacaoDto) {
     return this.locacaoService.updateLocacao(+id, updateLocacaoDto);
