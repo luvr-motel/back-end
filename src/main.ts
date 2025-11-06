@@ -57,7 +57,10 @@ async function bootstrap() {
     });
   }
 
-  app.enableCors({ origin: ['https://api.luvr.com.br','http://localhost:3000'], credentials: true, methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'], allowedHeaders: ['Content-Type','Authorization'] });
+  app.enableCors({ origin: [ 'https://api.luvr.com.br',
+                             'http://localhost:3000', 
+                             'http://localhost:5173', 
+                             'https://admin.luvr.com.br' ], credentials: true, methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'], allowedHeaders: ['Content-Type','Authorization'] });
   await app.listen(process.env.PORT ?? 3000);
   // eslint-disable-next-line no-console
   console.log('[BOOT] listening on', process.env.PORT ?? 3000);
