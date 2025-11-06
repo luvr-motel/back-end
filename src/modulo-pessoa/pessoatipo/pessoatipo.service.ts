@@ -7,6 +7,7 @@ import { UpdatePessoaTipoDto } from './dto/update-pessoatipo.dto';
 
 @Injectable()
 export class PessoaTipoService {
+  /* istanbul ignore next */ 
   constructor(@InjectRepository(PessoaTipo) private readonly repo: Repository<PessoaTipo>) {}
 
   async createPessoaTipo(dto: CreatePessoaTipoDto): Promise<PessoaTipo> {

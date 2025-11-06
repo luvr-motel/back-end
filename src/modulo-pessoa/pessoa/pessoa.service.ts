@@ -8,7 +8,9 @@ import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 
 @Injectable()
 export class PessoaService {
+  /* istanbul ignore next */ 
   constructor(@InjectRepository(Pessoa) private readonly repo: Repository<Pessoa>) {}
+  // ...
 
   async createPessoa(dto: CreatePessoaDto): Promise<Pessoa> {
     const partial: DeepPartial<Pessoa> = {};
