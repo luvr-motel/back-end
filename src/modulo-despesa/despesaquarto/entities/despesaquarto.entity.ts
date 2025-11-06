@@ -11,7 +11,7 @@ import {
   RelationId,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'despesaquarto' })
 export class Despesaquarto {
   @PrimaryGeneratedColumn({ name: 'despesaquarto_id', type: 'int' })
   despesaquarto_id: number;

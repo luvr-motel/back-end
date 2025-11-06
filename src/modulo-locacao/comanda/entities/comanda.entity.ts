@@ -3,7 +3,7 @@ import { Produto } from "../../../modulo-produto/produto/entities/produto.entity
 import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
-@Entity()
+@Entity({ name: 'comanda' })
 export class Comanda {
    @PrimaryGeneratedColumn({ type: 'integer', name: 'comanda_id' })
    comanda_id: number;

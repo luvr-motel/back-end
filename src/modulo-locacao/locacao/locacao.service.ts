@@ -15,7 +15,10 @@ export class LocacaoService {
       locacao_totalItens   : locacaoDto.locacao_totalItens,
       locacao_totalQuarto  : locacaoDto.locacao_totalQuarto,   
       locacao_totalDesconto: locacaoDto.locacao_totalDesconto,
-      locacao_totalLocacao : locacaoDto.locacao_totalLocacao
+      locacao_totalLocacao : locacaoDto.locacao_totalLocacao,
+      quarto_id : locacaoDto.quarto_id,
+      pessoa_id : locacaoDto.pessoa_id,
+      motel_id  : locacaoDto.motel_id
       });
     return this.locacaoRepository.save( locacao );
   }

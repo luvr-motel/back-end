@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToO
 import { Locacao } from "../../../modulo-locacao/locacao/entities/locacao.entity";
 import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
 
-@Entity()
+@Entity({ name: 'pagamento_forma' })
 export class PagamentoForma {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'pagamentoForma_id' })
   pagamentoForma_id : number;

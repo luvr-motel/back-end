@@ -8,7 +8,7 @@ import { LocacaoTipo } from "../../locacao-tipo/entities/locacao-tipo.entity";
 import { Comanda } from "../../comanda/entities/comanda.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
-@Entity()
+@Entity({ name: 'locacao' })
 export class Locacao {
 
     @PrimaryGeneratedColumn({ type: 'integer', name: 'locacao_id' })

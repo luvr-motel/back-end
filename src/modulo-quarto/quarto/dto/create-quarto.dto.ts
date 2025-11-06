@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsInt, IsNotEmpty, IsPositive, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MaxLength } from "class-validator";
 
 export class CreateQuartoDto {
     
@@ -25,7 +25,7 @@ export class CreateQuartoDto {
 
     @IsInt()
     @IsPositive()
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty({ example: 1})
     motel: number;
 }

@@ -6,7 +6,7 @@ import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
 import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 import { Despesaquarto } from 'src/modulo-despesa/despesaquarto/entities/despesaquarto.entity';
 
-@Entity()
+@Entity({ name: 'motel' })
 export class Motel {
   @PrimaryGeneratedColumn({ name: 'motel_id', type: 'integer' })
   motel_id: number;

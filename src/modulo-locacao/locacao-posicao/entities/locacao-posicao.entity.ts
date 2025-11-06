@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Locacao } from "../../locacao/entities/locacao.entity";
 
-@Entity()
+@Entity({ name: 'locacao_posicao' })
 export class LocacaoPosicao {
 
    @PrimaryGeneratedColumn({ type: 'integer', name: 'locacaoPosicao_id' })

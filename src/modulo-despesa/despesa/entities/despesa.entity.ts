@@ -4,7 +4,7 @@ import { Usuario } from 'src/modulo-pessoa/usuario/entities/usuario.entity';
 import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
 import { Pessoa } from 'src/modulo-pessoa/pessoa/entities/pessoa.entity';
 
-@Entity()
+@Entity({ name: 'despesa' })
 export class Despesa {
   @PrimaryGeneratedColumn({ name: 'despesa_id', type: 'integer' })
   despesa_id: number;
