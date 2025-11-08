@@ -1,8 +1,8 @@
 import {Column,CreateDateColumn,DeleteDateColumn,Entity,JoinColumn,ManyToOne,PrimaryGeneratedColumn} from 'typeorm';
 import { Despesatipo } from '../../despesatipo/entities/despesatipo.entity';
-import { Usuario } from 'src/modulo-pessoa/usuario/entities/usuario.entity';
-import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
-import { Pessoa } from 'src/modulo-pessoa/pessoa/entities/pessoa.entity';
+import { Usuario } from '../../../modulo-pessoa/usuario/entities/usuario.entity';
+import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
+import { Pessoa } from '../../../modulo-pessoa/pessoa/entities/pessoa.entity';
 
 @Entity({ name: 'despesa' })
 export class Despesa {

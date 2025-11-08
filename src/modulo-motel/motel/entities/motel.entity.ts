@@ -5,6 +5,7 @@ import { Comanda } from '../../../modulo-locacao/comanda/entities/comanda.entity
 import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
 import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 import { Despesaquarto } from 'src/modulo-despesa/despesaquarto/entities/despesaquarto.entity';
+import { Recebimento } from '../../../modulo-pagamento/recebimento/entities/recebimento.entity';
 
 @Entity({ name: 'motel' })
 export class Motel {

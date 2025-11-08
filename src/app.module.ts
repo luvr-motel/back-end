@@ -15,7 +15,6 @@ import { PessoaModule } from './modulo-pessoa/pessoa/pessoa.module';
 import { PessoaTipoModule } from './modulo-pessoa/pessoatipo/pessoatipo.module';
 import { UsuarioModule } from './modulo-pessoa/usuario/usuario.module';
 import { DespesaModule } from './modulo-despesa/despesa/despesa.module';
-import { Despesaquarto } from './modulo-despesa/despesaquarto/entities/despesaquarto.entity';
 import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquarto.module';
 
 @Module({

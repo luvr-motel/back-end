@@ -54,3 +54,18 @@ export class Usuario {
   @OneToMany(() => Despesa, (despesa) => despesa.usuario)
   despesas: Despesa[];
 }
+
+
+// Usuario do sistema de fato, os funcionarios 
+// table usuario {
+//   usuario_id       integer [primary key]
+//   usuario_codigo   varchar [not null]
+//   usuario_senha    varchar [not null] // hash
+//   usuario_ativo    status
+//   pessoa_id        integer
+//   motel_id         integer
+//   usuario_inclusao timestamp
+//   usuario_exclusao timestamp
+// }
+// ref: usuario.pessoa_id > pessoa.pessoa_id
+// ref: motel.motel_id > usuario.motel_id
