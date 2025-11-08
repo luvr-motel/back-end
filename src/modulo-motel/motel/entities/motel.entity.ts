@@ -37,6 +37,9 @@ export class Motel {
   @CreateDateColumn({ name: 'motel_inclusao', type: 'timestamp' })
   motelInclusao: Date;
 
+  @OneToMany(() => Recebimento, (recebimento) => recebimento.motel_id)
+  recebimento: Recebimento[];
+
   @DeleteDateColumn({ name: 'motel_exclusao', type: 'timestamp', nullable: true })
   motelExclusao: Date;
 
