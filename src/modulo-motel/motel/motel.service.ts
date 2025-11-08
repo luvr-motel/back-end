@@ -25,8 +25,9 @@ export class MotelService {
 
     if (!entity) {
       throw new HttpException('Erro ao cadastrar Motel', 400);
+    } else {
+      return this.repo.save(entity)
     }
-    return this.repo.save(entity);
   }
 
   async findAllMoteis(): Promise<Motel[]> {

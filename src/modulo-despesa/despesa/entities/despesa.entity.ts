@@ -3,7 +3,6 @@ import { Despesatipo } from '../../despesatipo/entities/despesatipo.entity';
 import { Usuario } from '../../../modulo-pessoa/usuario/entities/usuario.entity';
 import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
 import { Pessoa } from '../../../modulo-pessoa/pessoa/entities/pessoa.entity';
-
 @Entity({ name: 'despesa' })
 export class Despesa {
   @PrimaryGeneratedColumn({ name: 'despesa_id', type: 'integer' })
@@ -54,14 +53,13 @@ export class Despesa {
   usuario: Usuario | null;
 
   // relacionamento com motel
-  @ManyToOne(() => Motel, (motel) => motel.despesa, {
+  @ManyToOne(() => Motel, (motel) => motel.despesas, {
     nullable: false,
     onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'motel_id' })
   motel: Motel;
-
   
   @CreateDateColumn({type: 'timestamp', name: 'despesa_inclusao' })
   despesa_inclusao: Date;

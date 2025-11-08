@@ -1,11 +1,10 @@
 export enum MotelStatus { ATIVO = 'ATIVO', INATIVO = 'INATIVO' }
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Status } from '../common/enums/status.enum';
 import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
 import { Comanda } from '../../../modulo-locacao/comanda/entities/comanda.entity';
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
-import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
-import { Despesaquarto } from 'src/modulo-despesa/despesaquarto/entities/despesaquarto.entity';
+import { Quarto } from '../../../modulo-quarto/quarto/entities/quarto.entity';
+import { Despesa } from '../../../modulo-despesa/despesa/entities/despesa.entity';
+import { Despesaquarto } from '../../../modulo-despesa/despesaquarto/entities/despesaquarto.entity';
 import { Recebimento } from '../../../modulo-pagamento/recebimento/entities/recebimento.entity';
 
 @Entity({ name: 'motel' })
@@ -43,4 +42,13 @@ export class Motel {
 
   @DeleteDateColumn({ name: 'motel_exclusao', type: 'timestamp', nullable: true })
   motel_exclusao: Date;
+
+  @OneToMany(() => Quarto, (quarto) => quarto.motel)
+  quartos: Quarto[];
+
+  @OneToMany(() => Despesaquarto, (despesaquarto) => despesaquarto.motel)
+  despesaquartos: Despesaquarto[];
+
+  @OneToMany(() => Despesa, (despesa) => despesa.motel)
+  despesas: Despesa[];
 }
