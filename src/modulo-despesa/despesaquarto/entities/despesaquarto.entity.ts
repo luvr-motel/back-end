@@ -1,4 +1,5 @@
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
+import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
+import { Quarto } from '../../../modulo-quarto/quarto/entities/quarto.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,7 +11,7 @@ import {
   RelationId,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'despesaquarto' })
 export class Despesaquarto {
   @PrimaryGeneratedColumn({ name: 'despesaquarto_id', type: 'int' })
   despesaquarto_id: number;
@@ -27,7 +28,7 @@ export class Despesaquarto {
   @Column({ name: 'despesatipo_id', type: 'int', nullable: true })
   despesatipo_id: number | null;
 
-  @ManyToOne(() => Quarto, { nullable: false, onDelete: 'RESTRICT' })
+  @ManyToOne(() => Quarto, { nullable: false, onDelete: 'RESTRICT', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'quarto_id' })
   quarto: Quarto;
 
@@ -40,7 +41,15 @@ export class Despesaquarto {
   @Column({ name: 'usuario_id', type: 'int', nullable: false })
   usuario_id: number;
 
-  @Column({ name: 'motel_id', type: 'int', nullable: false })
+  @ManyToOne(() => Motel, (motel) => motel.despesaquarto, {
+    nullable: false,
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'motel_id' })
+  motel: Motel;
+
+  @RelationId((despesaquarto: Despesaquarto) => despesaquarto.motel)
   motel_id: number;
 
   @CreateDateColumn({ name: 'despesaquarto_inclusao', type: 'timestamp' })

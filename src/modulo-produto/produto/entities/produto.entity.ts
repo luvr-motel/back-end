@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, OneToMany } from "typeorm"
+import { Comanda } from "../../../modulo-locacao/comanda/entities/comanda.entity";
 
-@Entity()
+@Entity({ name: 'produto' })
 export class Produto {
     
     @PrimaryGeneratedColumn({ type: 'integer', name: 'produto_id' })
@@ -17,6 +18,10 @@ export class Produto {
 
     @Column({ type: 'numeric', precision: 10, scale: 2 , name: 'produto_marckup', nullable: true })
     produto_marckup: number;
+
+    // Relacionamento reverso com Comanda
+    @OneToMany(() => Comanda, (comanda) => comanda.produto)
+    comandas: Comanda[];
 
     @CreateDateColumn({ type: 'timestamp', name: 'produto_inclusao' })
     produto_inclusao: Date;

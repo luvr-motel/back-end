@@ -14,10 +14,11 @@ export class QuartoService {
   ) {}
 
   async createQuarto(createQuartoDto: CreateQuartoDto): Promise<Quarto> {
-    const { quartotipo_id, ...rest } = createQuartoDto;
+    const { quartotipo_id, motel, ...rest } = createQuartoDto;
     const quarto = this.quartoRepository.create({
       ...rest,
       quartotipo: { quartotipo_Id: quartotipo_id } as QuartoTipo,
+      motel: motel ? ({ motel_id: motel } as any) : undefined,
     });
 
     return this.quartoRepository.save(quarto);
@@ -40,30 +41,20 @@ export class QuartoService {
     };
   }
 
-  // async updateQuarto(
-  //   id: number,
-  //   updateQuartoDto: UpdateQuartoDto,
-  // ): Promise<{ mensagem: string; quarto: Quarto }> {
-  //   const quartoAtual = await this.quartoRepository.findOne({ where: { quarto_id: id } });
+  async updateQuarto(id: number, updateQuartoDto: UpdateQuartoDto): Promise<{ mensagem: string; quarto: Quarto }> {
+    const quartoAtualizado = await this.quartoRepository.findOne({where: {quarto_id : id}})
+    if( !quartoAtualizado){
+      throw new HttpException( 'Erro ao atualizar quarto', 404)
+    }
 
-  //   if (!quartoAtual) {
-  //     throw new HttpException('Erro ao atualizar quarto', 404);
-  //   }
+    const quarto = this.quartoRepository.merge(quartoAtualizado, updateQuartoDto as any);
+    const quartoSave = await this.quartoRepository.save(quarto);
 
-  //   // const { quartotipo_id, ...rest } = updateQuartoDto;
-  //   // const quartoAtualizado = this.quartoRepository.merge(quartoAtual, rest);
-
-  //   // if (typeof quartotipo_id !== 'undefined') {
-  //   //   quartoAtualizado.quartotipo = { quartotipoId: quartotipo_id } as QuartoTipo;
-  //   // }
-
-  //   // const quartoSalvo = await this.quartoRepository.save(quartoAtualizado);
-
-  //   // return {
-  //   //   mensagem: `Quarto #${id} atualizado com sucesso`,
-  //   //   quarto: quartoSalvo,
-  //   // };
-  // }
+    return {
+      mensagem: `quarto #${id} atualizado com sucesso`,
+      quarto: quartoSave
+    }
+  }
 
   async deleteQuartoById(id: number): Promise<{ mensagem: string }> {
     const quarto = await this.quartoRepository.findOne({ where: { quarto_id: id } });

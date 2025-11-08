@@ -53,6 +53,7 @@ export class LocacaoTipoService {
     if (!tipoDelete){
        throw new HttpException( 'Erro ao excluir categoria de locação', 404 )
     } else {
+      await this.locacaoTipoRepositoy.softDelete(id)
       return {
         mensagem: 'Categoria de locação excluida com sucesso!',
         tipo: tipoDelete

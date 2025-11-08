@@ -1,13 +1,13 @@
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
+import { Quarto } from '../../quarto/entities/quarto.entity';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'quarto_tipo' })
 // @Index('uq_quartotipo_descricao', ['quartotipoDescricao'], { unique: true })
 export class QuartoTipo {
   @PrimaryGeneratedColumn({ name: 'quartotipo_id', type: 'int' })
   quartotipo_Id: number;
 
-  @Column({ name: 'quartotipo_descricao', type: 'varchar', length: 255 })
+  @Column({name: 'quartotipo_descricao',type: 'varchar',length: 255,default: ''})
   quartotipoDescricao: string;
 
   @OneToMany(() => Quarto, (quarto) => quarto.quartotipo)

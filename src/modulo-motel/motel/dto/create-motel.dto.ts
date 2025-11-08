@@ -11,6 +11,7 @@ export class CreateMotelDto {
   @ApiPropertyOptional({ example: 'Cidade Universitaria' })
   @IsString({ message: 'motel_endereco deve ser uma string' })
   @IsNotEmpty()
+  @MaxLength(255)
   motel_endereco: string;
 
   @ApiPropertyOptional({ example: 'contato@motel.com.br' })

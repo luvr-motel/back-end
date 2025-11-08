@@ -61,16 +61,40 @@ $ npm run test:cov
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Deploy no Railway
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Use uma das opções de variáveis para o serviço do backend.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+Opção A — com `DATABASE_URL` (recomendada):
+
+```
+NODE_ENV=production
+DATABASE_URL=postgresql://${PGUSER}:${POSTGRES_PASSWORD}@${RAILWAY_PRIVATE_DOMAIN}:5432/${PGDATABASE}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Opção B — variáveis separadas:
+
+```
+NODE_ENV=production
+DB_HOST=${PGHOST}
+DB_PORT=${PGPORT}
+DB_USERNAME=${PGUSER}
+DB_PASSWORD=${PGPASSWORD}
+DB_DATABASE=${PGDATABASE}
+```
+
+Build/Start no Railway:
+
+```
+Build: npm run build:railway
+Start: npm run start:prod
+Post-deploy (opcional, se usar migrações): npm run typeorm:run
+```
+
+Observações:
+- As variáveis `${PGHOST}`, `${PGPORT}`, `${PGUSER}`, `${PGPASSWORD}`, `${PGDATABASE}`, `${POSTGRES_PASSWORD}`, `${RAILWAY_PRIVATE_DOMAIN}` vêm do serviço Postgres do Railway.
+- Não copie `POSTGRES_*`/`PGDATA` para o backend.
+- Em produção, prefira migrações ao invés de `synchronize`.
 
 ## Resources
 

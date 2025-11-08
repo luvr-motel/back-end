@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, Index, Unique } from 'typeorm'; 
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, OneToMany, RelationId, Index, Unique } from 'typeorm'; 
 import { Pessoa } from '../../pessoa/entities/pessoa.entity'; 
 import { UsuarioRole } from './usuario-role.enum';
-import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
+import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
+import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
+import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 
 export enum UsuarioStatus { ATIVO = 'ativo', INATIVO = 'inativo' }
 
@@ -19,7 +21,7 @@ export class Usuario {
   @Column({ name: 'usuario_ativo', type: 'enum', enum: UsuarioStatus, default: UsuarioStatus.ATIVO })
   usuario_ativo: UsuarioStatus;
 
-  @ManyToOne(() => Pessoa, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
+  @ManyToOne(() => Pessoa, { nullable: true })
   @JoinColumn({ name: 'pessoa_id', referencedColumnName: 'pessoa_id' })
   pessoa: Pessoa;
 
@@ -32,6 +34,10 @@ export class Usuario {
 
   @RelationId((u: Usuario) => u.motel)
   motel_id: number;
+  
+   // Relacionamento reverso com Locacao
+  @OneToMany(() => Locacao, (locacao) => locacao.usuario)
+  locacoes: Locacao[];
 
   @Column({ name: 'usuario_role', type: 'enum', enum: UsuarioRole, nullable: true })
   usuario_role: UsuarioRole;
@@ -41,6 +47,10 @@ export class Usuario {
 
   @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamp', nullable: true })
   usuario_exclusao: Date;
+
+  //Relcionamento com despesa
+  @OneToMany(() => Despesa, (despesa) => despesa.usuario)
+  despesas: Despesa[];
 }
 
 
