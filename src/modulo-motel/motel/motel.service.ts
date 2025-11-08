@@ -78,7 +78,6 @@ export class MotelService {//renomear repository
       // motel.motelExclusao = new Date();
       // motel.motelAtivo = Status.INATIVO;
       await this.repo.softDelete(id);
-
       return { mensagem: `Motel ${id} excluído com sucesso` }
     }
   }

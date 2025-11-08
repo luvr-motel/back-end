@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, OneToMany, RelationId } from 'typeorm';
 import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
-import { Despesa } from '../../../modulo-despesa/despesa/entities/despesa.entity';
+import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
+import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 
 @Entity({ name: 'pessoa' })
 export class Pessoa {
@@ -19,12 +20,16 @@ export class Pessoa {
   @Column({ name: 'pessoa_ativo', type: 'boolean', default: true })
   pessoa_ativo: boolean;
 
-  @ManyToOne(() => PessoaTipo, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
+  @ManyToOne(() => PessoaTipo, { nullable: true })
   @JoinColumn({ name: 'pessoatipo_id', referencedColumnName: 'pessoatipo_id' })
   pessoatipo: PessoaTipo;
 
   @RelationId((p: Pessoa) => p.pessoatipo)
   pessoatipo_id: number;
+
+  // Relacionamento reverso com Locacao
+  @OneToMany(() => Locacao, (locacao) => locacao.pessoa)
+  locacoes: Locacao[];
 
   @CreateDateColumn({ name: 'pessoa_inclusao', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   pessoa_inclusao: Date;

@@ -223,7 +223,7 @@
         ]
       }
     },
-    "/": {
+    "/despesaQuaro": {
       "post": {
         "operationId": "DespesaquartoController_createDespesaquarto",
         "parameters": [],
@@ -259,7 +259,7 @@
         ]
       }
     },
-    "/{id}": {
+    "/despesaQuaro/{id}": {
       "get": {
         "operationId": "DespesaquartoController_findDespesaquartoId",
         "parameters": [
@@ -1693,7 +1693,14 @@
       "description": ""
     }
   ],
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://api.luvr.com.br"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
   "components": {
     "schemas": {
       "CreateDespesaDto": {
@@ -1785,7 +1792,7 @@
         "properties": {
           "despesatipo_descricao": {
             "type": "string",
-            "example": "Manutenção"
+            "example": "Fornecedor"
           }
         },
         "required": [
@@ -1797,7 +1804,7 @@
         "properties": {
           "despesatipo_descricao": {
             "type": "string",
-            "example": "Manutenção"
+            "example": "Fornecedor"
           }
         }
       },
@@ -1902,13 +1909,48 @@
           "locacao_totalLocacao": {
             "type": "number",
             "example": 349
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          },
+          "quarto_id": {
+            "type": "number",
+            "example": 10
+          },
+          "pessoa_id": {
+            "type": "number",
+            "example": 5
+          },
+          "pagamentoforma_id": {
+            "type": "number",
+            "example": 2
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 3
+          },
+          "locacaoPosicao_id": {
+            "type": "number",
+            "example": 1
+          },
+          "locacaoTipo_id": {
+            "type": "number",
+            "example": 1
           }
         },
         "required": [
           "locacao_totalItens",
           "locacao_totalQuarto",
           "locacao_totalDesconto",
-          "locacao_totalLocacao"
+          "locacao_totalLocacao",
+          "motel_id",
+          "quarto_id",
+          "pessoa_id",
+          "pagamentoforma_id",
+          "usuario_id",
+          "locacaoPosicao_id",
+          "locacaoTipo_id"
         ]
       },
       "UpdateLocacaoDto": {
@@ -1929,6 +1971,34 @@
           "locacao_totalLocacao": {
             "type": "number",
             "example": 349
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          },
+          "quarto_id": {
+            "type": "number",
+            "example": 10
+          },
+          "pessoa_id": {
+            "type": "number",
+            "example": 5
+          },
+          "pagamentoforma_id": {
+            "type": "number",
+            "example": 2
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 3
+          },
+          "locacaoPosicao_id": {
+            "type": "number",
+            "example": 1
+          },
+          "locacaoTipo_id": {
+            "type": "number",
+            "example": 1
           }
         }
       },
@@ -2030,10 +2100,25 @@
           "estoqueProduto_fisico": {
             "type": "number",
             "example": 16
+          },
+          "estoqueProduto_ativo": {
+            "type": "boolean",
+            "example": true
+          },
+          "produto_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
           }
         },
         "required": [
-          "estoqueProduto_fisico"
+          "estoqueProduto_fisico",
+          "estoqueProduto_ativo",
+          "produto_id",
+          "motel_id"
         ]
       },
       "UpdateEstoqueProdutoDto": {
@@ -2042,6 +2127,18 @@
           "estoqueProduto_fisico": {
             "type": "number",
             "example": 16
+          },
+          "estoqueProduto_ativo": {
+            "type": "boolean",
+            "example": true
+          },
+          "produto_id": {
+            "type": "number",
+            "example": 1
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
           }
         }
       },
@@ -2286,13 +2383,13 @@
         "properties": {
           "usuarioCodigo": {
             "type": "string",
-            "example": "max.v",
+            "example": "LUVR.RODRIGO",
             "description": "Código único de login do usuário."
           },
           "usuarioSenha": {
             "type": "string",
-            "example": "MUNDIAL2012CORINTHIANS",
-            "description": "Senha em texto plano (será hasheada no servidor)."
+            "example": "luvr#123",
+            "description": "Senha em texto plano ( será hasheada no servidor )."
           },
           "usuarioAtivo": {
             "type": "string",
@@ -2320,8 +2417,8 @@
               "gerente",
               "recepcionista"
             ],
-            "example": "recepcionista",
-            "description": "Papel do usuário."
+            "example": "Recepcionista",
+            "description": "Cargo usuário."
           }
         },
         "required": [

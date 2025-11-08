@@ -1,7 +1,7 @@
 import { Quarto } from '../../quarto/entities/quarto.entity';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'quarto_tipo' })
 // @Index('uq_quartotipo_descricao', ['quartotipoDescricao'], { unique: true })
 export class QuartoTipo {
   @PrimaryGeneratedColumn({ name: 'quartotipo_id', type: 'int' })

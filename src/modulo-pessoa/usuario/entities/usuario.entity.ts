@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, RelationId, Index, Unique, OneToMany } from 'typeorm'; 
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, OneToMany, RelationId, Index, Unique } from 'typeorm'; 
 import { Pessoa } from '../../pessoa/entities/pessoa.entity'; 
 import { UsuarioRole } from './usuario-role.enum';
-import { Despesa } from '../../../modulo-despesa/despesa/entities/despesa.entity';
-// import { Motel } from '../../motel/entities/motel.entity';
+import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
+import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
+import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 
 export enum UsuarioStatus { ATIVO = 'ativo', INATIVO = 'inativo' }
 
@@ -20,20 +21,24 @@ export class Usuario {
   @Column({ name: 'usuario_ativo', type: 'enum', enum: UsuarioStatus, default: UsuarioStatus.ATIVO })
   usuario_ativo: UsuarioStatus;
 
-  @ManyToOne(() => Pessoa, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
+  @ManyToOne(() => Pessoa, { nullable: true })
   @JoinColumn({ name: 'pessoa_id', referencedColumnName: 'pessoa_id' })
   pessoa: Pessoa;
 
   @RelationId((u: Usuario) => u.pessoa)
   pessoa_id: number;
 
-  // relacao do motel
-  // @ManyToOne(() => Motel, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
-  // @JoinColumn({ name: 'motel_id', referencedColumnName: 'motel_id' })
-  // motel?: Motel | null;
+  // Relacionamento com Motel
+  @ManyToOne(() => Motel, { nullable: true })
+  @JoinColumn({ name: 'motel_id' })
+  motel?: Motel | null;
 
-  // @RelationId((u: Usuario) => u.motel)
-  // motel_id?: number | null;
+  @RelationId((u: Usuario) => u.motel)
+  motel_id?: number | null;
+
+  // Relacionamento reverso com Locacao
+  @OneToMany(() => Locacao, (locacao) => locacao.usuario)
+  locacoes: Locacao[];
 
   @Column({ name: 'usuario_role', type: 'enum', enum: UsuarioRole, nullable: true })
   usuario_role: UsuarioRole;

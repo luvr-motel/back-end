@@ -8,10 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { UsuarioModule } from '../usuario.module';
 
 @Module({
-  imports: [
-    ConfigModule,
-    UsuarioModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+  imports: [ConfigModule, UsuarioModule, PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
