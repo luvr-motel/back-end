@@ -1,3 +1,4 @@
+export enum MotelStatus { ATIVO = 'ATIVO', INATIVO = 'INATIVO' }
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Status } from '../common/enums/status.enum';
 import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
@@ -13,19 +14,19 @@ export class Motel {
   motel_id: number;
 
   @Column({ name: 'motel_descricao', type: 'varchar', length: 255, nullable: true })
-  motelDescricao: string;
+  motel_descricao: string;
 
   @Column({ name: 'motel_endereco', type: 'varchar', length: 255, nullable: true })
-  motelEndereco: string;
+  motel_endereco: string;
 
   @Column({ name: 'motel_email', type: 'varchar', length: 255, nullable: true })
-  motelEmail: string;
+  motel_email: string;
 
   @Column({ name: 'motel_cnpj', type: 'varchar', length: 18, nullable: false, unique: true })
-  motelCnpj: string;
+  motel_cnpj: string;
 
-  @Column({ name: 'motel_ativo', type: 'enum', enum: Status, default: Status.ATIVO })
-  motelAtivo: Status;
+  @Column({ name: 'motel_ativo', type: 'enum', enum: MotelStatus, enumName: 'status', default: MotelStatus.ATIVO })
+  motel_ativo: MotelStatus;
 
   // Relacionamentos reversos
   @OneToMany(() => Locacao, (locacao) => locacao.motel)
@@ -34,21 +35,12 @@ export class Motel {
   @OneToMany(() => Comanda, (comanda) => comanda.motel)
   comandas: Comanda[];
 
-  @CreateDateColumn({ name: 'motel_inclusao', type: 'timestamp' })
-  motelInclusao: Date;
+  @CreateDateColumn({ name: 'motel_inclusao', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  motel_inclusao: Date;
 
   @OneToMany(() => Recebimento, (recebimento) => recebimento.motel_id)
   recebimento: Recebimento[];
 
   @DeleteDateColumn({ name: 'motel_exclusao', type: 'timestamp', nullable: true })
-  motelExclusao: Date;
-
-  @OneToMany(() => Quarto, (quarto) => quarto.motel)
-  quartos: Quarto[];
-
-  @OneToMany(() => Despesaquarto, (despesaquarto) => despesaquarto.motel)
-  despesaquarto: Despesaquarto[];
-
-  @OneToMany(() => Despesa, (despesa) => despesa.motel)
-  despesa: Despesa[];
+  motel_exclusao: Date;
 }
