@@ -19,7 +19,7 @@ export class CreateDespesaDto {
   @IsInt()
   @IsOptional()
   @Type(() => Number)
-  pessoa: number;
+  pessoa?: number | null;
 
   @ApiProperty({ example: true })
   @IsBoolean()
@@ -43,7 +43,7 @@ export class CreateDespesaDto {
   @IsInt()
   @IsOptional()
   @Type(() => Number)
-  usuario_id: number;
+  usuario_id?: number | null;
 
   @ApiProperty({ example: 1 })
   @IsInt()
