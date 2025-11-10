@@ -17,6 +17,8 @@ import { UsuarioModule } from './modulo-pessoa/usuario/usuario.module';
 import { DespesaModule } from './modulo-despesa/despesa/despesa.module';
 import { Despesaquarto } from './modulo-despesa/despesaquarto/entities/despesaquarto.entity';
 import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquarto.module';
+import { AuthModule } from './modulo-pessoa/usuario/auth/auth.module';
+
 
 @Module({
   imports: [ 
@@ -80,6 +82,7 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
   PessoaModule,
   PessoaTipoModule,
   UsuarioModule,
+  AuthModule,
   ],
   controllers: [],
   providers: [],
