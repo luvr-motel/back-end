@@ -70,4 +70,21 @@ describe('QuartoTipoController', () => {
     expect(service.removeQuartoTipo).toHaveBeenCalledWith(5);
     expect(result).toBe(resposta);
   });
+
+  it('propaga erro do service ao criar tipo', async () => {
+    service.createQuartoTipo.mockRejectedValue(new Error('erro criação'));
+
+    await expect(
+      controller.createQuartoTipo({ quartotipo_descricao: 'Luxo' }),
+    ).rejects.toThrow('erro criação');
+  });
+
+  it('propaga erro do service ao remover tipo', async () => {
+    service.removeQuartoTipo.mockRejectedValue(new Error('erro delete'));
+
+    await expect(controller.removeQuartoTipo('9')).rejects.toThrow(
+      'erro delete',
+    );
+    expect(service.removeQuartoTipo).toHaveBeenCalledWith(9);
+  });
 });

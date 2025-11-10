@@ -76,4 +76,30 @@ describe('QuartoController', () => {
     expect(service.deleteQuartoById).toHaveBeenCalledWith(7);
     expect(result).toBe(resposta);
   });
+
+  it('propaga erro do service ao criar quarto', async () => {
+    service.createQuarto.mockRejectedValue(new Error('falha'));
+
+    await expect(
+      controller.createQuarto({
+        quarto_descricao: 'S',
+        quarto_atributos: 'A',
+        quarto_ativo: true,
+        quartotipo_id: 1,
+        motel: undefined,
+      } as CreateQuartoDto),
+    ).rejects.toThrow('falha');
+  });
+
+  it('propaga erro do service ao atualizar quarto', async () => {
+    service.updateQuarto.mockRejectedValue(new Error('falha update'));
+
+    await expect(
+      controller.updateQuarto('10', { quarto_descricao: 'X' }),
+    ).rejects.toThrow('falha update');
+    expect(service.updateQuarto).toHaveBeenCalledWith(
+      10,
+      expect.objectContaining({ quarto_descricao: 'X' }),
+    );
+  });
 });
