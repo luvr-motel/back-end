@@ -4,7 +4,6 @@ import { UpdateLocacaoDto } from './dto/update-locacao.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Locacao } from './entities/locacao.entity';
 import { Repository } from 'typeorm';
-import { LocacaoPosicao } from '../locacao-posicao/entities/locacao-posicao.entity';
 
 @Injectable()
 export class LocacaoService {

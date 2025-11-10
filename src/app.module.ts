@@ -1,3 +1,4 @@
+import { AuthModule } from './modulo-pessoa/usuario/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -80,6 +81,7 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
   PessoaModule,
   PessoaTipoModule,
   UsuarioModule,
+  AuthModule,
   ],
   controllers: [],
   providers: [],
