@@ -53,9 +53,6 @@ describe('MotelService', () => {
     expect(service).toBeDefined();
   });
 
-  // ---------------------------
-  // createMotel
-  // ---------------------------
   describe('createMotel', () => {
     it('cria com sucesso quando CNPJ não existe e aplica Status padrão ATIVO', async () => {
       const dto: CreateMotelDto = {
@@ -134,9 +131,6 @@ describe('MotelService', () => {
     });
   });
 
-  // ---------------------------
-  // findAllMoteis
-  // ---------------------------
   describe('findAllMoteis', () => {
     it('retorna somente não excluídos em ordem crescente por motel_id', async () => {
       (repo.find as jest.Mock).mockResolvedValue([existing]);
@@ -149,9 +143,6 @@ describe('MotelService', () => {
     });
   });
 
-  // ---------------------------
-  // findOneMotel
-  // ---------------------------
   describe('findOneMotel', () => {
     it('retorna quando encontrado', async () => {
       (repo.findOne as jest.Mock).mockResolvedValue(existing);
@@ -168,9 +159,6 @@ describe('MotelService', () => {
     });
   });
 
-  // ---------------------------
-  // updateMotel
-  // ---------------------------
   describe('updateMotel', () => {
     it('atualiza descrição, endereço, email e status', async () => {
       (repo.findOne as jest.Mock).mockResolvedValue(existing);
@@ -216,7 +204,6 @@ describe('MotelService', () => {
 
       const res = await service.updateMotel(1, dto);
       expect(res.motelCnpj).toBe(existing.motelCnpj);
-      // Apenas a primeira chamada (findOneMotel). Não houve segunda para checar duplicidade.
       expect((repo.findOne as jest.Mock).mock.calls.length).toBe(1);
     });
 
@@ -250,9 +237,6 @@ describe('MotelService', () => {
     });
   });
 
-  // ---------------------------
-  // deleteMotel
-  // ---------------------------
   describe('deleteMotel', () => {
     it('soft delete quando encontrado e retorna mensagem', async () => {
       (repo.findOne as jest.Mock).mockResolvedValue(existing);
