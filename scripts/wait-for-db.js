@@ -12,6 +12,11 @@ if (!connectionString) {
   process.exit(1);
 }
 
+// Log da URL (sem senha) para debug
+const urlForLog = connectionString.replace(/:[^:@]+@/, ':****@');
+console.log(`[DEBUG] Tentando conectar ao banco: ${urlForLog}`);
+console.log(`[DEBUG] Configuração: ${maxAttempts} tentativas, ${waitIntervalMs}ms entre tentativas, ${connectionTimeoutMillis}ms timeout`);
+
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const createClient = () => {
@@ -38,13 +43,15 @@ const createClient = () => {
       process.exit(0);
     } catch (error) {
       await client.end().catch(() => undefined);
+      const errorMsg = error?.message || String(error);
+      const errorCode = error?.code || 'UNKNOWN';
       console.warn(
-        `Tentativa ${attempt}/${maxAttempts} falhou: ${
-          error?.message || error
-        }`,
+        `Tentativa ${attempt}/${maxAttempts} falhou: ${errorMsg} (código: ${errorCode})`,
       );
       if (attempt === maxAttempts) {
-        console.error('Não foi possível conectar ao banco de dados.');
+        console.error('Não foi possível conectar ao banco de dados após todas as tentativas.');
+        console.error(`Último erro: ${errorMsg}`);
+        console.error(`Código do erro: ${errorCode}`);
         process.exit(1);
       }
       await wait(waitIntervalMs);
