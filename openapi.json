@@ -1901,6 +1901,30 @@
           "RegistroPonto"
         ]
       }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
     }
   },
   "info": {
@@ -2230,10 +2254,15 @@
           "locacaoTipo_descricao": {
             "type": "string",
             "example": "Super Luxo"
+          },
+          "locacoTIpo_valor": {
+            "type": "number",
+            "example": 120
           }
         },
         "required": [
-          "locacaoTipo_descricao"
+          "locacaoTipo_descricao",
+          "locacoTIpo_valor"
         ]
       },
       "UpdateLocacaoTipoDto": {
@@ -2242,6 +2271,10 @@
           "locacaoTipo_descricao": {
             "type": "string",
             "example": "Super Luxo"
+          },
+          "locacoTIpo_valor": {
+            "type": "number",
+            "example": 120
           }
         }
       },
@@ -2719,6 +2752,23 @@
             "description": "Define o tipo do registro"
           }
         }
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "usuarioCodigo": {
+            "type": "string",
+            "example": "Rodrigo"
+          },
+          "senha": {
+            "type": "string",
+            "example": "luvr#123"
+          }
+        },
+        "required": [
+          "usuarioCodigo",
+          "senha"
+        ]
       }
     }
   }
