@@ -1,8 +1,8 @@
 {
-  "name": "prova",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "luvr",
+  "version": "0.1.0",
+  "description": "Backend Luvr - Gestão Inteligente",
+  "author": "Murilo Varoto",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -12,19 +12,17 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "build:railway": "npm ci && npm run build",
+    "build:railway": "npm run build",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-
-  "typeorm:generate": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate src/database/migrations/AutoMigration -d src/database/data-source.ts",
-  "typeorm:run": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/database/data-source.ts",
-  "typeorm:revert": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:revert -d src/database/data-source.ts"
-}
-,
+    "typeorm:generate": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate src/database/migrations/AutoMigration -d src/database/data-source.ts",
+    "typeorm:run": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/database/data-source.ts",
+    "typeorm:revert": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:revert -d src/database/data-source.ts"
+  },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -74,5 +72,16 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": ["**/*.(t|j)s"],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
