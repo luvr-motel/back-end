@@ -24,7 +24,7 @@
     "typeorm:revert": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:revert -d src/database/data-source.ts",
     "wait-for-db": "node scripts/wait-for-db.js",
     "typeorm:run:prod": "node node_modules/typeorm/cli.js migration:run -d dist/src/database/data-source.js",
-    "deploy:prepare": "npm run wait-for-db && npm run typeorm:run:prod"
+    "deploy:prepare": "npm run wait-for-db && npm run typeorm:run:prod || (echo 'Erro ao executar migrations' && exit 1)"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

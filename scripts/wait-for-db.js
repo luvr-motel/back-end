@@ -3,9 +3,9 @@
 const { Client } = require('pg');
 
 const connectionString = process.env.DATABASE_URL;
-const maxAttempts = Number(process.env.DB_WAIT_MAX_ATTEMPTS || 10);
-const waitIntervalMs = Number(process.env.DB_WAIT_INTERVAL_MS || 3000);
-const connectionTimeoutMillis = Number(process.env.DB_WAIT_TIMEOUT_MS || 5000);
+const maxAttempts = Number(process.env.DB_WAIT_MAX_ATTEMPTS || 20);
+const waitIntervalMs = Number(process.env.DB_WAIT_INTERVAL_MS || 5000);
+const connectionTimeoutMillis = Number(process.env.DB_WAIT_TIMEOUT_MS || 10000);
 
 if (!connectionString) {
   console.error('DATABASE_URL não está definida. Abortando.');
