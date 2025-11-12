@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
-import { Client } from 'pg';
+const { Client } = require('pg');
 
 const connectionString = process.env.DATABASE_URL;
 const maxAttempts = Number(process.env.DB_WAIT_MAX_ATTEMPTS || 10);
 const waitIntervalMs = Number(process.env.DB_WAIT_INTERVAL_MS || 3000);
+const connectionTimeoutMillis = Number(process.env.DB_WAIT_TIMEOUT_MS || 5000);
 
 if (!connectionString) {
   console.error('DATABASE_URL não está definida. Abortando.');
@@ -13,13 +14,19 @@ if (!connectionString) {
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const createClient = () =>
-  new Client({
+const createClient = () => {
+  const options = {
     connectionString,
-    ssl: connectionString.includes('localhost')
-      ? false
-      : { rejectUnauthorized: false },
-  });
+    connectionTimeoutMillis,
+  };
+  const needsSsl =
+    !connectionString.includes('localhost') &&
+    !connectionString.includes('127.0.0.1');
+  if (needsSsl) {
+    options.ssl = { rejectUnauthorized: false };
+  }
+  return new Client(options);
+};
 
 (async () => {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -32,7 +39,9 @@ const createClient = () =>
     } catch (error) {
       await client.end().catch(() => undefined);
       console.warn(
-        `Tentativa ${attempt}/${maxAttempts} falhou: ${error.message}`,
+        `Tentativa ${attempt}/${maxAttempts} falhou: ${
+          error?.message || error
+        }`,
       );
       if (attempt === maxAttempts) {
         console.error('Não foi possível conectar ao banco de dados.');
