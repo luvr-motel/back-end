@@ -1,3 +1,4 @@
+import { AuthModule } from './modulo-pessoa/usuario/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -83,6 +84,7 @@ import { RegistroPontoModule } from './modulo-pessoa/registro-ponto/registro-pon
   UsuarioModule,
   RecebimentoModule,
   RegistroPontoModule,
+  AuthModule,
   ],
   controllers: [],
   providers: [],

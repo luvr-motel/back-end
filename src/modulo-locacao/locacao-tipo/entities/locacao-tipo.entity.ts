@@ -7,6 +7,9 @@ export class LocacaoTipo {
    
    @Column({type: 'varchar', name:'locacaoTipo_descricao', nullable: false })
    locacaoTipo_descricao: string;
+
+   @Column({ type: 'numeric', precision: 10, scale: 2, name: 'locacaoTipo_valor', nullable: false })
+   locacoTipo_valor: number;
    
    @CreateDateColumn({ type: 'timestamp', name:'locacaoTipo_inclusao'})
    locacaoTipo_inclusao: Date;

@@ -13,7 +13,8 @@ export class LocacaoTipoService {
 
   async createLocacaoTipo( locacaoTipoDto: CreateLocacaoTipoDto) {
     const tipo = this.locacaoTipoRepositoy.create({
-      locacaoTipo_descricao: locacaoTipoDto.locacaoTipo_descricao
+      locacaoTipo_descricao: locacaoTipoDto.locacaoTipo_descricao,
+      locacoTipo_valor: locacaoTipoDto.locacoTIpo_valor
     });
       return this.locacaoTipoRepositoy.save( tipo )
   }
