@@ -9,13 +9,11 @@ export class CreatePessoaDto {
   pessoa_nome: string;
 
   @ApiProperty({ example: '12345678901' })
-  @IsString()
-  // @Length(11, 11)
+  @IsString({ message: 'pessoa_cpf deve ser uma string' })
   pessoa_cpf: string;
 
   @ApiProperty({ example: '44999998888'})
   @IsString({ message: 'pessoa_telefone deve ser uma string.' })
-  // @MaxLength(20)
   pessoa_telefone: string;
 
   @ApiProperty({ example: 1 })//verificar se esta relacionando

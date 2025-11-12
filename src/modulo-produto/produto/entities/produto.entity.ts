@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, OneToMany } from "typeorm"
 import { Comanda } from "../../../modulo-locacao/comanda/entities/comanda.entity";
 
-@Entity()
+@Entity({ name: 'produto' })
 export class Produto {
     
     @PrimaryGeneratedColumn({ type: 'integer', name: 'produto_id' })

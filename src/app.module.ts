@@ -1,3 +1,4 @@
+import { AuthModule } from './modulo-pessoa/usuario/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -15,8 +16,9 @@ import { PessoaModule } from './modulo-pessoa/pessoa/pessoa.module';
 import { PessoaTipoModule } from './modulo-pessoa/pessoatipo/pessoatipo.module';
 import { UsuarioModule } from './modulo-pessoa/usuario/usuario.module';
 import { DespesaModule } from './modulo-despesa/despesa/despesa.module';
-import { Despesaquarto } from './modulo-despesa/despesaquarto/entities/despesaquarto.entity';
 import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquarto.module';
+import { RecebimentoModule } from './modulo-pagamento/recebimento/recebimento.module';
+import { RegistroPontoModule } from './modulo-pessoa/registro-ponto/registro-ponto.module';
 
 @Module({
   imports: [ 
@@ -80,6 +82,9 @@ import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquart
   PessoaModule,
   PessoaTipoModule,
   UsuarioModule,
+  RecebimentoModule,
+  RegistroPontoModule,
+  AuthModule,
   ],
   controllers: [],
   providers: [],

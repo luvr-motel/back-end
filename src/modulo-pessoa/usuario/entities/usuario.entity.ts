@@ -28,15 +28,14 @@ export class Usuario {
   @RelationId((u: Usuario) => u.pessoa)
   pessoa_id: number;
 
-  // Relacionamento com Motel
-  @ManyToOne(() => Motel, { nullable: true })
+  @ManyToOne(() => Motel, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'motel_id' })
-  motel?: Motel | null;
+  motel: Motel;
 
   @RelationId((u: Usuario) => u.motel)
-  motel_id?: number | null;
-
-  // Relacionamento reverso com Locacao
+  motel_id: number;
+  
+   // Relacionamento reverso com Locacao
   @OneToMany(() => Locacao, (locacao) => locacao.usuario)
   locacoes: Locacao[];
 
@@ -49,8 +48,22 @@ export class Usuario {
   @DeleteDateColumn({ name: 'usuario_exclusao', type: 'timestamp', nullable: true })
   usuario_exclusao: Date;
 
-
   //Relcionamento com despesa
   @OneToMany(() => Despesa, (despesa) => despesa.usuario)
   despesas: Despesa[];
 }
+
+
+// Usuario do sistema de fato, os funcionarios 
+// table usuario {
+//   usuario_id       integer [primary key]
+//   usuario_codigo   varchar [not null]
+//   usuario_senha    varchar [not null] // hash
+//   usuario_ativo    status
+//   pessoa_id        integer
+//   motel_id         integer
+//   usuario_inclusao timestamp
+//   usuario_exclusao timestamp
+// }
+// ref: usuario.pessoa_id > pessoa.pessoa_id
+// ref: motel.motel_id > usuario.motel_id

@@ -41,3 +41,21 @@ export class Pessoa {
   @OneToMany(() => Despesa, (despesa) => despesa.pessoa)
   despesa: Despesa[];
 }
+
+
+
+
+
+//Tabela responsavel por receber as informações das pessoas cadastradas
+// table pessoa {
+//   pessoa_id       integer [primary key]
+//   pessoa_nome     varchar [not null] 
+//   pessoa_cpf      varchar 
+//   pessoa_telefone integer
+//   pessoa_ativo    boolean
+//   pessoatipo_id   integer 
+//   pessoa_inclusao timestamp
+//   pessoa_exclusao timestamp
+// }
+// ref: pessoa.pessoatipo_id > pessoatipo.pessoatipo_id
+//NAO EXCLUIR PESSOATIPO QUANDO EXCLUIR A PESSOA
