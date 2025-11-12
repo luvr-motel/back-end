@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
 import { QuartoTipo } from "../../quarto_tipo/entities/quarto_tipo.entity";
 import { Locacao } from "../../../modulo-locacao/locacao/entities/locacao.entity";
-import { Motel } from "src/modulo-motel/motel/entities/motel.entity";
+import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
 
 @Entity('quarto')
 export class Quarto {
