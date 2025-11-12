@@ -5,6 +5,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { writeFileSync } from 'fs';
 import { Request, Response } from 'express';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import './database/data-source';
+
 
 async function bootstrap() {
   // Boot logs para confirmar execução
