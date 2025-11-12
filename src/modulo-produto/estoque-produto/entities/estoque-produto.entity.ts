@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
 import { Produto } from "../../produto/entities/produto.entity";
 import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
+import { Comanda } from 'src/modulo-locacao/comanda/entities/comanda.entity';
 
 @Entity()
 export class EstoqueProduto {

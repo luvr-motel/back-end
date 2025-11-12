@@ -3,6 +3,7 @@ import { PessoaTipo } from '../../pessoatipo/entities/pessoatipo.entity';
 import { Locacao } from '../../../modulo-locacao/locacao/entities/locacao.entity';
 import { Despesa } from 'src/modulo-despesa/despesa/entities/despesa.entity';
 
+
 @Entity({ name: 'pessoa' })
 export class Pessoa {
   @PrimaryGeneratedColumn({ name: 'pessoa_id', type: 'integer' })
