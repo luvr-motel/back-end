@@ -4,6 +4,7 @@ import { UpdateLocacaoDto } from './dto/update-locacao.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Locacao } from './entities/locacao.entity';
 import { Repository } from 'typeorm';
+import { error } from 'console';
 
 @Injectable()
 export class LocacaoService {
@@ -65,7 +66,7 @@ export class LocacaoService {
 
   }
 
-  async getTotalLocacaoByTurno( usuario_id : number ) : Promise<{   mensagem: string }>{
+  async getTotalLocacaoByTurno( usuario_id : number ) : Promise<{ mensagem: string }>{
     const ultimoPonto = await  this.dataSource.query(
       ` select
         from ponto 
@@ -76,7 +77,8 @@ export class LocacaoService {
     if ( !ultimoPonto.length ) {
       throw new error('Nenhum ponto encontrado para este usuário')
     }
-    return await query.
+    
+    
   }
 
 }
