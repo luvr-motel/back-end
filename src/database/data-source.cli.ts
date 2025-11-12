@@ -9,7 +9,7 @@ const options: DataSourceOptions = hasUrl
       type: 'postgres',
       url: process.env.DATABASE_URL,
       ssl: isProd ? { rejectUnauthorized: false } : false,
-      synchronize: true,
+      synchronize: false,
       entities: [
         __dirname + '/../**/*.entity{.ts,.js}',
       ],
@@ -25,7 +25,7 @@ const options: DataSourceOptions = hasUrl
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      synchronize: true,
+      synchronize: false,
       entities: [
         __dirname + '/../**/*.entity{.ts,.js}',
       ],
