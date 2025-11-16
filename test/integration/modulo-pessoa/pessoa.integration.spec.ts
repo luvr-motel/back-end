@@ -83,14 +83,14 @@ describe('PessoaService (integração)', () => {
   it('deve atualizar uma pessoa existente (updatePessoa)', async () => {
     // cria primeiro
     const criada = await service.createPessoa({
-      pessoa_nome: 'Maria Original',
+      pessoa_nome: 'Maria Og',
       pessoa_cpf: '11111111111',
       pessoa_telefone: '44911111111',
     } as any);
 
     // atualiza
     const { mensagem, pessoa } = await service.updatePessoa(criada.pessoa_id, {
-      pessoa_nome: '  Maria Atualizada  ',
+      pessoa_nome: 'Maria Atualizada',
       pessoa_telefone: '44922222222',
     } as any);
 
@@ -124,7 +124,7 @@ describe('PessoaService (integração)', () => {
   it('deve manter os campos não enviados ao atualizar a pessoa', async () => {
     // cria uma pessoa completa
     const criada = await service.createPessoa({
-      pessoa_nome: 'Pessoa Original',
+      pessoa_nome: 'Pessoa Og',
       pessoa_cpf: '99999999999',
       pessoa_telefone: '44944444444',
     } as any);

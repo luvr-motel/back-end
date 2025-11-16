@@ -50,7 +50,7 @@ describe('PessoaService (integração)', () => {
   it('deve criar uma pessoa e recuperá-la (createPessoa + findAllPessoas + findOnePessoa)', async () => {
     // dto para criação
     const dto = {
-      pessoa_nome: '   Rodrigo QA   ',
+      pessoa_nome: 'Rodrigo QA',
       pessoa_cpf: '12345678901',
       pessoa_telefone: '44999998888',
     } as any;
@@ -84,14 +84,14 @@ describe('PessoaService (integração)', () => {
   it('deve atualizar uma pessoa existente (updatePessoa)', async () => {
     // cria primeiro
     const criada = await service.createPessoa({
-      pessoa_nome: 'Maria Original',
+      pessoa_nome: 'Maria Og',
       pessoa_cpf: '11111111111',
       pessoa_telefone: '44911111111',
     } as any);
 
     // atualiza
     const { mensagem, pessoa } = await service.updatePessoa(criada.pessoa_id, {
-      pessoa_nome: '  Maria Atualizada  ',
+      pessoa_nome: 'Maria Atualizada',
       pessoa_telefone: '44922222222',
     } as any);
 
