@@ -472,6 +472,45 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "posicao",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      }
+    },
+    "/locacao/{id}/checkout": {
+      "patch": {
+        "operationId": "LocacaoController_checkout",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "desconto",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

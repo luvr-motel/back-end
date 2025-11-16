@@ -46,4 +46,15 @@ export class LocacaoController {
   async deleteLocacaoById(@Param('id') id: number) {
     return this.locacaoService.deleteLocacaoById(+id);
   }
+
+  @Patch(':id/checkout')
+  checkout(
+    @Param('id') id: string,
+    @Query('desconto') desconto?: string,
+  ) {
+    return this.locacaoService.checkoutLocacao(
+      Number(id),
+      desconto ? Number(desconto) : 0,
+    );
+  }
 }
