@@ -72,12 +72,13 @@ export class LocacaoService {
 
   }
 
-  async getCheckinsTurno( usuarioId: number, motelId: number, horas: number ): Promise<any[]> {
+  async getCheckinsTurno( usuarioId: number, motelId: number, horas: number, posicao : number ): Promise<any[]> {
     const query = `
         with filtroOcupados as (
           select loc.locacao_id as quartosOcupados
           from locacao loc
           where loc.locacao_posicao_id  = $1
+            and loc.locacao_exclusao is null
         )
         select ( select count(*) from filtroOcupados ) as totalQuartosOcupados, 
             sum( loc."locacao_totalLocacao" ) as totalQuartos, 
@@ -85,11 +86,10 @@ export class LocacaoService {
             count( loc.locacao_id ) as totalQuartosLocadosTurno
         from locacao loc
         where loc.usuario_id = $2
-          and loc.locacao_inclusao between (NOW() - ( $3 || ' hours' )::interval ) AND NOW()
+          and loc.motel_id = $3
+          and loc.locacao_inclusao between (NOW() - ( $4 || ' hours' )::interval ) AND NOW()
     `;
-
-    const rows = await this.locacaoRepository.query(query, [ usuarioId, motelId, horas ]);
-
+    const rows = await this.locacaoRepository.query(query, [ posicao, usuarioId, motelId, horas ]);
     return rows;
   }
 }

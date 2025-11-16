@@ -27,8 +27,9 @@ export class LocacaoController {
     @Query('usuario_id') usuarioId: string,
     @Query('motel_id') motelId: string,
     @Query('horas') horas: string,
+    @Query('posicao') posicao: string
   ) {
-    return this.locacaoService.getCheckinsTurno( Number(usuarioId), Number(motelId), Number(horas));
+    return this.locacaoService.getCheckinsTurno( Number(usuarioId), Number(motelId), Number(horas), Number(posicao));
   }
 
   @Patch(':id')
