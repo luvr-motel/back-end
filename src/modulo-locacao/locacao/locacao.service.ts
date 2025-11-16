@@ -71,4 +71,25 @@ export class LocacaoService {
     }
 
   }
+
+  async getCheckinsTurno( usuarioId: number, motelId: number, horas: number ): Promise<any[]> {
+    const query = `
+        with filtroOcupados as (
+          select loc.locacao_id as quartosOcupados
+          from locacao loc
+          where loc.locacao_posicao_id  = $1
+        )
+        select ( select count(*) from filtroOcupados ) as totalQuartosOcupados, 
+            sum( loc."locacao_totalLocacao" ) as totalQuartos, 
+            sum( loc."locacao_totalItens" ) as totalItensConsumidos,
+            count( loc.locacao_id ) as totalQuartosLocadosTurno
+        from locacao loc
+        where loc.usuario_id = $2
+          and loc.locacao_inclusao between (NOW() - ( $3 || ' hours' )::interval ) AND NOW()
+    `;
+
+    const rows = await this.locacaoRepository.query(query, [ usuarioId, motelId, horas ]);
+
+    return rows;
+  }
 }

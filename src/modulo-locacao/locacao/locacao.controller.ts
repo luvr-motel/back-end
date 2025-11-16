@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { LocacaoService } from './locacao.service';
 import { CreateLocacaoDto } from './dto/create-locacao.dto';
 import { UpdateLocacaoDto } from './dto/update-locacao.dto';
@@ -20,6 +20,15 @@ export class LocacaoController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.locacaoService.findLocacaoId(+id);
+  }
+
+  @Get('checkins/turno')
+  getCheckinsTurno(
+    @Query('usuario_id') usuarioId: string,
+    @Query('motel_id') motelId: string,
+    @Query('horas') horas: string,
+  ) {
+    return this.locacaoService.getCheckinsTurno( Number(usuarioId), Number(motelId), Number(horas));
   }
 
   @Patch(':id')

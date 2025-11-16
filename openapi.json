@@ -445,6 +445,45 @@
         ]
       }
     },
+    "/locacao/checkins/turno": {
+      "get": {
+        "operationId": "LocacaoController_getCheckinsTurno",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "motel_id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "horas",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      }
+    },
     "/locacao-tipo": {
       "post": {
         "operationId": "LocacaoTipoController_create",

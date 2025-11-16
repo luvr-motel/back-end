@@ -18,6 +18,7 @@ export class EstoqueProdutoService {
   if ( !estoque ){
     throw new HttpException( 'Erro ao lançar estoque', 404);
   } else {
+    const save = this.estoqueProdutoRepositoty.save( estoque );
     return {
       mensagem: 'Estoque lançado com sucesso!',
       estoque: estoque
