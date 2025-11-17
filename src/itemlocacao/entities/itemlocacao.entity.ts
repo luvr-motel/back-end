@@ -19,13 +19,13 @@ export class ItemLocacao {
   @PrimaryGeneratedColumn({ name: 'itemlocacao_id', type: 'integer' })
   itemLocacao_id: number;
 
-  // ------------------------ COMANDA ------------------------
-  @ManyToOne(() => Comanda, (comanda) => comanda.itens, { nullable: false })
+  // ------------------------ COMANDA (opcional) ------------------------
+  @ManyToOne(() => Comanda, (comanda) => comanda.itens, { nullable: true })
   @JoinColumn({ name: 'comanda_id' })
-  comanda: Comanda;
+  comanda?: Comanda;
 
   @RelationId((item: ItemLocacao) => item.comanda)
-  comanda_id: number;
+  comanda_id?: number;
 
   // ------------------------ LOCACAO ------------------------
   @ManyToOne(() => Locacao, (locacao) => locacao.comandas, { nullable: false })

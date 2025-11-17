@@ -46,7 +46,7 @@ export class ItemlocacaoService {
 
     if (!produto) throw new NotFoundException('Produto não encontrado');
 
-    let comanda: Comanda;
+    let comanda: Comanda | undefined;
 
     if (comanda_id) {
       const existing = await this.comandaRepository.findOne({
@@ -55,15 +55,6 @@ export class ItemlocacaoService {
 
       if (!existing) throw new NotFoundException('Comanda não encontrada');
       comanda = existing;
-    } else {
-      comanda = await this.comandaRepository.save(
-        this.comandaRepository.create({
-          locacao: locacao,
-          motel: locacao.motel,
-          produto: produto,
-          comanda_qtde: qtde,
-        }),
-      );
     }
 
     const item = this.itemRepository.create({
@@ -71,23 +62,13 @@ export class ItemlocacaoService {
       locacao,
       produto,
       motel: locacao.motel,
-
       itemLocacao_qtde: qtde,
       itemLocacao_valor: valor ?? produto.produto_venda,
     });
 
     const saved = await this.itemRepository.save(item);
 
-    const comandaFinal = await this.comandaRepository.findOne({
-      where: { comanda_id: comanda.comanda_id },
-      relations: ['itens', 'itens.produto', 'locacao', 'motel'],
-    });
-
-    return {
-      mensagem: 'Item adicionado com sucesso',
-      comanda: comandaFinal,
-      item: saved,
-    };
+    return { mensagem: 'Item adicionado com sucesso', item: saved };
   }
 
   async findAllByComanda(comanda_id: number) {
@@ -132,3 +113,4 @@ export class ItemlocacaoService {
     return { mensagem: 'Item removido com sucesso (soft delete)' };
   }
 }
+
