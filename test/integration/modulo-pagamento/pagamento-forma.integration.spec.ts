@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HttpException } from '@nestjs/common';
+import { performance } from 'perf_hooks';
 
 import { PagamentoForma } from 'src/modulo-pagamento/pagamento-forma/entities/pagamento-forma.entity';
 import { PagamentoFormaService } from 'src/modulo-pagamento/pagamento-forma/pagamento-forma.service';
@@ -295,5 +296,30 @@ describe('PagamentoFormaService (integração)', () => {
     const todas = await service.findAllPagamentoForma();
     expect(todas).toHaveLength(1);
     expect(todas[0].pagamentoForma_id).toBe(formaB.pagamentoForma_id);
+  });
+
+  it('deve criar e consultar formas rapidamente (teste de performance)', async () => {
+    const quantidade = 300;
+    const inicioCriacao = performance.now();
+    for (let i = 0; i < quantidade; i++) {
+      await service.createPagamentoForma({
+        pagamentoForma_descricao: `Forma ${i}`,
+        pagamentoForma_contaDestino: `Conta ${i}`,
+      } as any);
+    }
+    const fimCriacao = performance.now();
+
+    const inicioConsulta = performance.now();
+    const todas = await service.findAllPagamentoForma();
+    const fimConsulta = performance.now();
+
+    expect(todas).toHaveLength(quantidade);
+
+    const duracaoCriacao = fimCriacao - inicioCriacao;
+    const duracaoConsulta = fimConsulta - inicioConsulta;
+
+
+    expect(duracaoCriacao).toBeLessThan(1000);
+    expect(duracaoConsulta).toBeLessThan(500);
   });
 });
