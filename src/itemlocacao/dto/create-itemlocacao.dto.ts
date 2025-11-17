@@ -30,4 +30,4 @@ export class CreateItemlocacaoDto {
   @IsNumber()
   valor: number;
 }
-*** End Patch ***!
+
