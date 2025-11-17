@@ -61,9 +61,6 @@ describe('Módulo Pessoa (integração)', () => {
     await moduleRef.close();
   });
 
-  // ============================================================
-  // TESTES DE PessoaTipoService
-  // ============================================================
   describe('PessoaTipoService (integração)', () => {
     it('deve criar um tipo de pessoa e recuperá-lo (createPessoaTipo + findAllPessoaTipos + findOnePessoaTipo)', async () => {
       const dto = {
@@ -175,9 +172,6 @@ describe('Módulo Pessoa (integração)', () => {
     });
   });
 
-  // ============================================================
-  // TESTES DE PessoaService
-  // ============================================================
   describe('PessoaService (integração)', () => {
     it('deve criar uma pessoa e recuperá-la (createPessoa + findAllPessoas + findOnePessoa)', async () => {
       const dto = {
