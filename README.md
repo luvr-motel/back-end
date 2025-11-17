@@ -42,6 +42,12 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
+# unit test
+npm test src -- --coverage
+
+# integration test
+$ npm run test:integration
+
 # production mode
 $ npm run start:prod
 ```

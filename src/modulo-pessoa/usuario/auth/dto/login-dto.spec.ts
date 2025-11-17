@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { LoginDto } from '../dto/login.dto';
+import { LoginDto } from './login.dto';
 
 describe('LoginDto (unit)', () => {
   it('válido com dados corretos', async () => {
