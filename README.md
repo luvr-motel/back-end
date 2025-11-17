@@ -52,6 +52,12 @@ $ npm run start:prod
 # unit tests
 $ npm run test
 
+# unit test
+npm test src -- --coverage
+
+# integration test
+$ npm run test:integration
+
 # e2e tests
 $ npm run test:e2e
 

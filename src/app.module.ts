@@ -17,6 +17,7 @@ import { PessoaTipoModule } from './modulo-pessoa/pessoatipo/pessoatipo.module';
 import { UsuarioModule } from './modulo-pessoa/usuario/usuario.module';
 import { DespesaModule } from './modulo-despesa/despesa/despesa.module';
 import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquarto.module';
+import { AuthModule } from './modulo-pessoa/usuario/auth/auth.module';
 import { RecebimentoModule } from './modulo-pagamento/recebimento/recebimento.module';
 import { RegistroPontoModule } from './modulo-pessoa/registro-ponto/registro-ponto.module';
 
