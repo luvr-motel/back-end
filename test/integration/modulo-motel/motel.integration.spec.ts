@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
-import { Repository, IsNull, Not } from 'typeorm';
+import { Repository, IsNull } from 'typeorm';
 import { HttpException, BadRequestException, NotFoundException } from '@nestjs/common';
 
-import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
+import { Motel, MotelStatus } from 'src/modulo-motel/motel/entities/motel.entity';
 import { MotelService } from 'src/modulo-motel/motel/motel.service';
-import { Status } from 'src/modulo-motel/motel/common/enums/status.enum';
 
 jest.setTimeout(30000);
 
@@ -55,25 +54,25 @@ describe('MotelService (integração)', () => {
       motel_endereco: 'Av. Brasil, 1000 - Centro',
       motel_email: 'contato@motel.com.br',
       motel_cnpj: '12.345.678/0001-99',
-      motel_ativo: Status.ATIVO,
+      motel_ativo: MotelStatus.ATIVO,
     } as any;
 
     const criado = await service.createMotel(dto);
 
     expect(criado).toBeDefined();
     expect(criado.motel_id).toBeDefined();
-    expect(criado.motelDescricao).toBe('LUVR Motel Centro');
-    expect(criado.motelAtivo).toBe(Status.ATIVO);
+    expect(criado.motel_descricao).toBe('LUVR Motel Centro');
+    expect(criado.motel_ativo).toBe(MotelStatus.ATIVO);
 
     // lista moteis
     const todos = await service.findAllMoteis();
     expect(todos).toHaveLength(1);
-    expect(todos[0].motelDescricao).toBe('LUVR Motel Centro');
+    expect(todos[0].motel_descricao).toBe('LUVR Motel Centro');
 
     // busca por id
     const encontrado = await service.findOneMotel(criado.motel_id);
     expect(encontrado.motel_id).toBe(criado.motel_id);
-    expect(encontrado.motelCnpj).toBe('12.345.678/0001-99');
+    expect(encontrado.motel_cnpj).toBe('12.345.678/0001-99');
   });
 
   it('deve lançar BadRequestException ao tentar criar motel com CNPJ duplicado', async () => {
@@ -83,7 +82,7 @@ describe('MotelService (integração)', () => {
       motel_endereco: 'Rua A',
       motel_email: 'm1@teste.com',
       motel_cnpj: '11.111.111/0001-11',
-      motel_ativo: Status.ATIVO,
+      motel_ativo: MotelStatus.ATIVO,
     } as any);
 
     // tenta criar com mesmo CNPJ
@@ -93,7 +92,7 @@ describe('MotelService (integração)', () => {
         motel_endereco: 'Rua B',
         motel_email: 'm2@teste.com',
         motel_cnpj: '11.111.111/0001-11',
-        motel_ativo: Status.ATIVO,
+        motel_ativo: MotelStatus.ATIVO,
       } as any);
       fail('Era esperado lançar BadRequestException, mas não lançou.');
     } catch (err) {
@@ -120,7 +119,7 @@ describe('MotelService (integração)', () => {
       motel_endereco: 'Endereço Original',
       motel_email: 'original@motel.com',
       motel_cnpj: '22.222.222/0001-22',
-      motel_ativo: Status.ATIVO,
+      motel_ativo: MotelStatus.ATIVO,
     } as any);
 
     // atualiza
@@ -128,21 +127,22 @@ describe('MotelService (integração)', () => {
       motel_descricao: 'Motel Atualizado',
       motel_endereco: 'Endereço Atualizado',
       motel_email: 'atualizado@motel.com',
-      motel_ativo: Status.INATIVO,
+      motel_ativo: MotelStatus.INATIVO,
     } as any);
 
     expect(atualizado.motel_id).toBe(criado.motel_id);
-    expect(atualizado.motelDescricao).toBe('Motel Atualizado');
-    expect(atualizado.motelEndereco).toBe('Endereço Atualizado');
-    expect(atualizado.motelEmail).toBe('atualizado@motel.com');
-    expect(atualizado.motelAtivo).toBe(Status.INATIVO);
+    expect(atualizado.motel_descricao).toBe('Motel Atualizado');
+    expect(atualizado.motel_endereco).toBe('Endereço Atualizado');
+    expect(atualizado.motel_email).toBe('atualizado@motel.com');
+    expect(atualizado.motel_ativo).toBe(MotelStatus.INATIVO);
 
-    // busca novamente
+    // busca novamente direto no repositório
     const encontrado = await repo.findOne({
-      where: { motel_id: criado.motel_id, motelExclusao: IsNull() },
+      where: { motel_id: criado.motel_id, motel_exclusao: IsNull() },
     });
 
-    expect(encontrado!.motelDescricao).toBe('Motel Atualizado');
+    expect(encontrado).toBeDefined();
+    expect(encontrado!.motel_descricao).toBe('Motel Atualizado');
   });
 
   it('deve lançar BadRequestException ao atualizar CNPJ para um já existente', async () => {
@@ -152,7 +152,7 @@ describe('MotelService (integração)', () => {
       motel_endereco: 'Rua 1',
       motel_email: 'm1@motel.com',
       motel_cnpj: '33.333.333/0001-33',
-      motel_ativo: Status.ATIVO,
+      motel_ativo: MotelStatus.ATIVO,
     } as any);
 
     // cria segundo motel
@@ -161,8 +161,11 @@ describe('MotelService (integração)', () => {
       motel_endereco: 'Rua 2',
       motel_email: 'm2@motel.com',
       motel_cnpj: '44.444.444/0001-44',
-      motel_ativo: Status.ATIVO,
+      motel_ativo: MotelStatus.ATIVO,
     } as any);
+
+    // evita warning de variável não usada
+    expect(m1.motel_id).toBeDefined();
 
     // tenta atualizar CNPJ do segundo para o do primeiro
     try {
@@ -183,7 +186,7 @@ describe('MotelService (integração)', () => {
       motel_endereco: 'Rua X',
       motel_email: 'excluir@motel.com',
       motel_cnpj: '55.555.555/0001-55',
-      motel_ativo: Status.ATIVO,
+      motel_ativo: MotelStatus.ATIVO,
     } as any);
 
     // remove motel
@@ -201,7 +204,7 @@ describe('MotelService (integração)', () => {
     });
 
     expect(encontrado).toBeDefined();
-    expect(encontrado!.motelExclusao).toBeInstanceOf(Date);
+    expect(encontrado!.motel_exclusao).toBeInstanceOf(Date);
   });
 
   it('deve lançar HttpException (404) ao excluir motel inexistente', async () => {
