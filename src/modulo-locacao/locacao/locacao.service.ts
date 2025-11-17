@@ -144,7 +144,8 @@ export class LocacaoService {
         relations: [
           'locacaoTipo',
           'comandas',
-          'comandas.produto',
+          'comandas.itens',
+          'comandas.itens.produto',
           'locacaoPosicao',
           'quarto',
         ],
@@ -187,17 +188,16 @@ export class LocacaoService {
       let totalItens = 0;
 
       for (const comanda of locacao.comandas ?? []) {
-        const produto = comanda.produto;
-        if (!produto) {
-          continue;
+        for (const item of comanda.itens ?? []) {
+          const precoUnitario =
+            item.itemLocacao_valor != null
+              ? Number(item.itemLocacao_valor)
+              : (item.produto?.produto_venda != null
+                ? Number(item.produto.produto_venda)
+                : Number(item.produto?.produto_custo ?? 0));
+
+          totalItens += Number(item.itemLocacao_qtde ?? 0) * precoUnitario;
         }
-
-        const precoUnitario =
-          produto.produto_venda != null
-            ? Number(produto.produto_venda)
-            : Number(produto.produto_custo);
-
-        totalItens += Number(comanda.comanda_qtde) * precoUnitario;
       }
 
       const totalDesconto = Number(desconto) || 0;

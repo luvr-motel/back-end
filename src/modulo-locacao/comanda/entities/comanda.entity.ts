@@ -1,7 +1,8 @@
 import { Locacao } from "../../locacao/entities/locacao.entity";
 import { Produto } from "../../../modulo-produto/produto/entities/produto.entity";
 import { Motel } from "../../../modulo-motel/motel/entities/motel.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
+import { ItemComanda } from "src/itemcomanda/entities/itemcomanda.entity";
 
 @Entity({ name: 'comanda' })
 export class Comanda {
@@ -43,5 +44,8 @@ export class Comanda {
 
    @DeleteDateColumn({ type:'timestamp', name:'comanda_exclusao', nullable: true })
    comanda_exclusao: Date;
+
+@OneToMany(() => ItemComanda, (item) => item.comanda)
+itens: ItemComanda[];
 
 }
