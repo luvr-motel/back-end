@@ -4,7 +4,7 @@ import { IsInt, IsNumber, IsOptional } from 'class-validator';
 export class CreateItemlocacaoDto {
   @ApiProperty({
     example: 12,
-    description: 'ID da locação (checkin)',
+    description: 'ID da locação ( checkin)',
   })
   @IsInt()
   locacao_id: number;
