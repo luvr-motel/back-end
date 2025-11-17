@@ -2145,10 +2145,10 @@
         },
         "responses": {
           "201": {
-            "description": "Item adicionado com sucesso"
+            "description": "Item de locação adicionado com sucesso"
           }
         },
-        "summary": "Criar item na comanda",
+        "summary": "Criar item de locação",
         "tags": [
           "itemlocacao"
         ]
@@ -2168,7 +2168,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de itens retornada"
+            "description": "Lista de itens da locação retornada"
           }
         },
         "summary": "Listar itens por locação",
@@ -2224,10 +2224,10 @@
         },
         "responses": {
           "200": {
-            "description": "Quantidade atualizada com sucesso"
+            "description": "Quantidade do item de locação atualizada com sucesso"
           }
         },
-        "summary": "Atualizar quantidade do item",
+        "summary": "Atualizar quantidade do item de locação",
         "tags": [
           "itemlocacao"
         ]
@@ -2246,10 +2246,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Item removido com sucesso (soft delete)"
+            "description": "Item de locação removido com sucesso (soft delete)"
           }
         },
-        "summary": "Remover (soft delete) item da comanda",
+        "summary": "Remover (soft delete) item de locação",
         "tags": [
           "itemlocacao"
         ]
