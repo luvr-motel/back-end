@@ -2157,10 +2157,10 @@
         "operationId": "ItemlocacaoController_findAll",
         "parameters": [
           {
-            "name": "comanda_id",
+            "name": "locacao_id",
             "required": true,
             "in": "query",
-            "description": "ID da comanda",
+            "description": "ID da locação",
             "schema": {
               "type": "number"
             }
@@ -2171,7 +2171,7 @@
             "description": "Lista de itens retornada"
           }
         },
-        "summary": "Listar itens por comanda",
+        "summary": "Listar itens por locação",
         "tags": [
           "itemlocacao"
         ]
@@ -3121,11 +3121,6 @@
             "type": "number",
             "example": 15.9,
             "description": "Valor do item"
-          },
-          "comanda_id": {
-            "type": "number",
-            "example": null,
-            "description": "ID da comanda, caso já exista. Caso null, cria nova."
           }
         },
         "required": [
@@ -3157,11 +3152,6 @@
             "type": "number",
             "example": 15.9,
             "description": "Valor do item"
-          },
-          "comanda_id": {
-            "type": "number",
-            "example": null,
-            "description": "ID da comanda, caso já exista. Caso null, cria nova."
           }
         }
       }

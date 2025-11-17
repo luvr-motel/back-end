@@ -4,7 +4,8 @@ import { UpdateLocacaoDto } from './dto/update-locacao.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Locacao } from './entities/locacao.entity';
 import { LocacaoPosicao } from '../locacao-posicao/entities/locacao-posicao.entity';
-import { Repository } from 'typeorm';
+import { ItemLocacao } from 'src/itemlocacao/entities/itemlocacao.entity';
+import { Repository, IsNull } from 'typeorm';
 
 @Injectable()
 export class LocacaoService {
@@ -138,17 +139,11 @@ export class LocacaoService {
     return this.locacaoRepository.manager.transaction(async (manager) => {
       const locacaoRepo = manager.getRepository(Locacao);
       const posicaoRepo = manager.getRepository(LocacaoPosicao);
+      const itemRepo = manager.getRepository(ItemLocacao);
 
       const locacao = await locacaoRepo.findOne({
         where: { locacao_id: locacaoId },
-        relations: [
-          'locacaoTipo',
-          'comandas',
-          'comandas.itens',
-          'comandas.itens.produto',
-          'locacaoPosicao',
-          'quarto',
-        ],
+        relations: ['locacaoTipo', 'locacaoPosicao', 'quarto'],
       });
 
       if (!locacao) {
@@ -185,19 +180,25 @@ export class LocacaoService {
       const valorHora = Number(locacao.locacaoTipo.locacoTipo_valor);
       const totalQuarto = valorHora * horasArredondadas;
 
+      const itens = await itemRepo.find({
+        where: {
+          locacao: { locacao_id: locacaoId },
+          itemLocacao_exclusao: IsNull(),
+        },
+        relations: ['produto'],
+      });
+
       let totalItens = 0;
 
-      for (const comanda of locacao.comandas ?? []) {
-        for (const item of comanda.itens ?? []) {
-          const precoUnitario =
-            item.itemLocacao_valor != null
-              ? Number(item.itemLocacao_valor)
-              : (item.produto?.produto_venda != null
-                ? Number(item.produto.produto_venda)
-                : Number(item.produto?.produto_custo ?? 0));
+      for (const item of itens) {
+        const precoUnitario =
+          item.itemLocacao_valor != null
+            ? Number(item.itemLocacao_valor)
+            : item.produto?.produto_venda != null
+              ? Number(item.produto.produto_venda)
+              : Number(item.produto?.produto_custo ?? 0);
 
-          totalItens += Number(item.itemLocacao_qtde ?? 0) * precoUnitario;
-        }
+        totalItens += Number(item.itemLocacao_qtde ?? 0) * precoUnitario;
       }
 
       const totalDesconto = Number(desconto) || 0;
