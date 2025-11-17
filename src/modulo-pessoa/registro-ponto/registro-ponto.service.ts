@@ -56,8 +56,8 @@ export class RegistroPontoService {
     } else {
       const merged = this.registroPontoRepository.merge(atual, {
         // TODO: ligar relações/colunas quando prontas
-        // usuario_id: dto.usuario_id ?? atual.usuario_id,
-        // motel_id: dto.motel_id ?? atual.motel_id,
+        usuario_id: dto.usuario_id ?? atual.usuario_id,
+        motel_id: dto.motel_id ?? atual.motel_id,
         registroponto_entrada:
           dto.registroponto_entrada !== undefined ? dto.registroponto_entrada : atual.registroponto_entrada,
       } as Partial<RegistroPonto>);
