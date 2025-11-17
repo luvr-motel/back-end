@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HttpException } from '@nestjs/common';
+import { performance } from 'perf_hooks';
 
 import { Recebimento } from 'src/modulo-pagamento/recebimento/entities/recebimento.entity';
 import { RecebimentoService } from 'src/modulo-pagamento/recebimento/recebimento.service';
@@ -254,5 +255,29 @@ describe('RecebimentoService (integração)', () => {
 
     expect(removido!.recebimento_inclusao).toBeInstanceOf(Date);
     expect(removido!.recebimento_exclusao).toBeInstanceOf(Date);
+  });
+//teste de performance
+  it('deve criar e consultar recebimentos rapidamente (teste de performance)', async () => {
+    const quantidade = 300;
+    const inicioCriacao = performance.now();
+    for (let i = 0; i < quantidade; i++) {
+      await service.createRecebimento({
+        recebimento_descricao: `Perf ${i}`,
+        recebimento_total: i + 0.5,
+      });
+    }
+    const fimCriacao = performance.now();
+
+    const inicioConsulta = performance.now();
+    const todos = await service.findAllRecebimento();
+    const fimConsulta = performance.now();
+
+    expect(todos).toHaveLength(quantidade);
+
+    const duracaoCriacao = fimCriacao - inicioCriacao;
+    const duracaoConsulta = fimConsulta - inicioConsulta;
+
+    expect(duracaoCriacao).toBeLessThan(4000);
+    expect(duracaoConsulta).toBeLessThan(1000);
   });
 });
