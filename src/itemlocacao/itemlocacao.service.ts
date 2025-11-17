@@ -71,13 +71,13 @@ export class ItemlocacaoService {
     return { mensagem: 'Item adicionado com sucesso', item: saved };
   }
 
-  async findAllByComanda(comanda_id: number) {
+  async findAllByLocacao(locacao_id: number) {
     return await this.itemRepository.find({
       where: {
-        comanda: { comanda_id },
+        locacao: { locacao_id },
         itemLocacao_exclusao: IsNull(),
       },
-      relations: ['produto', 'locacao', 'motel'],
+      relations: ['produto', 'locacao', 'motel', 'comanda'],
       order: { itemLocacao_inclusao: 'DESC' },
     });
   }
@@ -113,4 +113,3 @@ export class ItemlocacaoService {
     return { mensagem: 'Item removido com sucesso (soft delete)' };
   }
 }
-

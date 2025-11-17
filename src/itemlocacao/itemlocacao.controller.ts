@@ -17,11 +17,11 @@ export class ItemlocacaoController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar itens por comanda' })
-  @ApiQuery({ name: 'comanda_id', required: true, description: 'ID da comanda', type: Number })
+  @ApiOperation({ summary: 'Listar itens por locação' })
+  @ApiQuery({ name: 'locacao_id', required: true, description: 'ID da locação', type: Number })
   @ApiResponse({ status: 200, description: 'Lista de itens retornada' })
-  findAll(@Query('comanda_id') comanda_id: number) {
-    return this.itemlocacaoService.findAllByComanda(Number(comanda_id));
+  findAll(@Query('locacao_id') locacao_id: number) {
+    return this.itemlocacaoService.findAllByLocacao(Number(locacao_id));
   }
 
   @Get(':id')
