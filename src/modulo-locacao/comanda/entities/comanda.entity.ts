@@ -45,7 +45,7 @@ export class Comanda {
    @DeleteDateColumn({ type:'timestamp', name:'comanda_exclusao', nullable: true })
    comanda_exclusao: Date;
 
-@OneToMany(() => ItemComanda, (item) => item.comanda)
-itens: ItemComanda[];
+   @OneToMany(() => ItemComanda, (item) => item.comanda)
+   itens: ItemComanda[];
 
 }

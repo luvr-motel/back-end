@@ -25,6 +25,9 @@ export class AutoMigration1762910528480 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "usuario" ("usuario_id" SERIAL NOT NULL, "usuario_codigo" character varying NOT NULL, "usuario_senha" character varying NOT NULL, "usuario_ativo" "public"."usuario_usuario_ativo_enum" NOT NULL DEFAULT 'ativo', "usuario_role" "public"."usuario_usuario_role_enum", "usuario_inclusao" TIMESTAMP NOT NULL DEFAULT now(), "usuario_exclusao" TIMESTAMP, "pessoa_id" integer, "motel_id" integer, CONSTRAINT "PK_877d906b2b8b32d99cf7164ec19" PRIMARY KEY ("usuario_id"))`);
         await queryRunner.query(`CREATE TABLE "estoque_produto" ("estoqueProduto_id" SERIAL NOT NULL, "estoqueProduto_fisico" integer NOT NULL, "estoqueProduto_ativo" boolean NOT NULL DEFAULT true, "estoqueProduto_inclusao" TIMESTAMP NOT NULL DEFAULT now(), "estoqueProduto_exclusao" TIMESTAMP, "produto_id" integer, "motel_id" integer, CONSTRAINT "PK_54cb8d75a36c62b02d5c87df445" PRIMARY KEY ("estoqueProduto_id"))`);
         await queryRunner.query(`CREATE TABLE "registroponto" ("registroponto_id" SERIAL NOT NULL, "registroponto_entrada" boolean NOT NULL, "registroponto_inclusao" TIMESTAMP NOT NULL DEFAULT NOW(), "registroponto_exclusao" TIMESTAMP, "usuario_id" integer NOT NULL, "motel_id" integer, CONSTRAINT "PK_478eaade69886ace574ee3f4867" PRIMARY KEY ("registroponto_id"))`);
+        await queryRunner.query(`DROP TABLE IF EXISTS "itemlocacao"`);
+        await queryRunner.query(`DROP TABLE IF EXISTS "itemlocacao"`);
+        await queryRunner.query(`CREATE TABLE "itemcomanda" ("itemcomanda_id" SERIAL NOT NULL, "itemcomanda_qtde" integer NOT NULL, "itemcomanda_valor" float, "itemcomanda_inclusao" TIMESTAMP NOT NULL DEFAULT now(), "itemcomanda_exclusao" TIMESTAMP, "comanda_id" integer NOT NULL, "locacao_id" integer NOT NULL, "produto_id" integer NOT NULL, "motel_id" integer NOT NULL, CONSTRAINT "PK_itemcomanda_id" PRIMARY KEY ("itemcomanda_id"))`);
         await queryRunner.query(`ALTER TABLE "comanda" ADD CONSTRAINT "FK_39c3a1736e6be6bf0fbb5f7718a" FOREIGN KEY ("locacao_id") REFERENCES "locacao"("locacao_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "comanda" ADD CONSTRAINT "FK_a280cc82d160db0813e0a4c49d6" FOREIGN KEY ("produto_id") REFERENCES "produto"("produto_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "comanda" ADD CONSTRAINT "FK_2e96530049ae5f11359f00d6626" FOREIGN KEY ("motel_id") REFERENCES "motel"("motel_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -53,6 +56,10 @@ export class AutoMigration1762910528480 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "estoque_produto" ADD CONSTRAINT "FK_cd4193be8688652cee9d56c9760" FOREIGN KEY ("motel_id") REFERENCES "motel"("motel_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "registroponto" ADD CONSTRAINT "FK_041dd8429e4fe0518536a42184e" FOREIGN KEY ("usuario_id") REFERENCES "usuario"("usuario_id") ON DELETE RESTRICT ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "registroponto" ADD CONSTRAINT "FK_ab97610539e0f378b9778adf9bf" FOREIGN KEY ("motel_id") REFERENCES "motel"("motel_id") ON DELETE SET NULL ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE "itemcomanda" ADD CONSTRAINT "FK_itemcomanda_comanda" FOREIGN KEY ("comanda_id") REFERENCES "comanda"("comanda_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "itemcomanda" ADD CONSTRAINT "FK_itemcomanda_locacao" FOREIGN KEY ("locacao_id") REFERENCES "locacao"("locacao_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "itemcomanda" ADD CONSTRAINT "FK_itemcomanda_produto" FOREIGN KEY ("produto_id") REFERENCES "produto"("produto_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "itemcomanda" ADD CONSTRAINT "FK_itemcomanda_motel" FOREIGN KEY ("motel_id") REFERENCES "motel"("motel_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -97,6 +104,8 @@ export class AutoMigration1762910528480 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "motel"`);
         await queryRunner.query(`DROP TYPE "public"."status"`);
         await queryRunner.query(`DROP TABLE "recebimento"`);
+        await queryRunner.query(`DROP TABLE "itemcomanda"`);
+
         await queryRunner.query(`DROP TABLE "pagamento_forma"`);
         await queryRunner.query(`DROP TABLE "despesaquarto"`);
         await queryRunner.query(`DROP TABLE "despesa"`);

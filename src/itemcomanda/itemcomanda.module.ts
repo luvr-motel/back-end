@@ -7,11 +7,6 @@ import { Locacao } from 'src/modulo-locacao/locacao/entities/locacao.entity';
 import { Comanda } from 'src/modulo-locacao/comanda/entities/comanda.entity';
 import { Produto } from 'src/modulo-produto/produto/entities/produto.entity';
 import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
-
-import { LocacaoModule } from 'src/modulo-locacao/locacao/locacao.module';
-import { ComandaModule } from 'src/modulo-locacao/comanda/comanda.module';
-import { ProdutoModule } from 'src/modulo-produto/produto/produto.module';
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([
