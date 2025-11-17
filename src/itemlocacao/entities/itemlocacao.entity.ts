@@ -12,20 +12,11 @@ import {
 import { Locacao } from 'src/modulo-locacao/locacao/entities/locacao.entity';
 import { Produto } from 'src/modulo-produto/produto/entities/produto.entity';
 import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
-import { Comanda } from 'src/modulo-locacao/comanda/entities/comanda.entity';
 
 @Entity({ name: 'itemlocacao' })
 export class ItemLocacao {
   @PrimaryGeneratedColumn({ name: 'itemlocacao_id', type: 'integer' })
   itemLocacao_id: number;
-
-  // ------------------------ COMANDA (opcional) ------------------------
-  @ManyToOne(() => Comanda, (comanda) => comanda.itens, { nullable: true })
-  @JoinColumn({ name: 'comanda_id' })
-  comanda?: Comanda;
-
-  @RelationId((item: ItemLocacao) => item.comanda)
-  comanda_id?: number;
 
   // ------------------------ LOCACAO ------------------------
   @ManyToOne(() => Locacao, (locacao) => locacao.comandas, { nullable: false })

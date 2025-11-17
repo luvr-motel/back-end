@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNumber, IsOptional } from 'class-validator';
+import { IsInt, IsNumber } from 'class-validator';
 
 export class CreateItemlocacaoDto {
   @ApiProperty({
     example: 12,
-    description: 'ID da locação ( checkin)',
+    description: 'ID da locação (checkin)',
   })
   @IsInt()
   locacao_id: number;
@@ -29,14 +29,5 @@ export class CreateItemlocacaoDto {
   })
   @IsNumber()
   valor: number;
-
-  @ApiProperty({
-    example: null,
-    description: 'ID da comanda, caso já exista. Caso null, cria nova.',
-    required: false,
-  })
-  @IsOptional()
-  @IsInt()
-  comanda_id?: number;
 }
-
+*** End Patch ***!

@@ -7,7 +7,6 @@ import { UpdateItemlocacaoDto } from './dto/update-itemlocacao.dto';
 
 import { ItemLocacao } from './entities/itemlocacao.entity';
 import { Locacao } from 'src/modulo-locacao/locacao/entities/locacao.entity';
-import { Comanda } from 'src/modulo-locacao/comanda/entities/comanda.entity';
 import { Produto } from 'src/modulo-produto/produto/entities/produto.entity';
 import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
 
@@ -20,9 +19,6 @@ export class ItemlocacaoService {
     @InjectRepository(Locacao)
     private readonly locacaoRepository: Repository<Locacao>,
 
-    @InjectRepository(Comanda)
-    private readonly comandaRepository: Repository<Comanda>,
-
     @InjectRepository(Produto)
     private readonly produtoRepository: Repository<Produto>,
 
@@ -31,7 +27,7 @@ export class ItemlocacaoService {
   ) {}
 
   async create(dto: CreateItemlocacaoDto) {
-    const { locacao_id, produto_id, qtde, valor, comanda_id } = dto;
+    const { locacao_id, produto_id, qtde, valor } = dto;
 
     const locacao = await this.locacaoRepository.findOne({
       where: { locacao_id },
@@ -46,19 +42,7 @@ export class ItemlocacaoService {
 
     if (!produto) throw new NotFoundException('Produto não encontrado');
 
-    let comanda: Comanda | undefined;
-
-    if (comanda_id) {
-      const existing = await this.comandaRepository.findOne({
-        where: { comanda_id },
-      });
-
-      if (!existing) throw new NotFoundException('Comanda não encontrada');
-      comanda = existing;
-    }
-
     const item = this.itemRepository.create({
-      comanda,
       locacao,
       produto,
       motel: locacao.motel,
@@ -77,7 +61,7 @@ export class ItemlocacaoService {
         locacao: { locacao_id },
         itemLocacao_exclusao: IsNull(),
       },
-      relations: ['produto', 'locacao', 'motel', 'comanda'],
+      relations: ['produto', 'locacao', 'motel'],
       order: { itemLocacao_inclusao: 'DESC' },
     });
   }
@@ -85,7 +69,7 @@ export class ItemlocacaoService {
   async findOne(id: number) {
     const item = await this.itemRepository.findOne({
       where: { itemLocacao_id: id },
-      relations: ['produto', 'comanda', 'locacao', 'motel'],
+      relations: ['produto', 'locacao', 'motel'],
     });
 
     if (!item) throw new NotFoundException('Item não encontrado');
@@ -113,3 +97,4 @@ export class ItemlocacaoService {
     return { mensagem: 'Item removido com sucesso (soft delete)' };
   }
 }
+
