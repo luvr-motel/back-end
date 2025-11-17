@@ -1,5 +1,5 @@
-import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
+import { Motel } from '../../../modulo-motel/motel/entities/motel.entity';
+import { Quarto } from '../../../modulo-quarto/quarto/entities/quarto.entity';
 import {
   Column,
   CreateDateColumn,
@@ -41,7 +41,7 @@ export class Despesaquarto {
   @Column({ name: 'usuario_id', type: 'int', nullable: false })
   usuario_id: number;
 
-  @ManyToOne(() => Motel, (motel) => motel.despesaquarto, {
+  @ManyToOne(() => Motel, (motel) => motel.despesaquartos, {
     nullable: false,
     onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',

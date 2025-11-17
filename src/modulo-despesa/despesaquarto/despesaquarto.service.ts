@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { CreateDespesaquartoDto } from './dto/create-despesaquarto.dto';
 import { UpdateDespesaquartoDto } from './dto/update-despesaquarto.dto';
 import { Despesaquarto } from './entities/despesaquarto.entity';
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
-import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
+import { Quarto } from '../../modulo-quarto/quarto/entities/quarto.entity';
+import { Motel } from '../../modulo-motel/motel/entities/motel.entity';
 
 @Injectable()
 export class DespesaquartoService {

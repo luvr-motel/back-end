@@ -14,7 +14,7 @@ const AppDataSource = new DataSource(
         url: process.env.DATABASE_URL,
         ssl: isProd ? { rejectUnauthorized: false } : false,
         synchronize: false,
-        logging: false,
+        logging: ['error', 'warn', 'migration'],
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
       }

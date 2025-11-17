@@ -445,6 +445,84 @@
         ]
       }
     },
+    "/locacao/checkins/turno": {
+      "get": {
+        "operationId": "LocacaoController_getCheckinsTurno",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "motel_id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "horas",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "posicao",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      }
+    },
+    "/locacao/{id}/checkout": {
+      "patch": {
+        "operationId": "LocacaoController_checkout",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "desconto",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Locacao"
+        ]
+      }
+    },
     "/locacao-tipo": {
       "post": {
         "operationId": "LocacaoTipoController_create",
@@ -1679,6 +1757,252 @@
           "Usuario"
         ]
       }
+    },
+    "/recebimento": {
+      "post": {
+        "operationId": "RecebimentoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRecebimentoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Recebimento"
+        ]
+      },
+      "get": {
+        "operationId": "RecebimentoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Recebimento"
+        ]
+      }
+    },
+    "/recebimento/{id}": {
+      "get": {
+        "operationId": "RecebimentoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Recebimento"
+        ]
+      },
+      "patch": {
+        "operationId": "RecebimentoController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRecebimentoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Recebimento"
+        ]
+      },
+      "delete": {
+        "operationId": "RecebimentoController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Recebimento"
+        ]
+      }
+    },
+    "/registroponto": {
+      "post": {
+        "operationId": "RegistroPontoController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRegistroPontoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      },
+      "get": {
+        "operationId": "RegistroPontoController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      }
+    },
+    "/registroponto/{id}": {
+      "get": {
+        "operationId": "RegistroPontoController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      },
+      "patch": {
+        "operationId": "RegistroPontoController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRegistroPontoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      },
+      "delete": {
+        "operationId": "RegistroPontoController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RegistroPonto"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
     }
   },
   "info": {
@@ -2008,10 +2332,15 @@
           "locacaoTipo_descricao": {
             "type": "string",
             "example": "Super Luxo"
+          },
+          "locacoTIpo_valor": {
+            "type": "number",
+            "example": 120
           }
         },
         "required": [
-          "locacaoTipo_descricao"
+          "locacaoTipo_descricao",
+          "locacoTIpo_valor"
         ]
       },
       "UpdateLocacaoTipoDto": {
@@ -2020,6 +2349,10 @@
           "locacaoTipo_descricao": {
             "type": "string",
             "example": "Super Luxo"
+          },
+          "locacoTIpo_valor": {
+            "type": "number",
+            "example": 120
           }
         }
       },
@@ -2227,11 +2560,11 @@
         "properties": {
           "motel_descricao": {
             "type": "string",
-            "example": "LUVR Motel Centro"
+            "example": "Amantes Motel"
           },
           "motel_endereco": {
             "type": "string",
-            "example": "Av. Brasil, 1000 - Centro"
+            "example": "Cidade Universitaria"
           },
           "motel_email": {
             "type": "string",
@@ -2252,7 +2585,6 @@
         },
         "required": [
           "motel_descricao",
-          "motel_email",
           "motel_cnpj",
           "motel_ativo"
         ]
@@ -2262,11 +2594,11 @@
         "properties": {
           "motel_descricao": {
             "type": "string",
-            "example": "LUVR Motel Centro"
+            "example": "Amantes Motel"
           },
           "motel_endereco": {
             "type": "string",
-            "example": "Av. Brasil, 1000 - Centro"
+            "example": "Cidade Universitaria"
           },
           "motel_email": {
             "type": "string",
@@ -2429,6 +2761,92 @@
       "UpdateUsuarioDto": {
         "type": "object",
         "properties": {}
+      },
+      "CreateRecebimentoDto": {
+        "type": "object",
+        "properties": {
+          "recebimento_descricao": {
+            "type": "string",
+            "example": "Recebimento referente ao período X"
+          },
+          "recebimento_total": {
+            "type": "number",
+            "example": 1500.75
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "recebimento_descricao",
+          "recebimento_total"
+        ]
+      },
+      "UpdateRecebimentoDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateRegistroPontoDto": {
+        "type": "object",
+        "properties": {
+          "usuario_id": {
+            "type": "number",
+            "example": 1,
+            "description": "ID do usuário"
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 10,
+            "description": "ID do motel"
+          },
+          "registroponto_entrada": {
+            "type": "boolean",
+            "example": true,
+            "description": "Define o tipo do registro"
+          }
+        },
+        "required": [
+          "usuario_id",
+          "registroponto_entrada"
+        ]
+      },
+      "UpdateRegistroPontoDto": {
+        "type": "object",
+        "properties": {
+          "usuario_id": {
+            "type": "number",
+            "example": 1,
+            "description": "ID do usuário"
+          },
+          "motel_id": {
+            "type": "number",
+            "example": 10,
+            "description": "ID do motel"
+          },
+          "registroponto_entrada": {
+            "type": "boolean",
+            "example": true,
+            "description": "Define o tipo do registro"
+          }
+        }
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "usuarioCodigo": {
+            "type": "string",
+            "example": "Rodrigo"
+          },
+          "senha": {
+            "type": "string",
+            "example": "luvr#123"
+          }
+        },
+        "required": [
+          "usuarioCodigo",
+          "senha"
+        ]
       }
     }
   }

@@ -1,0 +1,6 @@
+credenciais backend ( railway )
+
+DATABASE_URL="postgresql://postgres:riuNyKAduLNzfhNagzvdAxWoMUqMHIKL@postgres.railway.internal:5432/railway"
+
+NODE_ENV="production"
+

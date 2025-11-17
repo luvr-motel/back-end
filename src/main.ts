@@ -64,6 +64,8 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
   // eslint-disable-next-line no-console
   console.log('[BOOT] listening on', process.env.PORT ?? 3000);
+  console.log('🚀 Server running at https://api.luvr.com.br')
+  console.log('📄 Swagger JSON   at https://api.luvr.com.br/api')
   console.log(`🚀 Server running at http://localhost:${process.env.PORT ?? 3000}/api` );
   console.log(`📄 Swagger JSON at http://localhost:${process.env.PORT ?? 3000}/openapi.json` );
 }

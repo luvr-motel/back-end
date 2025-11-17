@@ -1,4 +1,4 @@
-import { Quarto } from 'src/modulo-quarto/quarto/entities/quarto.entity';
+import { Quarto } from '../../quarto/entities/quarto.entity';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'quarto_tipo' })

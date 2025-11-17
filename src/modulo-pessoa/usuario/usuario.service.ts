@@ -31,7 +31,7 @@ export class UsuarioService {
       usuario_ativo : (dto.usuarioAtivo as UsuarioStatus) ?? UsuarioStatus.ATIVO,
       usuario_role  : dto.usuarioRole ?? UsuarioRole.RECEPCIONISTA,
       ...(dto.pessoaId ? { pessoa: { pessoa_id: dto.pessoaId } as any } : {}),
-      // ...(dto.motel_id ? { motel: { motel_id: dto.motel_id } as any } : {}),
+      ...(dto.motel_id ? { motel: { motel_id: dto.motel_id } as any } : {}),
     };
 
     const entity = this.repo.create(partial);
@@ -70,8 +70,8 @@ export class UsuarioService {
     if (dto.usuarioSenha !== undefined) (payload as any).usuario_senha = await argon2.hash(dto.usuarioSenha);
     if (dto.usuarioAtivo !== undefined) payload.usuario_ativo = dto.usuarioAtivo as UsuarioStatus;
     if (dto.usuarioRole !== undefined) payload.usuario_role = dto.usuarioRole ?? null;
-    if ('pessoaId' in dto) (payload as any).pessoa = dto.pessoaId ? ({ pessoa_id: dto.pessoaId } as any) : null;
-    // if ('motel_id' in dto) (payload as any).motel = dto.motel_id ? ({ motel_id: dto.motel_id } as any) : null;
+    if ('pessoa_id' in dto) (payload as any).pessoa = dto.pessoaId ? ({ pessoa_id: dto.pessoaId } as any) : null;
+    if ('motel_id' in dto) (payload as any).motel = dto.motel_id ? ({ motel_id: dto.motel_id } as any) : null;
 
     const merged = this.repo.merge(atual, payload);
     const saved = await this.repo.save(merged);

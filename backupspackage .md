@@ -7,25 +7,23 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:prod": "node dist/src/main.js",
-    "prestart:prod:migrate": "npm run build",
-    "start:prod:migrate": "npm run typeorm:run:prod && node dist/src/main.js",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "build:railway": "npm install --include=dev && npm run build",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:integration": "jest --runInBand --testPathPatterns=test/integration",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm:generate": "ts-node -r dotenv/config -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate src/database/migrations/AutoMigration -d src/database/data-source.ts",
-    "typeorm:run": "ts-node -r dotenv/config -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/database/data-source.ts",
-    "typeorm:revert": "ts-node -r dotenv/config -r tsconfig-paths/register node_modules/typeorm/cli.js migration:revert -d src/database/data-source.ts",
-    "typeorm:run:prod": "node -r dotenv/config node_modules/typeorm/cli.js migration:run -d dist/src/database/data-source.js",
-    "wait-for-db": "node scripts/wait-for-db.js",
-    "deploy:prepare": "npm run build && npm run start:prod:migrate"
+    "typeorm:generate": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate src/database/migrations/AutoMigration -d src/database/data-source.ts",
+    "typeorm:run": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/database/data-source.ts",
+    "typeorm:revert": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:revert -d src/database/data-source.ts",
+    "typeorm:run:prod": "node node_modules/typeorm/cli.js migration:run -d dist/src/database/data-source.js",
+    //"typeorm:run:prod": "node --require ts-node/register node_modules/typeorm/cli.js migration:run -d dist/database/data-source.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -51,6 +49,8 @@
     "typeorm": "^0.3.26"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.18.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
@@ -63,14 +63,27 @@
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^16.0.0",
     "jest": "^30.1.3",
     "prettier": "^3.4.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": ["**/*.(t|j)s"],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
