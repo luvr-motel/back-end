@@ -16,8 +16,8 @@ export class RegistroPontoService {
   async createRegistroPonto(dto: CreateRegistroPontoDto): Promise<{ mensagem: string; registroPonto: RegistroPonto }> {
     const entity = this.registroPontoRepository.create({
       // TODO: ligar relações/colunas quando prontas
-      // usuario_id: dto.usuario_id,
-      // motel_id: dto.motel_id ?? null,
+      usuario_id: dto.usuario_id,
+      motel_id: dto.motel_id ?? null,
       registroponto_entrada: dto.registroponto_entrada,
     } as Partial<RegistroPonto>);
 
