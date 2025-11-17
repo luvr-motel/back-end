@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { QuartoService } from './quarto.service';
 import { CreateQuartoDto } from './dto/create-quarto.dto';
 import { UpdateQuartoDto } from './dto/update-quarto.dto';
@@ -15,6 +15,16 @@ export class QuartoController {
   @Get()
   findAllQuartos() {
     return this.quartoService.findAllQuartos();
+  }
+
+  @Get(':id/metricas')
+  getMetricasQuarto(
+    @Param('id') quarto_id: string,
+    @Query('data_inicio') dataInicio: string,
+    @Query('data_fim') dataFim: string,
+    @Query('motel_id') motelId: string
+  ) {
+    return this.quartoService.getMetricasQuarto(+quarto_id, dataInicio, dataFim, Number(motelId));
   }
 
   @Get(':id')

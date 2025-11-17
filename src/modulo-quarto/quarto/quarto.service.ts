@@ -66,4 +66,22 @@ export class QuartoService {
     await this.quartoRepository.softDelete(id);
     return { mensagem: `Quarto #${id} excluído com sucesso` };
   }
+
+  async getMetricasQuarto(quartoId: number, dataInicio: string, dataFim: string, motelId: number): Promise<any> {
+    const query = `
+      SELECT 
+        loc.quarto_id,
+        COUNT(*) as quantidadeLocacoes,
+        SUM(loc.locacao_totalLocacao) as totalLocacao,
+        SUM(loc.locacao_totalItens) as totalItens,
+        SUM(loc.locacao_totalQuarto) as totalQuartos
+      FROM locacao loc
+      WHERE loc.locacao_inclusao BETWEEN $1 AND $2
+        AND loc.locacao_exclusao IS NULL
+        AND loc.motel_id = $3
+        AND loc.quarto_id = $4
+    `;
+    const rows = await this.quartoRepository.query(query, [dataInicio, dataFim, motelId, quartoId]);
+    return rows.length > 0 ? rows[0] : null;
+  }
 }
