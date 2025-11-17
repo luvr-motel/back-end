@@ -2,9 +2,10 @@ import 'reflect-metadata';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { CreateMotelDto } from '../dto/create-motel.dto';
-import { Status } from '../common/enums/status.enum';
+import { MotelStatus as Status } from '../entities/motel.entity';
 
 describe('CreateMotelDto', () => {
+
   it('válido quando todos os campos obrigatórios corretos', async () => {
     const dto = plainToInstance(CreateMotelDto, {
       motel_descricao: 'LUVR Motel Centro',
