@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { MotelService } from './motel.service';
 import { CreateMotelDto } from './dto/create-motel.dto';
 import { UpdateMotelDto } from './dto/update-motel.dto';
@@ -20,6 +20,15 @@ export class MotelController {
   @Get(':id')
   findOneMotel(@Param('id', ParseIntPipe) id: number) {
     return this.service.findOneMotel(id);
+  }
+
+  @Get('financeiroMotel')
+  relatorioMotel(
+    @Query('data_inicio') dataInicio: string,
+    @Query('data_fim') dataFim: string,
+    @Query('motel_id') motelId: string
+  ) {
+    return this.service.relatorioMotel(dataInicio, dataFim, Number(motelId));
   }
 
   @Patch(':id')

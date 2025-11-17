@@ -72,4 +72,30 @@ export class MotelService {
 
     return { mensagem: `Motel ${id} excluído com sucesso` };
   }
+
+  async relatorioMotel( dataInicio: string, dataFim: string, motelId: number ) : Promise<any[]> {
+    const query = `
+                    WITH filtroReceitas AS (
+                      SELECT 
+                        loc.motel_id,
+                        SUM(loc.locacao_totalLocacao) AS valor
+                      FROM locacao loc
+                      WHERE loc.motel_id = $1
+                        AND loc.locacao_inclusao BETWEEN $2 AND $3
+                      GROUP BY loc.motel_id
+                    ),
+                    filtroDespesas AS (
+                      SELECT *
+                      FROM despesa desp
+                      WHERE desp.motel_id = $1
+                        AND desp.despesa_inclusao BETWEEN $2 AND $3
+                    )
+                    SELECT *
+                    FROM filtroReceitas ftr
+                    LEFT JOIN filtroDespesas ftd ON ftd.motel_id = ftr.motel_id    
+    `;
+    const rows = await this.repo.query( query, [ motelId, dataInicio, dataFim ]);
+    return rows;
+  }
+
 }
