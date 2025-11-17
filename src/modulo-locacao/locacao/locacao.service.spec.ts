@@ -346,7 +346,7 @@ describe('LocacaoService', () => {
       const { locacaoRepoMock, posicaoRepoMock } = setupTransaction();
 
       const agora = new Date();
-      const umaHoraAtras = new Date(agora.getTime() - 60 * 60 * 1000);
+    const umaHoraAtras = new Date(agora.getTime() - 60 * 60 * 1000);
 
       const locacao: any = {
         locacao_id: 1,
@@ -360,7 +360,7 @@ describe('LocacaoService', () => {
         comandas: [
           {
             comanda_qtde: 2,
-            produto: {
+          produto: {
               produto_venda: 10,
               produto_custo: 7,
             },
