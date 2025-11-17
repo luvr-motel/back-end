@@ -32,6 +32,15 @@ export class LocacaoController {
     return this.locacaoService.getCheckinsTurno( Number(usuarioId), Number(motelId), Number(horas), Number(posicao));
   }
 
+  @Get('totais/tipo')
+  getTotaisPorTipo(
+    @Query('data_inicio') dataInicio: string,
+    @Query('data_fim') dataFim: string,
+    @Query('motel_id') motelId: string
+  ) {
+    return this.locacaoService.getTotaisPorTipo(dataInicio, dataFim, Number(motelId));
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLocacaoDto: UpdateLocacaoDto) {
     return this.locacaoService.updateLocacao(+id, updateLocacaoDto);

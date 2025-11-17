@@ -231,5 +231,22 @@ export class LocacaoService {
       };
     });
   }
+
+  async getTotaisPorTipo(dataInicio: string, dataFim: string, motelId: number): Promise<any[]> {
+    const query = `
+      SELECT loc.locacao_tipo,
+             COUNT(*) as quantidadeLocacoes,
+             SUM(loc.locacao_totalLocacao) as totalLocacao,
+             SUM(loc.locacao_totalItens) as totalItens,
+             SUM(loc.locacao_totalQuarto) as totalQuartos
+      FROM locacao loc
+      WHERE loc.locacao_inclusao BETWEEN $1 AND $2
+        AND loc.locacao_exclusao IS NULL
+        AND loc.motel_id = $3
+      GROUP BY loc.locacao_tipo
+    `;
+    const rows = await this.locacaoRepository.query(query, [dataInicio, dataFim, motelId]);
+    return rows;
+  }
 }
 
