@@ -15,7 +15,7 @@ import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
 import { Comanda } from 'src/modulo-locacao/comanda/entities/comanda.entity';
 
 @Entity({ name: 'itemlocacao' })
-export class ItemComanda {
+export class ItemLocacao {
   @PrimaryGeneratedColumn({ name: 'itemlocacao_id', type: 'integer' })
   itemLocacao_id: number;
 
@@ -24,7 +24,7 @@ export class ItemComanda {
   @JoinColumn({ name: 'comanda_id' })
   comanda: Comanda;
 
-  @RelationId((item: ItemComanda) => item.comanda)
+  @RelationId((item: ItemLocacao) => item.comanda)
   comanda_id: number;
 
   // ------------------------ LOCACAO ------------------------
@@ -32,7 +32,7 @@ export class ItemComanda {
   @JoinColumn({ name: 'locacao_id' })
   locacao: Locacao;
 
-  @RelationId((item: ItemComanda) => item.locacao)
+  @RelationId((item: ItemLocacao) => item.locacao)
   locacao_id: number;
 
   // ------------------------ PRODUTO ------------------------
@@ -40,7 +40,7 @@ export class ItemComanda {
   @JoinColumn({ name: 'produto_id', referencedColumnName: 'produto_id' })
   produto: Produto;
 
-  @RelationId((item: ItemComanda) => item.produto)
+  @RelationId((item: ItemLocacao) => item.produto)
   produto_id: number;
 
   // ------------------------ MOTEL ------------------------
@@ -48,7 +48,7 @@ export class ItemComanda {
   @JoinColumn({ name: 'motel_id', referencedColumnName: 'motel_id' })
   motel: Motel;
 
-  @RelationId((item: ItemComanda) => item.motel)
+  @RelationId((item: ItemLocacao) => item.motel)
   motel_id: number;
 
   // ------------------------ CAMPOS ------------------------

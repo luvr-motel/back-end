@@ -19,7 +19,7 @@ import { DespesaModule } from './modulo-despesa/despesa/despesa.module';
 import { DespesaquartoModule } from './modulo-despesa/despesaquarto/despesaquarto.module';
 import { RecebimentoModule } from './modulo-pagamento/recebimento/recebimento.module';
 import { RegistroPontoModule } from './modulo-pessoa/registro-ponto/registro-ponto.module';
-import { ItemcomandaModule } from './itemcomanda/itemcomanda.module';
+import { ItemlocacaoModule } from './itemlocacao/itemlocacao.module';
 
 @Module({
   imports: [ 
@@ -86,7 +86,7 @@ import { ItemcomandaModule } from './itemcomanda/itemcomanda.module';
   RecebimentoModule,
   RegistroPontoModule,
   AuthModule,
-  ItemcomandaModule,
+  ItemlocacaoModule,
   ],
   controllers: [],
   providers: [],

@@ -2,20 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, IsNull } from 'typeorm';
 
-import { CreateItemcomandaDto } from './dto/create-itemcomanda.dto';
-import { UpdateItemcomandaDto } from './dto/update-itemcomanda.dto';
+import { CreateItemlocacaoDto } from './dto/create-itemlocacao.dto';
+import { UpdateItemlocacaoDto } from './dto/update-itemlocacao.dto';
 
-import { ItemComanda } from './entities/itemcomanda.entity';
+import { ItemLocacao } from './entities/itemlocacao.entity';
 import { Locacao } from 'src/modulo-locacao/locacao/entities/locacao.entity';
 import { Comanda } from 'src/modulo-locacao/comanda/entities/comanda.entity';
 import { Produto } from 'src/modulo-produto/produto/entities/produto.entity';
 import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
 
 @Injectable()
-export class ItemcomandaService {
+export class ItemlocacaoService {
   constructor(
-    @InjectRepository(ItemComanda)
-    private readonly itemRepository: Repository<ItemComanda>,
+    @InjectRepository(ItemLocacao)
+    private readonly itemRepository: Repository<ItemLocacao>,
 
     @InjectRepository(Locacao)
     private readonly locacaoRepository: Repository<Locacao>,
@@ -30,12 +30,9 @@ export class ItemcomandaService {
     private readonly motelRepository: Repository<Motel>,
   ) {}
 
-  async create(dto: CreateItemcomandaDto) {
+  async create(dto: CreateItemlocacaoDto) {
     const { locacao_id, produto_id, qtde, valor, comanda_id } = dto;
 
-    // ============================
-    // 1. BUSCAR LOCAÇÃO CORRETA
-    // ============================
     const locacao = await this.locacaoRepository.findOne({
       where: { locacao_id },
       relations: ['motel'],
@@ -43,18 +40,12 @@ export class ItemcomandaService {
 
     if (!locacao) throw new NotFoundException('Locação não encontrada');
 
-    // ============================
-    // 2. BUSCAR PRODUTO
-    // ============================
     const produto = await this.produtoRepository.findOne({
       where: { produto_id },
     });
 
     if (!produto) throw new NotFoundException('Produto não encontrado');
 
-    // ============================
-    // 3. BUSCAR OU CRIAR COMANDA
-    // ============================
     let comanda: Comanda;
 
     if (comanda_id) {
@@ -75,9 +66,6 @@ export class ItemcomandaService {
       );
     }
 
-    // ============================
-    // 4. CRIAR ITEM DA COMANDA
-    // ============================
     const item = this.itemRepository.create({
       comanda,
       locacao,
@@ -90,9 +78,6 @@ export class ItemcomandaService {
 
     const saved = await this.itemRepository.save(item);
 
-    // ============================
-    // 5. RETORNAR COMANDA ATUALIZADA
-    // ============================
     const comandaFinal = await this.comandaRepository.findOne({
       where: { comanda_id: comanda.comanda_id },
       relations: ['itens', 'itens.produto', 'locacao', 'motel'],
@@ -105,9 +90,6 @@ export class ItemcomandaService {
     };
   }
 
-  // ============================
-  // LISTAR ITENS POR COMANDA
-  // ============================
   async findAllByComanda(comanda_id: number) {
     return await this.itemRepository.find({
       where: {
@@ -119,9 +101,6 @@ export class ItemcomandaService {
     });
   }
 
-  // ============================
-  // BUSCAR ITEM ESPECÍFICO
-  // ============================
   async findOne(id: number) {
     const item = await this.itemRepository.findOne({
       where: { itemLocacao_id: id },
@@ -133,10 +112,7 @@ export class ItemcomandaService {
     return item;
   }
 
-  // ============================
-  // ATUALIZAR QTDE
-  // ============================
-  async update(id: number, dto: UpdateItemcomandaDto) {
+  async update(id: number, dto: UpdateItemlocacaoDto) {
     const item = await this.findOne(id);
 
     item.itemLocacao_qtde = dto.qtde ?? item.itemLocacao_qtde;
@@ -146,9 +122,6 @@ export class ItemcomandaService {
     return { mensagem: 'Quantidade atualizada com sucesso', item: saved };
   }
 
-  // ============================
-  // SOFT DELETE
-  // ============================
   async remove(id: number) {
     const item = await this.findOne(id);
 

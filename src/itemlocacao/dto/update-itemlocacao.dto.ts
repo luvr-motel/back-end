@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/swagger';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateItemcomandaDto } from './create-itemcomanda.dto';
+import { CreateItemlocacaoDto } from './create-itemlocacao.dto';
 
-export class UpdateItemcomandaDto extends PartialType(CreateItemcomandaDto) {
+export class UpdateItemlocacaoDto extends PartialType(CreateItemlocacaoDto) {
   @ApiProperty({
     example: 4,
     description: 'Nova quantidade do item',

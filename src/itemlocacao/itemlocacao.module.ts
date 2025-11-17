@@ -1,25 +1,25 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ItemcomandaService } from './itemcomanda.service';
-import { ItemcomandaController } from './itemcomanda.controller';
-import { ItemComanda } from './entities/itemcomanda.entity';
+import { ItemlocacaoService } from './itemlocacao.service';
+import { ItemlocacaoController } from './itemlocacao.controller';
+import { ItemLocacao } from './entities/itemlocacao.entity';
 import { Locacao } from 'src/modulo-locacao/locacao/entities/locacao.entity';
 import { Comanda } from 'src/modulo-locacao/comanda/entities/comanda.entity';
 import { Produto } from 'src/modulo-produto/produto/entities/produto.entity';
 import { Motel } from 'src/modulo-motel/motel/entities/motel.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      ItemComanda,  // <--- ESTE NOME TEM QUE SER O MESMO DA CLASSE
+      ItemLocacao,  // classe renomeada
       Locacao,
       Comanda,
       Produto,
-      Motel
+      Motel,
     ]),
   ],
-  controllers: [ItemcomandaController],
-  providers: [ItemcomandaService],
-  exports: [ItemcomandaService],
+  controllers: [ItemlocacaoController],
+  providers: [ItemlocacaoService],
+  exports: [ItemlocacaoService],
 })
-export class ItemcomandaModule {}
-
+export class ItemlocacaoModule {}

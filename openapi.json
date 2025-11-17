@@ -2129,36 +2129,38 @@
         ]
       }
     },
-    "/itemcomanda": {
+    "/itemlocacao": {
       "post": {
-        "operationId": "ItemcomandaController_create",
+        "operationId": "ItemlocacaoController_create",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateItemcomandaDto"
+                "$ref": "#/components/schemas/CreateItemlocacaoDto"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Item adicionado com sucesso"
           }
         },
+        "summary": "Criar item na comanda",
         "tags": [
-          "Itemcomanda"
+          "itemlocacao"
         ]
       },
       "get": {
-        "operationId": "ItemcomandaController_findAll",
+        "operationId": "ItemlocacaoController_findAll",
         "parameters": [
           {
             "name": "comanda_id",
             "required": true,
             "in": "query",
+            "description": "ID da comanda",
             "schema": {
               "type": "number"
             }
@@ -2166,17 +2168,18 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Lista de itens retornada"
           }
         },
+        "summary": "Listar itens por comanda",
         "tags": [
-          "Itemcomanda"
+          "itemlocacao"
         ]
       }
     },
-    "/itemcomanda/{id}": {
+    "/itemlocacao/{id}": {
       "get": {
-        "operationId": "ItemcomandaController_findOne",
+        "operationId": "ItemlocacaoController_findOne",
         "parameters": [
           {
             "name": "id",
@@ -2189,15 +2192,16 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Item encontrado"
           }
         },
+        "summary": "Buscar item por ID",
         "tags": [
-          "Itemcomanda"
+          "itemlocacao"
         ]
       },
       "patch": {
-        "operationId": "ItemcomandaController_update",
+        "operationId": "ItemlocacaoController_update",
         "parameters": [
           {
             "name": "id",
@@ -2213,22 +2217,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateItemcomandaDto"
+                "$ref": "#/components/schemas/UpdateItemlocacaoDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Quantidade atualizada com sucesso"
           }
         },
+        "summary": "Atualizar quantidade do item",
         "tags": [
-          "Itemcomanda"
+          "itemlocacao"
         ]
       },
       "delete": {
-        "operationId": "ItemcomandaController_remove",
+        "operationId": "ItemlocacaoController_remove",
         "parameters": [
           {
             "name": "id",
@@ -2241,11 +2246,12 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Item removido com sucesso (soft delete)"
           }
         },
+        "summary": "Remover (soft delete) item da comanda",
         "tags": [
-          "Itemcomanda"
+          "itemlocacao"
         ]
       }
     }
@@ -3093,7 +3099,7 @@
           "senha"
         ]
       },
-      "CreateItemcomandaDto": {
+      "CreateItemlocacaoDto": {
         "type": "object",
         "properties": {
           "locacao_id": {
@@ -3129,7 +3135,7 @@
           "valor"
         ]
       },
-      "UpdateItemcomandaDto": {
+      "UpdateItemlocacaoDto": {
         "type": "object",
         "properties": {
           "locacao_id": {
