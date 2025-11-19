@@ -116,7 +116,7 @@ export class LocacaoService {
         with filtroOcupados as (
           select loc.locacao_id as quartosOcupados
           from locacao loc
-          where loc.locacao_posicao_id  = $1
+          where loc.locacao_posicao_id  = 2
             and loc.locacao_exclusao is null
         )
         select ( select count(*) from filtroOcupados ) as totalQuartosOcupados, 
@@ -124,9 +124,9 @@ export class LocacaoService {
             sum( loc."locacao_totalItens" ) as totalItensConsumidos,
             count( loc.locacao_id ) as totalQuartosLocadosTurno
         from locacao loc
-        where loc.usuario_id = $2
-          and loc.motel_id = $3
-          and loc.locacao_inclusao between (NOW() - ( $4 || ' hours' )::interval ) AND NOW()
+        where loc.usuario_id = 2
+          and loc.motel_id = 1
+          and loc.locacao_inclusao between (NOW() - ( 24 || 'hours' )::interval ) AND NOW()
     `;
     const rows = await this.locacaoRepository.query(query, [ posicao, usuarioId, motelId, horas ]);
     return rows;
