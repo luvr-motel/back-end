@@ -128,7 +128,7 @@ export class LocacaoService {
           and loc.motel_id = $3
           and loc.locacao_inclusao between (NOW() - ( $4 || 'hours' )::interval ) AND NOW()
     `;
-    const rows = await this.locacaoRepository.query(query, [ 2, 2, 1, 24 ]);
+    const rows = await this.locacaoRepository.query(query, [ 2, 2, 1, 8 ]);
     // const rows = await this.locacaoRepository.query(query, [ posicao, usuarioId, motelId, horas ]);
     return rows;
   }
