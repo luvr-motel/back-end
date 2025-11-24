@@ -26,21 +26,21 @@ describe('MotelService', () => {
   let repo: RepoMock;
 
   const existing = {
-  motel_id: 1,
-  motel_descricao: 'LUVR Motel Centro',
-  motel_endereco: 'Av. Brasil, 1000 - Centro',
-  motel_email: 'contato@motel.com.br',
-  motel_cnpj: '12.345.678/0001-99',
-  motel_ativo: Status.ATIVO,
-  motel_inclusao: new Date(),
-  motel_exclusao: null,
-  locacoes: [],
-  comandas: [],
-  recebimento: [],
-  quartos: [],
-  despesaquartos: [],
-  despesas: [],
-} as unknown as Motel;
+    motel_id: 1,
+    motel_descricao: 'LUVR Motel Centro',
+    motel_endereco: 'Av. Brasil, 1000 - Centro',
+    motel_email: 'contato@motel.com.br',
+    motel_cnpj: '12.345.678/0001-99',
+    motel_ativo: Status.ATIVO,
+    motel_inclusao: new Date(),
+    motel_exclusao: null,
+    locacoes: [],
+    comandas: [],
+    recebimento: [],
+    quartos: [],
+    despesaquartos: [],
+    despesas: [],
+  } as unknown as Motel;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -191,8 +191,8 @@ describe('MotelService', () => {
 
     it('valida CNPJ duplicado ao atualizar e lança BadRequestException', async () => {
       (repo.findOne as jest.Mock)
-        .mockResolvedValueOnce(existing) 
-        .mockResolvedValueOnce({ ...existing, motel_id: 2 }); 
+        .mockResolvedValueOnce(existing)
+        .mockResolvedValueOnce({ ...existing, motel_id: 2 });
 
       const dto: UpdateMotelDto = { motel_cnpj: '22.222.222/2222-22' } as any;
 
@@ -246,7 +246,31 @@ describe('MotelService', () => {
       expect(res.motel_endereco).toBeNull();
       expect(res.motel_email).toBeNull();
     });
+
+    it('atualiza CNPJ com sucesso quando novo CNPJ não está duplicado (linha 56)', async () => {
+      (repo.findOne as jest.Mock)
+        .mockResolvedValueOnce(existing) // findOneMotel
+        .mockResolvedValueOnce(null); // verificação de duplicata
+
+      (repo.save as jest.Mock).mockImplementation(async (e) => e);
+
+      const dto: UpdateMotelDto = { motel_cnpj: '99.999.999/9999-99' } as any;
+
+      const res = await service.updateMotel(1, dto);
+
+      // Verifica que o CNPJ foi atualizado (linha 56 coberta)
+      expect(res.motel_cnpj).toBe('99.999.999/9999-99');
+      expect(repo.findOne).toHaveBeenNthCalledWith(2, {
+        where: {
+          motel_cnpj: '99.999.999/9999-99',
+          motel_exclusao: IsNull(),
+          motel_id: Not(1),
+        },
+      });
+      expect(repo.save).toHaveBeenCalled();
+    });
   });
+
 
   describe('deleteMotel', () => {
     it('soft delete quando encontrado e retorna mensagem', async () => {
