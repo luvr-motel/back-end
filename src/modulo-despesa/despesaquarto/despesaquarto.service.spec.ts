@@ -71,7 +71,35 @@ describe('DespesaquartoService', () => {
       expect(repository.save).toHaveBeenCalledWith(entity);
       expect(result).toMatchObject({ despesaquarto_id: 1 });
     });
+
+    it('deve usar null para campos opcionais quando não informados (nullish coalescing)', async () => {
+      const dto = {
+        despesaquarto_descricao: 'Despesa sem campos opcionais',
+        // despesaquarto_parcela omitido intencionalmente - Testa linha 20
+        despesaquarto_itens: 'Item teste',
+        // despesatipo_id omitido intencionalmente - Testa linha 22
+        // pessoa_id omitido intencionalmente - Testa linha 23
+        usuario_id: 5,
+        motel_id: 7,
+        quarto_id: 9,
+      } as CreateDespesaquartoDto;
+      const entity = { despesaquarto_id: 2 } as Despesaquarto;
+      (repository.create as jest.Mock).mockReturnValue(entity);
+      (repository.save as jest.Mock).mockResolvedValue(entity);
+
+      await service.createDespesaquarto(dto);
+
+      // Verifica que os campos opcionais foram setados como null
+      expect(repository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          despesaquarto_parcela: null,
+          despesatipo_id: null,
+          pessoa_id: null,
+        }),
+      );
+    });
   });
+
 
   describe('findAllDespesasQuarto', () => {
     it('deve retornar todas as despesas com as relações configuradas', async () => {

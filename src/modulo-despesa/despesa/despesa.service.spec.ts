@@ -99,7 +99,34 @@ describe('DespesaService', () => {
         }),
       );
     });
+
+    it('deve usar null para despesa_parcela quando não informado (nullish coalescing)', async () => {
+      const createDto: CreateDespesaDto = {
+        despesa_descricao: 'Despesa sem parcela',
+        despesa_parcela: undefined,
+        despesa_aberto: true,
+        despesa_total: 300,
+        despesatipo_id: 3,
+        pessoa: 1,
+        usuario_id: 2,
+        motel_id: 5,
+      };
+
+      const entidadeCriada = { despesa_id: 3 } as Despesa;
+      (despesaRepository.create as jest.Mock).mockReturnValue(entidadeCriada);
+      (despesaRepository.save as jest.Mock).mockResolvedValue(entidadeCriada);
+
+      await despesaService.createDespesa(createDto);
+
+      // Verifica que despesa_parcela foi setado como null
+      expect(despesaRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          despesa_parcela: null,
+        }),
+      );
+    });
   });
+
 
   describe('findAllDespesas', () => {
     it('deve retornar todas as despesas com relações', async () => {
