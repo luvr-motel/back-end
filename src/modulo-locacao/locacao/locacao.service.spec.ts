@@ -47,6 +47,7 @@ describe('LocacaoService', () => {
   });
 
   describe('createLocacao', () => {
+    // cria locação e mapeia relacionamentos
     it('deve criar e salvar uma locação mapeando relacionamentos corretamente', async () => {
       const dto: CreateLocacaoDto = {
         locacao_totalItens: 1,
@@ -88,6 +89,7 @@ describe('LocacaoService', () => {
   });
 
   describe('findAllLocacoes', () => {
+    // retorna todas as locações
     it('deve retornar a lista de locações', async () => {
       const lista = [{ locacao_id: 1 }] as Locacao[];
       (repo.find as jest.Mock).mockResolvedValue(lista);
@@ -100,6 +102,7 @@ describe('LocacaoService', () => {
   });
 
   describe('findLocacaoId', () => {
+    // retorna locação por ID quando existe
     it('deve retornar locação quando encontrada', async () => {
       const locacao = { locacao_id: 1 } as Locacao;
       (repo.findOne as jest.Mock).mockResolvedValue(locacao);
@@ -115,6 +118,7 @@ describe('LocacaoService', () => {
       });
     });
 
+    // lança erro quando locação não existe
     it('deve lançar exceção quando não achar', async () => {
       (repo.findOne as jest.Mock).mockResolvedValue(null);
 
@@ -125,6 +129,7 @@ describe('LocacaoService', () => {
   });
 
   describe('updateLocacao', () => {
+    // lança erro ao atualizar locação inexistente
     it('deve lançar erro quando locação não existir', async () => {
       (repo.findOne as jest.Mock).mockResolvedValue(null);
 
@@ -133,6 +138,7 @@ describe('LocacaoService', () => {
       );
     });
 
+    // atualiza campos e relacionamentos quando IDs são fornecidos
     it('deve atualizar campos simples e relacionamentos quando IDs são informados', async () => {
       const atual: Locacao = {
         locacao_id: 1,
@@ -194,9 +200,43 @@ describe('LocacaoService', () => {
         locacao: savedArg,
       });
     });
+
+    // atualiza apenas campos simples sem IDs de relacionamento
+    it('deve atualizar apenas campos simples quando IDs não são informados (branches false)', async () => {
+      const atual: Locacao = {
+        locacao_id: 2,
+        locacao_totalItens: 5,
+        locacao_totalQuarto: 50,
+        locacao_totalDesconto: 0,
+        locacao_totalLocacao: 55,
+      } as any;
+
+      (repo.findOne as jest.Mock).mockResolvedValue(atual);
+
+      // DTO sem IDs de relacionamento
+      const dto: UpdateLocacaoDto = {
+        locacao_totalItens: 15,
+        locacao_totalDesconto: 5,
+      };
+
+      (repo.merge as jest.Mock).mockImplementation((a, b) => ({ ...a, ...b }));
+      (repo.save as jest.Mock).mockImplementation(async (v) => v as Locacao);
+
+      const result = await service.updateLocacao(2, dto);
+
+      // passa apenas os campos do DTO sem transformações
+      expect(repo.merge).toHaveBeenCalledWith(atual, {
+        locacao_totalItens: 15,
+        locacao_totalDesconto: 5,
+      });
+
+      expect(result.mensagem).toBe('Locação #2 Atualizada com sucesso');
+    });
   });
 
+
   describe('deleteLocacaoById', () => {
+    // remove locação existente com soft delete
     it('deve remover locação existente', async () => {
       (repo.findOne as jest.Mock).mockResolvedValue({
         locacao_id: 1,
@@ -214,6 +254,7 @@ describe('LocacaoService', () => {
       });
     });
 
+    // lança erro ao remover locação inexistente
     it('deve lançar erro quando locação não existir', async () => {
       (repo.findOne as jest.Mock).mockResolvedValue(null);
 
@@ -224,6 +265,7 @@ describe('LocacaoService', () => {
   });
 
   describe('getCheckinsTurno', () => {
+    // executa query de checkins do turno com parâmetros corretos
     it('deve executar query com parâmetros corretos e retornar resultado', async () => {
       const rows = [{ totalQuartosOcupados: 2 }];
       (repo.query as jest.Mock).mockResolvedValue(rows);
@@ -264,6 +306,7 @@ describe('LocacaoService', () => {
       return { locacaoRepoMock, posicaoRepoMock, managerMock };
     }
 
+    // lança erro 404 quando locação não existe
     it('lança 404 quando locação não encontrada', async () => {
       const { locacaoRepoMock } = setupTransaction();
       (locacaoRepoMock.findOne as jest.Mock).mockResolvedValue(null);
@@ -273,6 +316,7 @@ describe('LocacaoService', () => {
       );
     });
 
+    // lança erro 400 para locação já encerrada
     it('lança 400 quando locação já encerrada', async () => {
       const { locacaoRepoMock } = setupTransaction();
 
@@ -288,6 +332,7 @@ describe('LocacaoService', () => {
       );
     });
 
+    // lança erro 400 para tipo de locação inválido
     it('lança 400 quando tipo de locação é inválido', async () => {
       const { locacaoRepoMock } = setupTransaction();
 
@@ -305,6 +350,7 @@ describe('LocacaoService', () => {
       );
     });
 
+    // lança erro 400 quando data de inclusão é inválida
     it('lança 400 quando diffMin <= 0 (data de inclusão inválida)', async () => {
       const { locacaoRepoMock } = setupTransaction();
 
@@ -323,6 +369,7 @@ describe('LocacaoService', () => {
       );
     });
 
+    // lança erro 500 quando posição LIMPEZA não existe
     it('lança 500 quando posição LIMPEZA não está cadastrada', async () => {
       const { locacaoRepoMock, posicaoRepoMock } = setupTransaction();
 
@@ -342,11 +389,12 @@ describe('LocacaoService', () => {
       );
     });
 
+    // calcula totais, muda posição para LIMPEZA e salva
     it('happy path: calcula totais, muda posição para LIMPEZA e salva locação', async () => {
       const { locacaoRepoMock, posicaoRepoMock } = setupTransaction();
 
       const agora = new Date();
-    const umaHoraAtras = new Date(agora.getTime() - 60 * 60 * 1000);
+      const umaHoraAtras = new Date(agora.getTime() - 60 * 60 * 1000);
 
       const locacao: any = {
         locacao_id: 1,
@@ -360,7 +408,7 @@ describe('LocacaoService', () => {
         comandas: [
           {
             comanda_qtde: 2,
-          produto: {
+            produto: {
               produto_venda: 10,
               produto_custo: 7,
             },
@@ -400,5 +448,170 @@ describe('LocacaoService', () => {
       );
       expect(result.locacao).toBe(locacao);
     });
+
+    // pula comandas sem produto ao calcular totais
+    it('deve pular comandas sem produto (continue na linha 192)', async () => {
+      const { locacaoRepoMock, posicaoRepoMock } = setupTransaction();
+
+      const agora = new Date();
+      const umaHoraAtras = new Date(agora.getTime() - 60 * 60 * 1000);
+
+      const locacao: any = {
+        locacao_id: 1,
+        locacao_exclusao: null,
+        locacao_inclusao: umaHoraAtras,
+        locacaoTipo: { locacoTipo_valor: 50 },
+        locacao_totalQuarto: 0,
+        locacao_totalItens: 0,
+        locacao_totalDesconto: 0,
+        locacao_totalLocacao: 0,
+        comandas: [
+          {
+            comanda_qtde: 3,
+            produto: null, // comanda sem produto
+          },
+          {
+            comanda_qtde: 2,
+            produto: {
+              produto_venda: 15,
+              produto_custo: 10,
+            },
+          },
+        ],
+      };
+
+      (locacaoRepoMock.findOne as jest.Mock).mockResolvedValue(locacao);
+
+      const posicaoLimpeza: LocacaoPosicao = {
+        locacaoPosicao_id: 99,
+        locacaoPosicao_descricao: 'LIMPEZA',
+      } as any;
+
+      (posicaoRepoMock.findOne as jest.Mock).mockResolvedValue(posicaoLimpeza);
+      (locacaoRepoMock.save as jest.Mock).mockImplementation(async (v) => v);
+
+      const result = await service.checkoutLocacao(1, 0);
+
+      // calcula apenas comandas com produto válido
+      expect(locacao.locacao_totalItens).toBe(30); // 2 * 15 (a primeira foi pulada)
+      expect(result.locacao).toBe(locacao);
+    });
+
+    // usa produto_custo quando produto_venda é null
+    it('deve usar produto_custo quando produto_venda é null', async () => {
+      const { locacaoRepoMock, posicaoRepoMock } = setupTransaction();
+
+      const agora = new Date();
+      const umaHoraAtras = new Date(agora.getTime() - 60 * 60 * 1000);
+
+      const locacao: any = {
+        locacao_id: 1,
+        locacao_exclusao: null,
+        locacao_inclusao: umaHoraAtras,
+        locacaoTipo: { locacoTipo_valor: 50 },
+        locacao_totalQuarto: 0,
+        locacao_totalItens: 0,
+        locacao_totalDesconto: 0,
+        locacao_totalLocacao: 0,
+        comandas: [
+          {
+            comanda_qtde: 3,
+            produto: {
+              produto_venda: null, // usa custo
+              produto_custo: 8,
+            },
+          },
+        ],
+      };
+
+      (locacaoRepoMock.findOne as jest.Mock).mockResolvedValue(locacao);
+
+      const posicaoLimpeza: LocacaoPosicao = {
+        locacaoPosicao_id: 99,
+        locacaoPosicao_descricao: 'LIMPEZA',
+      } as any;
+
+      (posicaoRepoMock.findOne as jest.Mock).mockResolvedValue(posicaoLimpeza);
+      (locacaoRepoMock.save as jest.Mock).mockImplementation(async (v) => v);
+
+      const result = await service.checkoutLocacao(1, 0);
+
+      expect(locacao.locacao_totalItens).toBe(24);
+      expect(result.locacao).toBe(locacao);
+    });
+
+    // calcula totais com array de comandas vazio
+    it('deve calcular corretamente com comandas vazias', async () => {
+      const { locacaoRepoMock, posicaoRepoMock } = setupTransaction();
+
+      const inclusao = new Date(Date.now() - 60 * 60 * 1000);
+
+      const locacao: any = {
+        locacao_id: 1,
+        locacao_exclusao: null,
+        locacao_inclusao: inclusao,
+        locacaoTipo: { locacoTipo_valor: 80 },
+        locacao_totalQuarto: 0,
+        locacao_totalItens: 0,
+        locacao_totalDesconto: 0,
+        locacao_totalLocacao: 0,
+        comandas: [],
+      };
+
+      (locacaoRepoMock.findOne as jest.Mock).mockResolvedValue(locacao);
+
+      const posicaoLimpeza: LocacaoPosicao = {
+        locacaoPosicao_id: 99,
+        locacaoPosicao_descricao: 'LIMPEZA',
+      } as any;
+
+      (posicaoRepoMock.findOne as jest.Mock).mockResolvedValue(posicaoLimpeza);
+      (locacaoRepoMock.save as jest.Mock).mockImplementation(async (v) => v);
+
+      const result = await service.checkoutLocacao(1, 10);
+
+      expect(locacao.locacao_totalQuarto).toBe(80);
+      expect(locacao.locacao_totalItens).toBe(0);
+      expect(locacao.locacao_totalDesconto).toBe(10);
+      expect(locacao.locacao_totalLocacao).toBe(70);
+      expect(result.locacao).toBe(locacao);
+    });
+
+    // trata comandas undefined usando nullish coalescing
+    it('deve tratar comandas undefined com nullish coalescing', async () => {
+      const { locacaoRepoMock, posicaoRepoMock } = setupTransaction();
+
+      const inclusao = new Date(Date.now() - 120 * 60 * 1000);
+
+      const locacao: any = {
+        locacao_id: 1,
+        locacao_exclusao: null,
+        locacao_inclusao: inclusao,
+        locacaoTipo: { locacoTipo_valor: 100 },
+        locacao_totalQuarto: 0,
+        locacao_totalItens: 0,
+        locacao_totalDesconto: 0,
+        locacao_totalLocacao: 0,
+        comandas: undefined,
+      };
+
+      (locacaoRepoMock.findOne as jest.Mock).mockResolvedValue(locacao);
+
+      const posicaoLimpeza: LocacaoPosicao = {
+        locacaoPosicao_id: 99,
+        locacaoPosicao_descricao: 'LIMPEZA',
+      } as any;
+
+      (posicaoRepoMock.findOne as jest.Mock).mockResolvedValue(posicaoLimpeza);
+      (locacaoRepoMock.save as jest.Mock).mockImplementation(async (v) => v);
+
+      const result = await service.checkoutLocacao(1, 0);
+
+      expect(locacao.locacao_totalItens).toBe(0);
+      expect(locacao.locacao_totalQuarto).toBe(200);
+      expect(result.locacao).toBe(locacao);
+    });
   });
 });
+
+
